@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Κάνει τη σελίδα να φαίνεται ωραία και στα κινητά! -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Εγκυκλοπαίδεια Ζώων & Φυτών του Ναπολέων 🌿⚔️</title>
+  <style>
+    /* =====================================================
+       ΣΤΥΛ — Αυτό ελέγχει πώς φαίνονται όλα!
+       Σκέψου το σαν να διαλέγεις χρώματα για τουβλάκια LEGO.
+    ===================================================== */
+
+    /* Εισαγωγή γραμματοσειράς — χρησιμοποιεί μια γραμματοσειρά που φαίνεται ωραία */
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@400;600&display=swap');
+
+    /* Επαναφορά & βάση */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      /* Φόντο διαστήματος με αστέρια! */
+      background: #0a0015;
+      background-image:
+        radial-gradient(ellipse at top, #1a0035 0%, #0a0015 60%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Ccircle cx='50' cy='80' r='1.2' fill='white' opacity='0.8'/%3E%3Ccircle cx='120' cy='30' r='0.8' fill='white' opacity='0.6'/%3E%3Ccircle cx='200' cy='110' r='1.5' fill='white' opacity='0.9'/%3E%3Ccircle cx='310' cy='60' r='1' fill='white' opacity='0.7'/%3E%3Ccircle cx='370' cy='150' r='0.7' fill='white' opacity='0.5'/%3E%3Ccircle cx='80' cy='200' r='1.3' fill='white' opacity='0.8'/%3E%3Ccircle cx='250' cy='250' r='1' fill='white' opacity='0.6'/%3E%3Ccircle cx='160' cy='320' r='0.9' fill='white' opacity='0.7'/%3E%3Ccircle cx='340' cy='280' r='1.2' fill='white' opacity='0.9'/%3E%3Ccircle cx='30' cy='350' r='0.8' fill='white' opacity='0.5'/%3E%3Ccircle cx='390' cy='370' r='1.1' fill='white' opacity='0.7'/%3E%3Ccircle cx='220' cy='390' r='0.7' fill='white' opacity='0.6'/%3E%3C/svg%3E");
+      font-family: 'Exo 2', 'Arial', sans-serif;
+      color: #e8e8ff;
+      min-height: 100vh;
+      padding: 16px;
+      overflow-x: hidden;
+    }
+
+    /* ── Κεφαλίδα / Τίτλος ── */
+    header {
+      text-align: center;
+      padding: 24px 12px 16px;
+    }
+
+    .welcome-text {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1rem, 4vw, 1.4rem);
+      color: #ffe81f; /* Κίτρινο Star Wars! */
+      text-shadow: 0 0 12px #ffe81f88;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.4rem, 6vw, 2.6rem);
+      background: linear-gradient(90deg, #4af, #9f4, #f4a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: none;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: clamp(0.75rem, 2.5vw, 1rem);
+      color: #88aaff;
+      margin-top: 6px;
+    }
+
+    /* ── Διαχωριστής φωτόσπαθου ── */
+    .lightsaber {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 18px auto;
+      max-width: 600px;
+    }
+    .saber-line {
+      flex: 1;
+      height: 3px;
+      border-radius: 2px;
+      box-shadow: 0 0 8px currentColor;
+    }
+    .saber-line.blue  { background: #4af; color: #4af; }
+    .saber-line.green { background: #4f8; color: #4f8; }
+    .saber-handle { font-size: 1.4rem; }
+
+    /* ── Κουμπιά καρτελών (Ζώα / Φυτά) ── */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.8rem, 2.5vw, 1rem);
+      padding: 10px 24px;
+      border: 2px solid;
+      border-radius: 30px;
+      cursor: pointer;
+      background: transparent;
+      transition: all 0.25s;
+      letter-spacing: 1px;
+    }
+
+    .tab-btn.animals {
+      color: #4af;
+      border-color: #4af;
+    }
+    .tab-btn.animals:hover,
+    .tab-btn.animals.active {
+      background: #4af;
+      color: #000;
+      box-shadow: 0 0 18px #4af;
+    }
+
+    .tab-btn.plants {
+      color: #4f8;
+      border-color: #4f8;
+    }
+    .tab-btn.plants:hover,
+    .tab-btn.plants.active {
+      background: #4f8;
+      color: #000;
+      box-shadow: 0 0 18px #4f8;
+    }
+
+    /* ── Πλέγμα καρτών ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 14px;
+      max-width: 900px;
+      margin: 0 auto 24px;
+    }
+
+    /* Κάθε κάρτα είναι ένα ζώο ή φυτό */
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      padding: 18px 10px 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+
+    .card:hover {
+      transform: translateY(-4px) scale(1.04);
+    }
+
+    /* Κάρτες ζώων λάμπουν μπλε (σαν το φωτόσπαθο του Λουκ) */
+    .card.animal {
+      border-color: rgba(68,170,255,0.3);
+    }
+    .card.animal:hover {
+      border-color: #4af;
+      box-shadow: 0 0 20px #4af55;
+    }
+
+    /* Κάρτες φυτών λάμπουν πράσινα (σαν το φωτόσπαθο του Γιόντα) */
+    .card.plant {
+      border-color: rgba(68,255,136,0.3);
+    }
+    .card.plant:hover {
+      border-color: #4f8;
+      box-shadow: 0 0 20px #4f855;
+    }
+
+    .card-emoji {
+      font-size: 3rem;
+      line-height: 1;
+      margin-bottom: 8px;
+      display: block;
+      /* μικρό αναπήδημα animation */
+      transition: transform 0.15s;
+    }
+    .card:hover .card-emoji { transform: scale(1.15) rotate(-5deg); }
+    .card:active .card-emoji { transform: scale(0.9); }
+
+    .card-name {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 1px;
+      color: #cce;
+      margin-top: 4px;
+    }
+
+    /* ── Πάνελ Διασκεδαστικού Γεγονότος ── */
+    #fact-panel {
+      max-width: 680px;
+      margin: 0 auto 28px;
+      background: rgba(10,0,30,0.92);
+      border: 2px solid #ffe81f;
+      border-radius: 20px;
+      padding: 22px 24px;
+      box-shadow: 0 0 28px #ffe81f44, inset 0 0 30px rgba(255,232,31,0.04);
+      display: none; /* κρυμμένο στην αρχή */
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .fact-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .fact-big-emoji {
+      font-size: 3rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .fact-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      color: #ffe81f;
+    }
+
+    .fact-text {
+      font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+      line-height: 1.65;
+      color: #dde8ff;
+    }
+
+    .fact-jedi-tip {
+      margin-top: 12px;
+      font-size: 0.82rem;
+      color: #88aaff;
+      font-style: italic;
+    }
+
+    /* ── Φράση της Δύναμης στο κάτω μέρος ── */
+    .force-quote {
+      text-align: center;
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.7rem, 2vw, 0.95rem);
+      color: #ffe81f;
+      text-shadow: 0 0 10px #ffe81f66;
+      margin: 10px 0 6px;
+      letter-spacing: 1px;
+    }
+
+    /* ── Κουμπί εναλλαγής ήχου ── */
+    #sound-btn {
+      display: block;
+      margin: 14px auto 20px;
+      padding: 8px 20px;
+      background: transparent;
+      border: 1.5px solid #9f4;
+      color: #9f4;
+      border-radius: 20px;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    #sound-btn:hover {
+      background: #9f4;
+      color: #000;
+      box-shadow: 0 0 12px #9f4;
+    }
+
+    /* ── Κλάση κρυφού στοιχείου ── */
+    .hidden { display: none !important; }
+
+    /* ── Υποσέλιδο ── */
+    footer {
+      text-align: center;
+      padding: 20px 10px 30px;
+      font-size: 0.78rem;
+      color: #556;
+    }
+    footer span { color: #ffe81f; }
+  </style>
+</head>
+<body>
+
+  <!-- ================================================
+       ΚΕΦΑΛΙΔΑ — Το επάνω τμήμα της σελίδας
+  ================================================ -->
+  <header>
+    <p class="welcome-text">⚔️ ΠΑΔΑΒΑΝ ΝΑΠΟΛΕΩΝ, ΚΑΛΩΣ ΗΡΘΕΣ! ⚔️</p>
+    <h1>Εγκυκλοπαίδεια Ζώων &amp; Φυτών</h1>
+    <p class="subtitle">🌿 Εξερεύνησε τον ζωντανό κόσμο του γαλαξία μας 🌿</p>
+  </header>
+
+  <!-- Μια οριζόντια γραμμή σε στυλ φωτόσπαθου για διακόσμηση -->
+  <div class="lightsaber">
+    <div class="saber-line blue"></div>
+    <span class="saber-handle">🔵</span>
+    <div class="saber-line green"></div>
+  </div>
+
+  <!-- Κουμπί ήχου ανοιχτό/κλειστό -->
+  <button id="sound-btn" onclick="toggleSound()">🔊 Ήχοι: ΕΝΕΡΓΟΙ</button>
+
+  <!-- ================================================
+       ΚΑΡΤΕΛΕΣ — Εναλλαγή μεταξύ Ζώων και Φυτών
+  ================================================ -->
+  <div class="tabs">
+    <button class="tab-btn animals active" onclick="showTab('animals')">🐾 Ζώα</button>
+    <button class="tab-btn plants"   onclick="showTab('plants')">🌱 Φυτά</button>
+  </div>
+
+  <!-- ================================================
+       ΠΛΕΓΜΑ ΚΑΡΤΩΝ ΖΩΩΝ
+  ================================================ -->
+  <div class="grid" id="animals-grid">
+    <!-- Κάθε κάρτα φτιάχνεται από τη JavaScript παρακάτω — δες την ενότητα ΔΕΔΟΜΕΝΑ! -->
+  </div>
+
+  <!-- ================================================
+       ΠΛΕΓΜΑ ΚΑΡΤΩΝ ΦΥΤΩΝ (κρυμμένο μέχρι να κλικαριστεί η καρτέλα Φυτά)
+  ================================================ -->
+  <div class="grid hidden" id="plants-grid">
+  </div>
+
+  <!-- ================================================
+       ΠΑΝΕΛ ΔΙΑΣΚΕΔΑΣΤΙΚΟΥ ΓΕΓΟΝΟΤΟΣ — εμφανίζεται όταν κλικάρεις μια κάρτα
+  ================================================ -->
+  <div id="fact-panel">
+    <div class="fact-header">
+      <span class="fact-big-emoji" id="fact-emoji">🐘</span>
+      <span class="fact-title"     id="fact-name">Ελέφαντας</span>
+    </div>
+    <p class="fact-text"     id="fact-text">Φορτώνει...</p>
+    <p class="fact-jedi-tip" id="fact-tip">Φορτώνει...</p>
+  </div>
+
+  <!-- ================================================
+       ΦΡΑΣΗ ΤΗΣ ΔΥΝΑΜΗΣ
+  ================================================ -->
+  <p class="force-quote">✨ Η Δύναμη — και η Φύση — να είναι μαζί σου! ✨</p>
+
+  <!-- ================================================
+       ΥΠΟΣΕΛΙΔΟ
+  ================================================ -->
+  <footer>
+    Φτιαγμένο με 💙 για τον <span>Ναπολέων</span> — Παδαβάν Τζεντάι, Εξερευνητής της Φύσης &amp; Μελλοντικός Προγραμματιστής 🚀
+  </footer>
+
+
+  <script>
+    // ====================================================
+    //  JAVASCRIPT — Αυτός είναι ο ΚΩΔΙΚΑΣ που κάνει τα πράγματα να ΛΕΙΤΟΥΡΓΟΥΝ!
+    //  Σκέψου τον σαν τις οδηγίες μέσα σε ένα κουτί LEGO.
+    // ====================================================
+
+    // ── ΔΕΔΟΜΕΝΑ ────────────────────────────────────────
+    // Εδώ αποθηκεύουμε ΟΛΕΣ τις πληροφορίες για τα ζώα και τα φυτά.
+    // Κάθε ένα έχει:
+    //   emoji  — η εικόνα
+    //   name   — πώς λέγεται
+    //   fact   — κάτι υπέροχο γι' αυτό
+    //   tip    — σοφία της φύσης σε στυλ Τζεντάι
+
+    const animals = [
+      {
+        emoji: "🦁",
+        name: "Λιοντάρι",
+        fact: "Τα λιοντάρια είναι οι μόνες γάτες που ζουν σε ομάδες που λέγονται ΑΓΕΛΕΣ! Τα θηλυκά κυνηγούν ενώ τα αρσενικά προστατεύουν την αγέλη. Ο βρυχηθμός ενός λιονταριού ακούγεται από 8 χιλιόμετρα μακριά — πόσο δυνατά! 🌟",
+        tip: "Σοφία Τζεντάι: Όπως το λιοντάρι προστατεύει την αγέλη του, ο Τζεντάι προστατεύει αυτούς που αγαπά."
+      },
+      {
+        emoji: "🐘",
+        name: "Ελέφαντας",
+        fact: "Οι ελέφαντες ΠΟΤΕ δεν ξεχνούν! Έχουν τον μεγαλύτερο εγκέφαλο από όλα τα χερσαία ζώα. Τα μωρά ελέφαντες πίνουν μέχρι 11 λίτρα γάλα κάθε μέρα. Οι ελέφαντες αγκαλιάζουν ακόμα ο ένας τον άλλον με την προβοσκίδα τους! 🥰",
+        tip: "Σοφία Τζεντάι: Η μνήμη είναι μεγάλη δύναμη — χρησιμοποίησέ την για να θυμάσαι την καλοσύνη."
+      },
+      {
+        emoji: "🦋",
+        name: "Πεταλούδα",
+        fact: "Η κάμπια μετατρέπεται σε υπέροχη πεταλούδα μέσα σε ένα κουκούλι — ουσιαστικά λιώνει και ξαναχτίζεται! Οι πεταλούδες γεύονται την τροφή τους με τα ΠΟΔΙΑ τους! Έχουν δύο ζεύγη φτερών καλυμμένα με μικροσκοπικά λέπια. 🌈",
+        tip: "Σοφία Τζεντάι: Η αλλαγή μπορεί να φοβίζει, αλλά οδηγεί σε κάτι όμορφο."
+      },
+      {
+        emoji: "🐬",
+        name: "Δελφίνι",
+        fact: "Τα δελφίνια είναι πανέξυπνα — σχεδόν τόσο έξυπνα όσο οι άνθρωποι! Έχουν ονόματα το ένα για το άλλο και καλούν τους φίλους τους με ειδικά σφυρίγματα. Κοιμούνται με το ένα μάτι ανοιχτό για να μην βυθιστούν! 😲",
+        tip: "Σοφία Τζεντάι: Οι αληθινοί φίλοι πάντα ξέρουν το όνομά σου και έρχονται όταν τους καλείς."
+      },
+      {
+        emoji: "🦅",
+        name: "Αετός",
+        fact: "Οι αετοί έχουν απίστευτα δυνατή όραση — μπορούν να δουν ένα κουνέλι από σχεδόν 3 χιλιόμετρα ψηλά! Χτίζουν τις μεγαλύτερες φωλιές από κάθε άλλο πουλί· μερικές ζυγίζουν πάνω από ΕΝΑ ΤΟΝΟ. Οι αετοί πετούν μέχρι 160 χλμ/ώρα! 🚀",
+        tip: "Σοφία Τζεντάι: Κοίτα μακριά πριν δράσεις — όπως ο αετός που σαρώνει τη γη."
+      },
+      {
+        emoji: "🐙",
+        name: "Χταπόδι",
+        fact: "Ένα χταπόδι έχει ΤΡΕΙΣ καρδιές και ΜΠΛΕ αίμα! Μπορεί να αλλάξει χρώμα και υφή σε λιγότερο από ένα δευτερόλεπτο για να κρυφτεί. Αν χάσει ένα πλοκάμι, μεγαλώνει ΚΑΙΝΟΥΡΓΙΟ! Είναι επίσης εξαιρετικά έξυπνο. 💙",
+        tip: "Σοφία Τζεντάι: Η προσαρμοστικότητα είναι το μεγαλύτερο εργαλείο ενός Τζεντάι."
+      },
+      {
+        emoji: "🐸",
+        name: "Βάτραχος",
+        fact: "Οι βάτραχοι πίνουν νερό μέσα από το ΔΕΡΜΑ τους — δεν παίρνουν ποτέ μια γουλιά! Μερικοί βάτραχοι είναι φωτεινόχρωμοι για να προειδοποιούν ότι είναι δηλητηριώδεις. Τον χειμώνα, θάβονται στη λάσπη για να ξεχειμωνιάσουν. 🌿",
+        tip: "Σοφία Τζεντάι: Η ξεκούραση και η υπομονή (σαν κοιμισμένος βάτραχος) σε προετοιμάζουν για μεγάλα άλματα."
+      },
+      {
+        emoji: "🦒",
+        name: "Καμηλοπάρδαλη",
+        fact: "Οι καμηλοπαρδάλεις είναι τα ψηλότερα ζώα στη Γη — φτάνουν τα 6 μέτρα! Η γλώσσα τους είναι σκούρα μωβ και σχεδόν 50 εκ. μακριά. Τα μωρά τους περπατούν μέσα σε μία ώρα από τη γέννησή τους. Κοιμούνται μόνο 30 λεπτά την ημέρα! 😴",
+        tip: "Σοφία Τζεντάι: Στάσου ψηλά, κοίτα μακριά, και ποτέ μη σταματάς να φτάνεις ψηλότερα."
+      },
+      {
+        emoji: "🐺",
+        name: "Λύκος",
+        fact: "Οι λύκοι ζουν σε οικογενειακές ομάδες που λέγονται αγέλες και φροντίζουν ο ένας τον άλλον. Ουρλιάζουν για να επικοινωνούν σε μεγάλες αποστάσεις — σαν τηλεφώνημα μέσα από το δάσος! Οι λύκοι είναι πρόγονοι όλων των σκύλων. 🐕",
+        tip: "Σοφία Τζεντάι: Η δύναμη της αγέλης είναι ο λύκος· η δύναμη του λύκου είναι η αγέλη."
+      },
+      {
+        emoji: "🦜",
+        name: "Παπαγάλος",
+        fact: "Οι παπαγάλοι μπορούν να μάθουν εκατοντάδες λέξεις και να καταλαβαίνουν τι σημαίνουν! Είναι από τα πιο έξυπνα πουλιά. Μερικοί παπαγάλοι ζουν πάνω από 80 χρόνια — περισσότερο από πολλούς ανθρώπους! Χρησιμοποιούν το ράμφος τους σαν τρίτο χέρι. 🎤",
+        tip: "Σοφία Τζεντάι: Ένας σοφός Παδαβάν ακούει προσεκτικά πριν μιλήσει."
+      }
+    ];
+
+    const plants = [
+      {
+        emoji: "🌻",
+        name: "Ηλίανθος",
+        fact: "Οι ηλίανθοι στρέφονται πάντα προς τον ΗΛΙΟ καθώς μεγαλώνουν — αυτό λέγεται ηλιοτροπισμός! Ένας μόνο ηλίανθος είναι φτιαγμένος από έως 2.000 μικροσκοπικά λουλούδια μαζεμένα. Μπορούν να μεγαλώσουν πάνω από 3 μέτρα ψηλοί! ☀️",
+        tip: "Σοφία Τζεντάι: Πάντα να στρέφεσαι προς το φως, όπως ο ηλίανθος."
+      },
+      {
+        emoji: "🎋",
+        name: "Μπαμπού",
+        fact: "Το μπαμπού είναι το γρηγορότερα αναπτυσσόμενο φυτό στον κόσμο — μπορεί να μεγαλώσει 90 εκ. ΣΕ ΜΙΑ ΜΟΝΟ ΜΕΡΑ! Είναι στην πραγματικότητα ένα γιγαντιαίο χορτάρι, όχι δέντρο. Τα γιγάντια πάντα τρώνε έως 40 κιλά μπαμπού την ημέρα! 🐼",
+        tip: "Σοφία Τζεντάι: Μεγάλωσε λίγο κάθε μέρα και μια μέρα θα είσαι γίγαντας."
+      },
+      {
+        emoji: "🌵",
+        name: "Κάκτος",
+        fact: "Ένας κάκτος μπορεί να επιβιώσει μέχρι δύο χρόνια χωρίς βροχή! Αποθηκεύει νερό μέσα στο χοντρό σαρκώδες βλαστό του. Τα αγκάθια είναι τροποποιημένα φύλλα που το προστατεύουν και μαζεύουν σταγόνες δροσιάς. Μερικοί κάκτοι ζουν 200 χρόνια! 💧",
+        tip: "Σοφία Τζεντάι: Μπορείς να ευδοκιμήσεις ακόμα και σε δύσκολα μέρη, αν είσαι προετοιμασμένος."
+      },
+      {
+        emoji: "🍄",
+        name: "Μανιτάρι",
+        fact: "Τα μανιτάρια δεν είναι φυτά — είναι ΜΥΚΗΤΕΣ! Κάτω από τη γη, συνδέονται με ένα τεράστιο δίκτυο μικροσκοπικών νημάτων που λέγεται μυκήλιο. Τα δέντρα μιλούν μεταξύ τους και μοιράζονται τροφή μέσω αυτού του δικτύου! 🌐",
+        tip: "Σοφία Τζεντάι: Ακόμα και πράγματα που δεν βλέπεις μπορούν να μας συνδέσουν όλους."
+      },
+      {
+        emoji: "🌸",
+        name: "Άνθη Κερασιάς",
+        fact: "Τα άνθη κερασιάς ανθίζουν μόνο για ΔΥΟ ΕΒΔΟΜΑΔΕΣ κάθε χρόνο! Στην Ιαπωνία οι άνθρωποι κάνουν πικνίκ κάτω από τα δέντρα για να το γιορτάσουν — αυτό λέγεται «χανάμι». Το δέντρο μπορεί να ζήσει πάνω από 1.000 χρόνια! 🇯🇵",
+        tip: "Σοφία Τζεντάι: Οι όμορφες στιγμές είναι πολύτιμες γιατί δεν κρατούν για πάντα."
+      },
+      {
+        emoji: "🌿",
+        name: "Μέντα",
+        fact: "Η μέντα είναι ένα από τα αρχαιότερα φυτά που χρησιμοποίησαν οι άνθρωποι — πάνω από 10.000 χρόνια! Μεγαλώνει τόσο καλά που μπορεί να καταλάβει ολόκληρο κήπο. Κρατά τα έντομα μακριά με την έντονη μυρωδιά της. 🐛",
+        tip: "Σοφία Τζεντάι: Ακόμα και μικρά πράγματα μπορούν να έχουν ισχυρή επίδραση στον κόσμο γύρω τους."
+      },
+      {
+        emoji: "🌳",
+        name: "Βελανιδιά",
+        fact: "Μια βελανιδιά μπορεί να ζήσει πάνω από 1.000 χρόνια! Από ένα μικροσκοπικό βελανίδι μεγαλώνει γιγαντιαίο δέντρο που φτάνει τα 40 μέτρα. Μια μόνο βελανιδιά φιλοξενεί πάνω από 500 είδη εντόμων, πουλιών και ζώων! 🏡",
+        tip: "Σοφία Τζεντάι: Τα μεγάλα πράγματα ξεκινούν πάντα από κάτι πολύ μικρό — όπως ένα βελανίδι, ή ένας Παδαβάν."
+      }
+    ];
+
+    // ── ΚΑΤΑΣΤΑΣΗ ────────────────────────────────────────
+    // Αυτές οι μεταβλητές θυμούνται τι κάνει η εφαρμογή αυτή τη στιγμή.
+    let soundEnabled = true;    // Είναι ο ήχος ενεργός;
+    let currentTab = 'animals'; // Σε ποια καρτέλα βρισκόμαστε;
+
+    // ── WEB AUDIO API ────────────────────────────────────
+    // Αυτό μας επιτρέπει να παράγουμε ήχους ΧΩΡΙΣ να κατεβάσουμε αρχεία!
+    // Είναι ενσωματωμένο στον browser — σαν μαγεία. ✨
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null; // Το δημιουργούμε όταν ο χρήστης αλληλεπιδράσει πρώτα
+
+    // Βεβαιωνόμαστε ότι έχουμε audio context (οι browsers χρειάζονται αλληλεπίδραση χρήστη πρώτα)
+    function getAudioCtx() {
+      if (!audioCtx) {
+        audioCtx = new AudioContext();
+      }
+      return audioCtx;
+    }
+
+    // Παίξε μια μουσική νότα
+    // frequency = πόσο ΨΗΛΗ είναι η νότα (π.χ. 440 = Λα μεσαία)
+    // duration  = πόσο παίζει (σε δευτερόλεπτα)
+    // type      = πώς φαίνεται το κύμα: 'sine' (ομαλό), 'square' (βουητό)
+    function playTone(frequency, duration = 0.18, type = 'sine', volume = 0.25) {
+      if (!soundEnabled) return;
+      try {
+        const ctx = getAudioCtx();
+        const oscillator = ctx.createOscillator();
+        const gainNode   = ctx.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(ctx.destination);
+
+        oscillator.type      = type;
+        oscillator.frequency.setValueAtTime(frequency, ctx.currentTime);
+
+        // Σβήσιμο για να μην κλικάρει στο τέλος
+        gainNode.gain.setValueAtTime(volume, ctx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+
+        oscillator.start(ctx.currentTime);
+        oscillator.stop(ctx.currentTime + duration);
+      } catch (e) {
+        // Αν ο ήχος δεν λειτουργεί, δεν πειράζει — το παραλείπουμε αθόρυβα
+        console.log('Ο ήχος δεν είναι διαθέσιμος:', e);
+      }
+    }
+
+    // Παίξε μια χαρούμενη συγχορδία εμπνευσμένη από το Star Wars
+    function playSelectSound(isPlant) {
+      if (isPlant) {
+        // Πράσινος / ήχος φυτού — ήρεμες ψηλές νότες του Γιόντα
+        playTone(659, 0.12, 'sine', 0.2);
+        setTimeout(() => playTone(784, 0.18, 'sine', 0.2), 80);
+        setTimeout(() => playTone(988, 0.25, 'sine', 0.15), 180);
+      } else {
+        // Μπλε / ήχος ζώου — αίσθηση ανάφλεξης φωτόσπαθου του Λουκ
+        playTone(440, 0.1, 'sine', 0.2);
+        setTimeout(() => playTone(554, 0.15, 'sine', 0.2), 70);
+        setTimeout(() => playTone(659, 0.22, 'sine', 0.15), 160);
+      }
+    }
+
+    // Μικρός ήχος «σφύριγμα» κατά την εναλλαγή καρτελών
+    function playTabSound() {
+      playTone(300, 0.08, 'sine', 0.15);
+      setTimeout(() => playTone(500, 0.1, 'sine', 0.12), 60);
+    }
+
+    // Εναλλαγή ήχου ανοιχτό ή κλειστό
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      const btn = document.getElementById('sound-btn');
+      btn.textContent = soundEnabled ? '🔊 Ήχοι: ΕΝΕΡΓΟΙ' : '🔇 Ήχοι: ΑΝΕΝΕΡΓΟΙ';
+      if (soundEnabled) playTone(440, 0.1);
+    }
+
+    // ── ΔΗΜΙΟΥΡΓΙΑ ΚΑΡΤΩΝ ────────────────────────────────
+    // Αυτή η συνάρτηση δημιουργεί τις κλικάρισιμες κάρτες από τα δεδομένα μας.
+    // Είναι σαν ένα εργοστάσιο: δίνεις δεδομένα, χτίζει κάρτες HTML.
+    function buildGrid(items, type, containerId) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = ''; // Καθαρισμός πρώτα
+
+      items.forEach((item, index) => {
+        // Δημιουργία στοιχείου <div> για την κάρτα
+        const card = document.createElement('div');
+        card.className = `card ${type}`;
+
+        // Τοποθέτηση emoji και ονόματος μέσα στην κάρτα
+        card.innerHTML = `
+          <span class="card-emoji">${item.emoji}</span>
+          <div class="card-name">${item.name.toUpperCase()}</div>
+        `;
+
+        // Τι συμβαίνει όταν ο Ναπολέων κλικάρει μια κάρτα:
+        card.addEventListener('click', () => {
+          showFact(item, type === 'plant');
+
+          // Αφαίρεση επισήμανσης από όλες τις κάρτες
+          document.querySelectorAll('.card').forEach(c => c.style.outline = '');
+          // Επισήμανση της κάρτας που κλικαρίστηκε
+          card.style.outline = `2px solid ${type === 'plant' ? '#4f8' : '#4af'}`;
+        });
+
+        // Μικρή καθυστέρηση για να εμφανίζονται οι κάρτες μία-μία
+        card.style.animationDelay = `${index * 40}ms`;
+
+        container.appendChild(card);
+      });
+    }
+
+    // ── ΕΜΦΑΝΙΣΗ ΠΑΝΕΛ ΓΕΓΟΝΟΤΟΣ ────────────────────────
+    // Όταν ο Ναπολέων κλικάρει μια κάρτα, αυτό συμπληρώνει το πάνελ γεγονότος.
+    function showFact(item, isPlant) {
+      const panel = document.getElementById('fact-panel');
+
+      document.getElementById('fact-emoji').textContent = item.emoji;
+      document.getElementById('fact-name').textContent  = item.name;
+      document.getElementById('fact-text').textContent  = item.fact;
+      document.getElementById('fact-tip').textContent   = item.tip;
+
+      // Αλλαγή χρώματος πλαισίου ανάλογα με Ζώα (μπλε) ή Φυτά (πράσινο)
+      panel.style.borderColor = isPlant ? '#4f8' : '#4af';
+      panel.style.boxShadow   = isPlant
+        ? '0 0 28px #4f844, inset 0 0 30px rgba(68,255,136,0.03)'
+        : '0 0 28px #4af44, inset 0 0 30px rgba(68,170,255,0.03)';
+
+      // Εμφάνιση του πάνελ (ήταν κρυμμένο πριν)
+      panel.style.display = 'block';
+
+      // Αναπαραγωγή ήχου! 🎵
+      playSelectSound(isPlant);
+
+      // Ομαλή κύλιση στο πάνελ γεγονότος για να το διαβάσει ο Ναπολέων εύκολα
+      setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+    }
+
+    // ── ΕΝΑΛΛΑΓΗ ΚΑΡΤΕΛΩΝ ────────────────────────────────
+    // Εμφανίζει είτε το πλέγμα Ζώων είτε το πλέγμα Φυτών.
+    function showTab(tab) {
+      currentTab = tab;
+      playTabSound();
+
+      const animalsGrid = document.getElementById('animals-grid');
+      const plantsGrid  = document.getElementById('plants-grid');
+      const animalBtn   = document.querySelector('.tab-btn.animals');
+      const plantBtn    = document.querySelector('.tab-btn.plants');
+
+      if (tab === 'animals') {
+        animalsGrid.classList.remove('hidden');
+        plantsGrid.classList.add('hidden');
+        animalBtn.classList.add('active');
+        plantBtn.classList.remove('active');
+      } else {
+        plantsGrid.classList.remove('hidden');
+        animalsGrid.classList.add('hidden');
+        plantBtn.classList.add('active');
+        animalBtn.classList.remove('active');
+      }
+
+      // Απόκρυψη πάνελ γεγονότος κατά την εναλλαγή καρτελών
+      document.getElementById('fact-panel').style.display = 'none';
+      document.querySelectorAll('.card').forEach(c => c.style.outline = '');
+    }
+
+    // ── ΕΚΚΙΝΗΣΗ ΟΛΩΝ ───────────────────────────────────
+    // Αυτό εκτελείται όταν η σελίδα φορτώνει για πρώτη φορά — σαν να πατάς PLAY.
+    buildGrid(animals, 'animal', 'animals-grid');
+    buildGrid(plants,  'plant',  'plants-grid');
+
+  </script>
+</body>
+</html>
