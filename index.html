@@ -11,14 +11,11 @@
        Σκέψου το σαν να διαλέγεις χρώματα για τουβλάκια LEGO.
     ===================================================== */
 
-    /* Εισαγωγή γραμματοσειράς — χρησιμοποιεί μια γραμματοσειρά που φαίνεται ωραία */
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@400;600&display=swap');
 
-    /* Επαναφορά & βάση */
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      /* Φόντο διαστήματος με αστέρια! */
       background: #0a0015;
       background-image:
         radial-gradient(ellipse at top, #1a0035 0%, #0a0015 60%),
@@ -30,16 +27,13 @@
       overflow-x: hidden;
     }
 
-    /* ── Κεφαλίδα / Τίτλος ── */
-    header {
-      text-align: center;
-      padding: 24px 12px 16px;
-    }
+    /* ── Κεφαλίδα ── */
+    header { text-align: center; padding: 24px 12px 16px; }
 
     .welcome-text {
       font-family: 'Orbitron', monospace;
       font-size: clamp(1rem, 4vw, 1.4rem);
-      color: #ffe81f; /* Κίτρινο Star Wars! */
+      color: #ffe81f;
       text-shadow: 0 0 12px #ffe81f88;
       letter-spacing: 2px;
       margin-bottom: 8px;
@@ -52,7 +46,6 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      text-shadow: none;
       line-height: 1.2;
       margin-bottom: 6px;
     }
@@ -72,29 +65,24 @@
       margin: 18px auto;
       max-width: 600px;
     }
-    .saber-line {
-      flex: 1;
-      height: 3px;
-      border-radius: 2px;
-      box-shadow: 0 0 8px currentColor;
-    }
+    .saber-line { flex: 1; height: 3px; border-radius: 2px; box-shadow: 0 0 8px currentColor; }
     .saber-line.blue  { background: #4af; color: #4af; }
     .saber-line.green { background: #4f8; color: #4f8; }
     .saber-handle { font-size: 1.4rem; }
 
-    /* ── Κουμπιά καρτελών (Ζώα / Φυτά) ── */
+    /* ── Καρτέλες ── */
     .tabs {
       display: flex;
       justify-content: center;
-      gap: 12px;
+      gap: 10px;
       margin-bottom: 20px;
       flex-wrap: wrap;
     }
 
     .tab-btn {
       font-family: 'Orbitron', monospace;
-      font-size: clamp(0.8rem, 2.5vw, 1rem);
-      padding: 10px 24px;
+      font-size: clamp(0.72rem, 2.2vw, 0.95rem);
+      padding: 10px 20px;
       border: 2px solid;
       border-radius: 30px;
       cursor: pointer;
@@ -103,26 +91,26 @@
       letter-spacing: 1px;
     }
 
-    .tab-btn.animals {
-      color: #4af;
-      border-color: #4af;
-    }
-    .tab-btn.animals:hover,
-    .tab-btn.animals.active {
-      background: #4af;
-      color: #000;
-      box-shadow: 0 0 18px #4af;
+    .tab-btn.animals { color: #4af; border-color: #4af; }
+    .tab-btn.animals:hover, .tab-btn.animals.active {
+      background: #4af; color: #000; box-shadow: 0 0 18px #4af;
     }
 
-    .tab-btn.plants {
-      color: #4f8;
-      border-color: #4f8;
+    .tab-btn.plants { color: #4f8; border-color: #4f8; }
+    .tab-btn.plants:hover, .tab-btn.plants.active {
+      background: #4f8; color: #000; box-shadow: 0 0 18px #4f8;
     }
-    .tab-btn.plants:hover,
-    .tab-btn.plants.active {
-      background: #4f8;
-      color: #000;
-      box-shadow: 0 0 18px #4f8;
+
+    /* Καρτέλα Δεινόσαυροι — μωβ/κόκκινο */
+    .tab-btn.dino { color: #c084fc; border-color: #c084fc; }
+    .tab-btn.dino:hover, .tab-btn.dino.active {
+      background: #c084fc; color: #000; box-shadow: 0 0 18px #c084fc;
+    }
+
+    /* Καρτέλα Quiz — πορτοκαλί/χρυσό Star Wars */
+    .tab-btn.quiz { color: #ffa500; border-color: #ffa500; }
+    .tab-btn.quiz:hover, .tab-btn.quiz.active {
+      background: #ffa500; color: #000; box-shadow: 0 0 18px #ffa500;
     }
 
     /* ── Πλέγμα καρτών ── */
@@ -134,7 +122,6 @@
       margin: 0 auto 24px;
     }
 
-    /* Κάθε κάρτα είναι ένα ζώο ή φυτό */
     .card {
       background: rgba(255,255,255,0.05);
       border: 1.5px solid rgba(255,255,255,0.12);
@@ -145,35 +132,22 @@
       transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
       user-select: none;
     }
+    .card:hover { transform: translateY(-4px) scale(1.04); }
 
-    .card:hover {
-      transform: translateY(-4px) scale(1.04);
-    }
+    /* Κάρτες ζώων — μπλε φωτόσπαθο */
+    .card.animal { border-color: rgba(68,170,255,0.3); }
+    .card.animal:hover { border-color: #4af; box-shadow: 0 0 20px #4af55; }
 
-    /* Κάρτες ζώων λάμπουν μπλε (σαν το φωτόσπαθο του Λουκ) */
-    .card.animal {
-      border-color: rgba(68,170,255,0.3);
-    }
-    .card.animal:hover {
-      border-color: #4af;
-      box-shadow: 0 0 20px #4af55;
-    }
+    /* Κάρτες φυτών — πράσινο φωτόσπαθο */
+    .card.plant { border-color: rgba(68,255,136,0.3); }
+    .card.plant:hover { border-color: #4f8; box-shadow: 0 0 20px #4f855; }
 
-    /* Κάρτες φυτών λάμπουν πράσινα (σαν το φωτόσπαθο του Γιόντα) */
-    .card.plant {
-      border-color: rgba(68,255,136,0.3);
-    }
-    .card.plant:hover {
-      border-color: #4f8;
-      box-shadow: 0 0 20px #4f855;
-    }
+    /* Κάρτες δεινόσαυρων — μωβ λάμψη */
+    .card.dino { border-color: rgba(192,132,252,0.3); }
+    .card.dino:hover { border-color: #c084fc; box-shadow: 0 0 20px #c084fc55; }
 
     .card-emoji {
-      font-size: 3rem;
-      line-height: 1;
-      margin-bottom: 8px;
-      display: block;
-      /* μικρό αναπήδημα animation */
+      font-size: 3rem; line-height: 1; margin-bottom: 8px; display: block;
       transition: transform 0.15s;
     }
     .card:hover .card-emoji { transform: scale(1.15) rotate(-5deg); }
@@ -181,13 +155,10 @@
 
     .card-name {
       font-family: 'Orbitron', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 1px;
-      color: #cce;
-      margin-top: 4px;
+      font-size: 0.7rem; letter-spacing: 1px; color: #cce; margin-top: 4px;
     }
 
-    /* ── Πάνελ Διασκεδαστικού Γεγονότος ── */
+    /* ── Πάνελ γεγονότος ── */
     #fact-panel {
       max-width: 680px;
       margin: 0 auto 28px;
@@ -196,7 +167,7 @@
       border-radius: 20px;
       padding: 22px 24px;
       box-shadow: 0 0 28px #ffe81f44, inset 0 0 30px rgba(255,232,31,0.04);
-      display: none; /* κρυμμένο στην αρχή */
+      display: none;
       animation: fadeIn 0.3s ease;
     }
 
@@ -205,39 +176,216 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    .fact-header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 12px;
+    .fact-header { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+    .fact-big-emoji { font-size: 3rem; line-height: 1; flex-shrink: 0; }
+    .fact-title { font-family: 'Orbitron', monospace; font-size: clamp(1rem, 3vw, 1.4rem); color: #ffe81f; }
+    .fact-text { font-size: clamp(0.9rem, 2.5vw, 1.05rem); line-height: 1.65; color: #dde8ff; }
+    .fact-jedi-tip { margin-top: 12px; font-size: 0.82rem; color: #88aaff; font-style: italic; }
+
+    /* ── Quiz section ── */
+    #quiz-section {
+      max-width: 680px;
+      margin: 0 auto 28px;
+      background: rgba(10,0,30,0.92);
+      border: 2px solid #ffa500;
+      border-radius: 20px;
+      padding: 28px 24px;
+      box-shadow: 0 0 28px #ffa50044;
+      animation: fadeIn 0.3s ease;
     }
 
-    .fact-big-emoji {
-      font-size: 3rem;
-      line-height: 1;
-      flex-shrink: 0;
+    .quiz-progress {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #888;
+      margin-bottom: 6px;
+      letter-spacing: 1px;
     }
 
-    .fact-title {
+    .quiz-score-display {
+      text-align: center;
       font-family: 'Orbitron', monospace;
-      font-size: clamp(1rem, 3vw, 1.4rem);
+      font-size: 1rem;
+      color: #ffa500;
+      margin-bottom: 18px;
+    }
+
+    .quiz-question-text {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.95rem, 2.8vw, 1.25rem);
       color: #ffe81f;
+      margin-bottom: 22px;
+      text-align: center;
+      line-height: 1.4;
     }
 
-    .fact-text {
-      font-size: clamp(0.9rem, 2.5vw, 1.05rem);
-      line-height: 1.65;
-      color: #dde8ff;
+    .quiz-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    @media (max-width: 400px) { .quiz-options { grid-template-columns: 1fr; } }
+
+    .quiz-option-btn {
+      font-family: 'Exo 2', sans-serif;
+      font-size: clamp(0.85rem, 2.5vw, 1rem);
+      padding: 14px 10px;
+      background: rgba(255,165,0,0.08);
+      border: 2px solid #ffa500;
+      border-radius: 12px;
+      color: #ffe8cc;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .quiz-option-btn:hover:not(:disabled) {
+      background: #ffa500; color: #000; box-shadow: 0 0 12px #ffa500;
+    }
+    .quiz-option-btn.correct { background: #4f8; border-color: #4f8; color: #000; }
+    .quiz-option-btn.wrong   { background: #f44; border-color: #f44; color: #fff; }
+    .quiz-option-btn:disabled { cursor: default; }
+
+    #quiz-result { text-align: center; padding-top: 8px; }
+    .quiz-result-score-text { color: #88aaff; font-size: 1rem; margin-bottom: 10px; }
+
+    .quiz-result-rank {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.1rem, 3.5vw, 1.7rem);
+      color: #ffe81f;
+      margin: 8px 0 12px;
+      text-shadow: 0 0 16px #ffe81f88;
+      line-height: 1.3;
     }
 
-    .fact-jedi-tip {
-      margin-top: 12px;
+    .quiz-final-score {
+      font-size: 1.3rem;
+      color: #ffa500;
+      font-family: 'Orbitron', monospace;
+      margin-bottom: 16px;
+    }
+
+    .quiz-restart-btn {
+      font-family: 'Orbitron', monospace;
+      padding: 12px 28px;
+      background: transparent;
+      border: 2px solid #ffa500;
+      color: #ffa500;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .quiz-restart-btn:hover { background: #ffa500; color: #000; box-shadow: 0 0 16px #ffa500; }
+
+    /* ── LEGO Builder ── */
+    #lego-section { max-width: 680px; margin: 0 auto 32px; text-align: center; }
+
+    #lego-toggle-btn {
+      display: inline-block;
+      padding: 10px 28px;
+      background: transparent;
+      border: 2px solid #f97316;
+      color: #f97316;
+      border-radius: 30px;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 16px;
+    }
+    #lego-toggle-btn:hover { background: #f97316; color: #000; box-shadow: 0 0 16px #f97316; }
+
+    #lego-builder {
+      background: rgba(10,0,30,0.92);
+      border: 2px solid #f97316;
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: 0 0 24px #f9731644;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .lego-label {
+      font-family: 'Orbitron', monospace;
       font-size: 0.82rem;
-      color: #88aaff;
-      font-style: italic;
+      color: #f97316;
+      margin-bottom: 14px;
+      letter-spacing: 1px;
     }
 
-    /* ── Φράση της Δύναμης στο κάτω μέρος ── */
+    .lego-palette {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .palette-color {
+      width: 38px;
+      height: 38px;
+      border-radius: 6px;
+      cursor: pointer;
+      border: 3px solid transparent;
+      position: relative;
+      transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+    }
+    .palette-color::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50%; height: 50%;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+      pointer-events: none;
+    }
+    .palette-color:hover { transform: scale(1.15); }
+    .palette-color.selected { border-color: #ffe81f; box-shadow: 0 0 10px #ffe81f; transform: scale(1.2); }
+
+    .lego-grid {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 3px;
+      margin: 0 auto 14px;
+      max-width: 500px;
+    }
+
+    .lego-cell {
+      aspect-ratio: 1;
+      border-radius: 4px;
+      border: 1.5px solid rgba(255,255,255,0.1);
+      cursor: pointer;
+      position: relative;
+      background: rgba(255,255,255,0.04);
+      transition: transform 0.1s;
+    }
+    .lego-cell::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 38%; height: 38%;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      pointer-events: none;
+    }
+    .lego-cell:hover { transform: scale(1.08); border-color: #ffe81f44; }
+
+    .lego-clear-btn {
+      padding: 8px 22px;
+      background: transparent;
+      border: 1.5px solid #f44;
+      color: #f44;
+      border-radius: 20px;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lego-clear-btn:hover { background: #f44; color: #fff; }
+
+    /* ── Φράση Δύναμης ── */
     .force-quote {
       text-align: center;
       font-family: 'Orbitron', monospace;
@@ -248,7 +396,7 @@
       letter-spacing: 1px;
     }
 
-    /* ── Κουμπί εναλλαγής ήχου ── */
+    /* ── Κουμπί ήχου ── */
     #sound-btn {
       display: block;
       margin: 14px auto 20px;
@@ -262,29 +410,19 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-    #sound-btn:hover {
-      background: #9f4;
-      color: #000;
-      box-shadow: 0 0 12px #9f4;
-    }
+    #sound-btn:hover { background: #9f4; color: #000; box-shadow: 0 0 12px #9f4; }
 
-    /* ── Κλάση κρυφού στοιχείου ── */
     .hidden { display: none !important; }
 
     /* ── Υποσέλιδο ── */
-    footer {
-      text-align: center;
-      padding: 20px 10px 30px;
-      font-size: 0.78rem;
-      color: #556;
-    }
+    footer { text-align: center; padding: 20px 10px 30px; font-size: 0.78rem; color: #556; }
     footer span { color: #ffe81f; }
   </style>
 </head>
 <body>
 
   <!-- ================================================
-       ΚΕΦΑΛΙΔΑ — Το επάνω τμήμα της σελίδας
+       ΚΕΦΑΛΙΔΑ
   ================================================ -->
   <header>
     <p class="welcome-text">⚔️ PADAWAN ΝΑΠΟΛΕΩΝ, ΚΑΛΩΣ ΗΡΘΕΣ! ⚔️</p>
@@ -292,39 +430,56 @@
     <p class="subtitle">🌿 Εξερεύνησε τον ζωντανό κόσμο του γαλαξία μας 🌿</p>
   </header>
 
-  <!-- Μια οριζόντια γραμμή σε στυλ φωτόσπαθου για διακόσμηση -->
   <div class="lightsaber">
     <div class="saber-line blue"></div>
     <span class="saber-handle">🔵</span>
     <div class="saber-line green"></div>
   </div>
 
-  <!-- Κουμπί ήχου ανοιχτό/κλειστό -->
+  <!-- Κουμπί ήχου -->
   <button id="sound-btn" onclick="toggleSound()">🔊 Ήχοι: ΕΝΕΡΓΟΙ</button>
 
   <!-- ================================================
-       ΚΑΡΤΕΛΕΣ — Εναλλαγή μεταξύ Ζώων και Φυτών
+       ΚΑΡΤΕΛΕΣ — Ζώα / Φυτά / Δεινόσαυροι / Quiz
   ================================================ -->
   <div class="tabs">
     <button class="tab-btn animals active" onclick="showTab('animals')">🐾 Ζώα</button>
-    <button class="tab-btn plants"   onclick="showTab('plants')">🌱 Φυτά</button>
+    <button class="tab-btn plants"         onclick="showTab('plants')">🌱 Φυτά</button>
+    <button class="tab-btn dino"           onclick="showTab('dinos')">🦕 Δεινόσαυροι</button>
+    <button class="tab-btn quiz"           onclick="showTab('quiz')">🧠 Quiz</button>
   </div>
 
+  <!-- Πλέγμα ζώων -->
+  <div class="grid" id="animals-grid"></div>
+
+  <!-- Πλέγμα φυτών -->
+  <div class="grid hidden" id="plants-grid"></div>
+
+  <!-- Πλέγμα δεινόσαυρων -->
+  <div class="grid hidden" id="dinos-grid"></div>
+
   <!-- ================================================
-       ΠΛΕΓΜΑ ΚΑΡΤΩΝ ΖΩΩΝ
+       QUIZ SECTION
   ================================================ -->
-  <div class="grid" id="animals-grid">
-    <!-- Κάθε κάρτα φτιάχνεται από τη JavaScript παρακάτω — δες την ενότητα ΔΕΔΟΜΕΝΑ! -->
+  <div id="quiz-section" class="hidden">
+    <!-- Gameplay -->
+    <div id="quiz-gameplay">
+      <div class="quiz-progress" id="quiz-progress">Ερώτηση 1 από 8</div>
+      <div class="quiz-score-display" id="quiz-score-display">Σκορ: 0</div>
+      <div class="quiz-question-text" id="quiz-question-text"></div>
+      <div class="quiz-options" id="quiz-options-container"></div>
+    </div>
+    <!-- Αποτελέσματα -->
+    <div id="quiz-result" class="hidden">
+      <p class="quiz-result-score-text">Τελικό αποτέλεσμα:</p>
+      <div class="quiz-final-score" id="quiz-final-score">0 / 8</div>
+      <div class="quiz-result-rank" id="quiz-rank"></div>
+      <button class="quiz-restart-btn" onclick="startQuiz()">🔄 Παίξε ξανά!</button>
+    </div>
   </div>
 
   <!-- ================================================
-       ΠΛΕΓΜΑ ΚΑΡΤΩΝ ΦΥΤΩΝ (κρυμμένο μέχρι να κλικαριστεί η καρτέλα Φυτά)
-  ================================================ -->
-  <div class="grid hidden" id="plants-grid">
-  </div>
-
-  <!-- ================================================
-       ΠΑΝΕΛ ΔΙΑΣΚΕΔΑΣΤΙΚΟΥ ΓΕΓΟΝΟΤΟΣ — εμφανίζεται όταν κλικάρεις μια κάρτα
+       ΠΑΝΕΛ ΓΕΓΟΝΟΤΟΣ
   ================================================ -->
   <div id="fact-panel">
     <div class="fact-header">
@@ -335,10 +490,21 @@
     <p class="fact-jedi-tip" id="fact-tip">Φορτώνει...</p>
   </div>
 
-  <!-- ================================================
-       ΦΡΑΣΗ ΤΗΣ ΔΥΝΑΜΗΣ
-  ================================================ -->
+  <!-- Φράση Force -->
   <p class="force-quote">✨ Η Δύναμη — και η Φύση — να είναι μαζί σου! ✨</p>
+
+  <!-- ================================================
+       LEGO BUILDER (collapsible)
+  ================================================ -->
+  <div id="lego-section">
+    <button id="lego-toggle-btn" onclick="toggleLegoBuilder()">🧱 Χτίσε με LEGO!</button>
+    <div id="lego-builder" class="hidden">
+      <div class="lego-label">Τι χτίζεις σήμερα, Padawan Napoleon?</div>
+      <div class="lego-palette" id="lego-palette"></div>
+      <div class="lego-grid" id="lego-grid"></div>
+      <button class="lego-clear-btn" onclick="clearLegoGrid()">🗑️ Καθαρισμός</button>
+    </div>
+  </div>
 
   <!-- ================================================
        ΥΠΟΣΕΛΙΔΟ
@@ -350,296 +516,598 @@
 
   <script>
     // ====================================================
-    //  JAVASCRIPT — Αυτός είναι ο ΚΩΔΙΚΑΣ που κάνει τα πράγματα να ΛΕΙΤΟΥΡΓΟΥΝ!
+    //  JAVASCRIPT — Ο κώδικας που κάνει τα πάντα να ζωντανεύουν!
     //  Σκέψου τον σαν τις οδηγίες μέσα σε ένα κουτί LEGO.
     // ====================================================
 
-    // ── ΔΕΔΟΜΕΝΑ ────────────────────────────────────────
-    // Εδώ αποθηκεύουμε ΟΛΕΣ τις πληροφορίες για τα ζώα και τα φυτά.
-    // Κάθε ένα έχει:
-    //   emoji  — η εικόνα
-    //   name   — πώς λέγεται
-    //   fact   — κάτι υπέροχο γι' αυτό
-    //   tip    — σοφία της φύσης σε στυλ Jedi
-
+    // ── ΔΕΔΟΜΕΝΑ ΖΩΩΝ ───────────────────────────────────
     const animals = [
       {
-        emoji: "🦁",
-        name: "Λιοντάρι",
+        emoji: "🦁", name: "Λιοντάρι",
         fact: "Τα λιοντάρια είναι οι μόνες γάτες που ζουν σε ομάδες που λέγονται ΑΓΕΛΕΣ! Τα θηλυκά κυνηγούν ενώ τα αρσενικά προστατεύουν την αγέλη. Ο βρυχηθμός ενός λιονταριού ακούγεται από 8 χιλιόμετρα μακριά — πόσο δυνατά! 🌟",
         tip: "Jedi Wisdom: Όπως το λιοντάρι προστατεύει την αγέλη του, ο Jedi προστατεύει αυτούς που αγαπά."
       },
       {
-        emoji: "🐘",
-        name: "Ελέφαντας",
+        emoji: "🐘", name: "Ελέφαντας",
         fact: "Οι ελέφαντες ΠΟΤΕ δεν ξεχνούν! Έχουν τον μεγαλύτερο εγκέφαλο από όλα τα χερσαία ζώα. Τα μωρά ελέφαντες πίνουν μέχρι 11 λίτρα γάλα κάθε μέρα. Οι ελέφαντες αγκαλιάζουν ακόμα ο ένας τον άλλον με την προβοσκίδα τους! 🥰",
         tip: "Jedi Wisdom: Η μνήμη είναι μεγάλη δύναμη — χρησιμοποίησέ την για να θυμάσαι την καλοσύνη."
       },
       {
-        emoji: "🦋",
-        name: "Πεταλούδα",
+        emoji: "🦋", name: "Πεταλούδα",
         fact: "Η κάμπια μετατρέπεται σε υπέροχη πεταλούδα μέσα σε ένα κουκούλι — ουσιαστικά λιώνει και ξαναχτίζεται! Οι πεταλούδες γεύονται την τροφή τους με τα ΠΟΔΙΑ τους! Έχουν δύο ζεύγη φτερών καλυμμένα με μικροσκοπικά λέπια. 🌈",
         tip: "Jedi Wisdom: Η αλλαγή μπορεί να φοβίζει, αλλά οδηγεί σε κάτι όμορφο."
       },
       {
-        emoji: "🐬",
-        name: "Δελφίνι",
+        emoji: "🐬", name: "Δελφίνι",
         fact: "Τα δελφίνια είναι πανέξυπνα — σχεδόν τόσο έξυπνα όσο οι άνθρωποι! Έχουν ονόματα το ένα για το άλλο και καλούν τους φίλους τους με ειδικά σφυρίγματα. Κοιμούνται με το ένα μάτι ανοιχτό για να μην βυθιστούν! 😲",
         tip: "Jedi Wisdom: Οι αληθινοί φίλοι πάντα ξέρουν το όνομά σου και έρχονται όταν τους καλείς."
       },
       {
-        emoji: "🦅",
-        name: "Αετός",
+        emoji: "🦅", name: "Αετός",
         fact: "Οι αετοί έχουν απίστευτα δυνατή όραση — μπορούν να δουν ένα κουνέλι από σχεδόν 3 χιλιόμετρα ψηλά! Χτίζουν τις μεγαλύτερες φωλιές από κάθε άλλο πουλί· μερικές ζυγίζουν πάνω από ΕΝΑ ΤΟΝΟ. Οι αετοί πετούν μέχρι 160 χλμ/ώρα! 🚀",
         tip: "Jedi Wisdom: Κοίτα μακριά πριν δράσεις — όπως ο αετός που σαρώνει τη γη."
       },
       {
-        emoji: "🐙",
-        name: "Χταπόδι",
+        emoji: "🐙", name: "Χταπόδι",
         fact: "Ένα χταπόδι έχει ΤΡΕΙΣ καρδιές και ΜΠΛΕ αίμα! Μπορεί να αλλάξει χρώμα και υφή σε λιγότερο από ένα δευτερόλεπτο για να κρυφτεί. Αν χάσει ένα πλοκάμι, μεγαλώνει ΚΑΙΝΟΥΡΓΙΟ! Είναι επίσης εξαιρετικά έξυπνο. 💙",
         tip: "Jedi Wisdom: Η προσαρμοστικότητα είναι το μεγαλύτερο εργαλείο ενός Jedi."
       },
       {
-        emoji: "🐸",
-        name: "Βάτραχος",
+        emoji: "🐸", name: "Βάτραχος",
         fact: "Οι βάτραχοι πίνουν νερό μέσα από το ΔΕΡΜΑ τους — δεν παίρνουν ποτέ μια γουλιά! Μερικοί βάτραχοι είναι φωτεινόχρωμοι για να προειδοποιούν ότι είναι δηλητηριώδεις. Τον χειμώνα, θάβονται στη λάσπη για να ξεχειμωνιάσουν. 🌿",
         tip: "Jedi Wisdom: Η ξεκούραση και η υπομονή (σαν κοιμισμένος βάτραχος) σε προετοιμάζουν για μεγάλα άλματα."
       },
       {
-        emoji: "🦒",
-        name: "Καμηλοπάρδαλη",
+        emoji: "🦒", name: "Καμηλοπάρδαλη",
         fact: "Οι καμηλοπαρδάλεις είναι τα ψηλότερα ζώα στη Γη — φτάνουν τα 6 μέτρα! Η γλώσσα τους είναι σκούρα μωβ και σχεδόν 50 εκ. μακριά. Τα μωρά τους περπατούν μέσα σε μία ώρα από τη γέννησή τους. Κοιμούνται μόνο 30 λεπτά την ημέρα! 😴",
         tip: "Jedi Wisdom: Στάσου ψηλά, κοίτα μακριά, και ποτέ μη σταματάς να φτάνεις ψηλότερα."
       },
       {
-        emoji: "🐺",
-        name: "Λύκος",
+        emoji: "🐺", name: "Λύκος",
         fact: "Οι λύκοι ζουν σε οικογενειακές ομάδες που λέγονται αγέλες και φροντίζουν ο ένας τον άλλον. Ουρλιάζουν για να επικοινωνούν σε μεγάλες αποστάσεις — σαν τηλεφώνημα μέσα από το δάσος! Οι λύκοι είναι πρόγονοι όλων των σκύλων. 🐕",
         tip: "Jedi Wisdom: Η δύναμη της αγέλης είναι ο λύκος· η δύναμη του λύκου είναι η αγέλη."
       },
       {
-        emoji: "🦜",
-        name: "Παπαγάλος",
+        emoji: "🦜", name: "Παπαγάλος",
         fact: "Οι παπαγάλοι μπορούν να μάθουν εκατοντάδες λέξεις και να καταλαβαίνουν τι σημαίνουν! Είναι από τα πιο έξυπνα πουλιά. Μερικοί παπαγάλοι ζουν πάνω από 80 χρόνια — περισσότερο από πολλούς ανθρώπους! Χρησιμοποιούν το ράμφος τους σαν τρίτο χέρι. 🎤",
         tip: "Jedi Wisdom: Ένας σοφός Padawan ακούει προσεκτικά πριν μιλήσει."
       }
     ];
 
+    // ── ΔΕΔΟΜΕΝΑ ΦΥΤΩΝ ───────────────────────────────────
     const plants = [
       {
-        emoji: "🌻",
-        name: "Ηλίανθος",
+        emoji: "🌻", name: "Ηλίανθος",
         fact: "Οι ηλίανθοι στρέφονται πάντα προς τον ΗΛΙΟ καθώς μεγαλώνουν — αυτό λέγεται ηλιοτροπισμός! Ένας μόνο ηλίανθος είναι φτιαγμένος από έως 2.000 μικροσκοπικά λουλούδια μαζεμένα. Μπορούν να μεγαλώσουν πάνω από 3 μέτρα ψηλοί! ☀️",
         tip: "Jedi Wisdom: Πάντα να στρέφεσαι προς το φως, όπως ο ηλίανθος."
       },
       {
-        emoji: "🎋",
-        name: "Μπαμπού",
+        emoji: "🎋", name: "Μπαμπού",
         fact: "Το μπαμπού είναι το γρηγορότερα αναπτυσσόμενο φυτό στον κόσμο — μπορεί να μεγαλώσει 90 εκ. ΣΕ ΜΙΑ ΜΟΝΟ ΜΕΡΑ! Είναι στην πραγματικότητα ένα γιγαντιαίο χορτάρι, όχι δέντρο. Τα γιγάντια πάντα τρώνε έως 40 κιλά μπαμπού την ημέρα! 🐼",
         tip: "Jedi Wisdom: Μεγάλωσε λίγο κάθε μέρα και μια μέρα θα είσαι γίγαντας."
       },
       {
-        emoji: "🌵",
-        name: "Κάκτος",
+        emoji: "🌵", name: "Κάκτος",
         fact: "Ένας κάκτος μπορεί να επιβιώσει μέχρι δύο χρόνια χωρίς βροχή! Αποθηκεύει νερό μέσα στο χοντρό σαρκώδες βλαστό του. Τα αγκάθια είναι τροποποιημένα φύλλα που το προστατεύουν και μαζεύουν σταγόνες δροσιάς. Μερικοί κάκτοι ζουν 200 χρόνια! 💧",
         tip: "Jedi Wisdom: Μπορείς να ευδοκιμήσεις ακόμα και σε δύσκολα μέρη, αν είσαι προετοιμασμένος."
       },
       {
-        emoji: "🍄",
-        name: "Μανιτάρι",
+        emoji: "🍄", name: "Μανιτάρι",
         fact: "Τα μανιτάρια δεν είναι φυτά — είναι ΜΥΚΗΤΕΣ! Κάτω από τη γη, συνδέονται με ένα τεράστιο δίκτυο μικροσκοπικών νημάτων που λέγεται μυκήλιο. Τα δέντρα μιλούν μεταξύ τους και μοιράζονται τροφή μέσω αυτού του δικτύου! 🌐",
         tip: "Jedi Wisdom: Ακόμα και πράγματα που δεν βλέπεις μπορούν να μας συνδέσουν όλους."
       },
       {
-        emoji: "🌸",
-        name: "Άνθη Κερασιάς",
+        emoji: "🌸", name: "Άνθη Κερασιάς",
         fact: "Τα άνθη κερασιάς ανθίζουν μόνο για ΔΥΟ ΕΒΔΟΜΑΔΕΣ κάθε χρόνο! Στην Ιαπωνία οι άνθρωποι κάνουν πικνίκ κάτω από τα δέντρα για να το γιορτάσουν — αυτό λέγεται «χανάμι». Το δέντρο μπορεί να ζήσει πάνω από 1.000 χρόνια! 🇯🇵",
         tip: "Jedi Wisdom: Οι όμορφες στιγμές είναι πολύτιμες γιατί δεν κρατούν για πάντα."
       },
       {
-        emoji: "🌿",
-        name: "Μέντα",
+        emoji: "🌿", name: "Μέντα",
         fact: "Η μέντα είναι ένα από τα αρχαιότερα φυτά που χρησιμοποίησαν οι άνθρωποι — πάνω από 10.000 χρόνια! Μεγαλώνει τόσο καλά που μπορεί να καταλάβει ολόκληρο κήπο. Κρατά τα έντομα μακριά με την έντονη μυρωδιά της. 🐛",
         tip: "Jedi Wisdom: Ακόμα και μικρά πράγματα μπορούν να έχουν ισχυρή επίδραση στον κόσμο γύρω τους."
       },
       {
-        emoji: "🌳",
-        name: "Βελανιδιά",
+        emoji: "🌳", name: "Βελανιδιά",
         fact: "Μια βελανιδιά μπορεί να ζήσει πάνω από 1.000 χρόνια! Από ένα μικροσκοπικό βελανίδι μεγαλώνει γιγαντιαίο δέντρο που φτάνει τα 40 μέτρα. Μια μόνο βελανιδιά φιλοξενεί πάνω από 500 είδη εντόμων, πουλιών και ζώων! 🏡",
         tip: "Jedi Wisdom: Τα μεγάλα πράγματα ξεκινούν πάντα από κάτι πολύ μικρό — όπως ένα βελανίδι, ή ένας Padawan."
       }
     ];
 
+    // ── ΔΕΔΟΜΕΝΑ ΔΕΙΝΟΣΑΥΡΩΝ ────────────────────────────
+    const dinos = [
+      {
+        emoji: "🦕", name: "Βροντόσαυρος",
+        fact: "Ζύγιζε όσο 4 ελέφαντες! Έτρωγε 400 κιλά φυτά κάθε μέρα. Ήταν ένα από τα μεγαλύτερα πλάσματα που περπάτησαν ποτέ στη Γη.",
+        tip: "Jedi Wisdom: Ακόμα και οι γίγαντες τρέφονται με υπομονή και επιμονή."
+      },
+      {
+        emoji: "🦖", name: "T-Rex",
+        fact: "Τα χέρια του ήταν πολύ μικρά αλλά η δύναμη του δαγκώματός του ήταν τεράστια! Μπορούσε να σπάσει κόκαλα με μια μόνο δαγκωνιά.",
+        tip: "Jedi Wisdom: Η αληθινή δύναμη δεν φαίνεται πάντα από έξω."
+      },
+      {
+        emoji: "🐉", name: "Τρικεράτωψ",
+        fact: "Τα τρία του κέρατα ήταν για άμυνα — σαν lightsaber! Το κεφάλι του ήταν ένα από τα μεγαλύτερα όλων των ζώων που υπήρξαν ποτέ.",
+        tip: "Jedi Wisdom: Η άμυνα είναι τέχνη, όχι αδυναμία — ο Jedi προστατεύει."
+      },
+      {
+        emoji: "🦎", name: "Βελοσιράπτορας",
+        fact: "Κυνηγούσε σε ομάδες, έξυπνος σαν Jedi! Ήταν μόνο στο μέγεθος μιας γαλοπούλας αλλά εξαιρετικά επικίνδυνος και γρήγορος.",
+        tip: "Jedi Wisdom: Η ομαδική δουλειά και η στρατηγική νικούν πάντα τη μοναχική δύναμη."
+      },
+      {
+        emoji: "🌊", name: "Πλεσιόσαυρος",
+        fact: "Ζούσε στη θάλασσα και είχε λαιμό 6 μέτρων! Χρησιμοποιούσε τα τέσσερα του πτερύγια σαν κουπιά για να κινείται στα βάθη του ωκεανού.",
+        tip: "Jedi Wisdom: Η ευελιξία και η προσαρμογή σε κάνουν αήττητο σε κάθε περιβάλλον."
+      },
+      {
+        emoji: "🪶", name: "Πτερόδακτυλος",
+        fact: "Πετούσε με φτερά 7 μέτρων — μεγαλύτερος από άνθρωπο! Δεν ήταν δεινόσαυρος αλλά συγγενής τους που κυριαρχούσε στους ουρανούς.",
+        tip: "Jedi Wisdom: Τα όνειρά σου μπορούν να πετάξουν ψηλότερα από οτιδήποτε άλλο."
+      }
+    ];
+
+    // ── ΔΕΔΟΜΕΝΑ QUIZ ────────────────────────────────────
+    const quizQuestions = [
+      {
+        question: "Ποιο ζώο έχει 3 καρδιές;",
+        options: ["Δελφίνι", "Χταπόδι", "Ελέφαντας", "Λιοντάρι"],
+        correct: 1
+      },
+      {
+        question: "Ποιο φυτό μεγαλώνει 90 εκ. την ημέρα;",
+        options: ["Ηλίανθος", "Μέντα", "Μπαμπού", "Βελανιδιά"],
+        correct: 2
+      },
+      {
+        question: "Ποιο ζώο αγκαλιάζει με την προβοσκίδα;",
+        options: ["Καμηλοπάρδαλη", "Ελέφαντας", "Λύκος", "Βάτραχος"],
+        correct: 1
+      },
+      {
+        question: "Ποιο φυτό επιβιώνει 2 χρόνια χωρίς βροχή;",
+        options: ["Μέντα", "Ηλίανθος", "Βελανιδιά", "Κάκτος"],
+        correct: 3
+      },
+      {
+        question: "Ποιο ζώο κοιμάται με ένα μάτι ανοιχτό;",
+        options: ["Αετός", "Πεταλούδα", "Δελφίνι", "Παπαγάλος"],
+        correct: 2
+      },
+      {
+        question: "Ποιο ζώο μπορεί να αλλάξει χρώμα σε 1 δευτερόλεπτο;",
+        options: ["Βάτραχος", "Χταπόδι", "Λύκος", "Πεταλούδα"],
+        correct: 1
+      },
+      {
+        question: "Ποιο πουλί φτιάχνει φωλιά 1 τόνου;",
+        options: ["Παπαγάλος", "Πεταλούδα", "Αετός", "Δελφίνι"],
+        correct: 2
+      },
+      {
+        question: "Ποιο άνθος ανθίζει μόνο 2 εβδομάδες τον χρόνο;",
+        options: ["Μέντα", "Άνθη Κερασιάς", "Ηλίανθος", "Μανιτάρι"],
+        correct: 1
+      }
+    ];
+
     // ── ΚΑΤΑΣΤΑΣΗ ────────────────────────────────────────
-    // Αυτές οι μεταβλητές θυμούνται τι κάνει η εφαρμογή αυτή τη στιγμή.
-    let soundEnabled = true;    // Είναι ο ήχος ενεργός;
-    let currentTab = 'animals'; // Σε ποια καρτέλα βρισκόμαστε;
+    let soundEnabled = true;
+    let currentTab = 'animals';
+    let quizCurrentQuestion = 0;
+    let quizScore = 0;
+    let quizAnswered = false;
+    let quizInitialized = false;
 
     // ── WEB AUDIO API ────────────────────────────────────
-    // Αυτό μας επιτρέπει να παράγουμε ήχους ΧΩΡΙΣ να κατεβάσουμε αρχεία!
-    // Είναι ενσωματωμένο στον browser — σαν μαγεία. ✨
     const AudioContext = window.AudioContext || window.webkitAudioContext;
-    let audioCtx = null; // Το δημιουργούμε όταν ο χρήστης αλληλεπιδράσει πρώτα
+    let audioCtx = null;
 
-    // Βεβαιωνόμαστε ότι έχουμε audio context (οι browsers χρειάζονται αλληλεπίδραση χρήστη πρώτα)
     function getAudioCtx() {
-      if (!audioCtx) {
-        audioCtx = new AudioContext();
-      }
+      if (!audioCtx) audioCtx = new AudioContext();
       return audioCtx;
     }
 
-    // Παίξε μια μουσική νότα
-    // frequency = πόσο ΨΗΛΗ είναι η νότα (π.χ. 440 = Λα μεσαία)
-    // duration  = πόσο παίζει (σε δευτερόλεπτα)
-    // type      = πώς φαίνεται το κύμα: 'sine' (ομαλό), 'square' (βουητό)
+    // Βασική νότα — χρησιμοποιείται από τις ειδικές συναρτήσεις ήχου
     function playTone(frequency, duration = 0.18, type = 'sine', volume = 0.25) {
       if (!soundEnabled) return;
       try {
         const ctx = getAudioCtx();
         const oscillator = ctx.createOscillator();
         const gainNode   = ctx.createGain();
-
         oscillator.connect(gainNode);
         gainNode.connect(ctx.destination);
-
-        oscillator.type      = type;
+        oscillator.type = type;
         oscillator.frequency.setValueAtTime(frequency, ctx.currentTime);
-
-        // Σβήσιμο για να μην κλικάρει στο τέλος
         gainNode.gain.setValueAtTime(volume, ctx.currentTime);
         gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
-
         oscillator.start(ctx.currentTime);
         oscillator.stop(ctx.currentTime + duration);
-      } catch (e) {
-        // Αν ο ήχος δεν λειτουργεί, δεν πειράζει — το παραλείπουμε αθόρυβα
-        console.log('Ο ήχος δεν είναι διαθέσιμος:', e);
-      }
+      } catch (e) {}
     }
 
-    // Παίξε μια χαρούμενη συγχορδία εμπνευσμένη από το Star Wars
-    function playSelectSound(isPlant) {
-      if (isPlant) {
-        // Πράσινος / ήχος φυτού — ήρεμες ψηλές νότες του Γιόντα
-        playTone(659, 0.12, 'sine', 0.2);
-        setTimeout(() => playTone(784, 0.18, 'sine', 0.2), 80);
-        setTimeout(() => playTone(988, 0.25, 'sine', 0.15), 180);
-      } else {
-        // Μπλε / ήχος ζώου — αίσθηση ανάφλεξης φωτόσπαθου του Λουκ
-        playTone(440, 0.1, 'sine', 0.2);
-        setTimeout(() => playTone(554, 0.15, 'sine', 0.2), 70);
-        setTimeout(() => playTone(659, 0.22, 'sine', 0.15), 160);
-      }
+    // Ήχος φωτόσπαθου — για κάρτες ζώων (χαμηλός oscillating τόνος ~0.4s)
+    function playLightsaberHum() {
+      if (!soundEnabled) return;
+      try {
+        const ctx = getAudioCtx();
+        const osc  = ctx.createOscillator();
+        const lfo  = ctx.createOscillator();
+        const lfoG = ctx.createGain();
+        const gain = ctx.createGain();
+
+        // LFO δίνει το χαρακτηριστικό «βούισμα» του lightsaber
+        lfo.frequency.value = 7;
+        lfoG.gain.value = 12;
+        lfo.connect(lfoG);
+        lfoG.connect(osc.frequency);
+
+        osc.type = 'sawtooth';
+        osc.frequency.value = 130;
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        gain.gain.setValueAtTime(0.001, ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.28, ctx.currentTime + 0.05);
+        gain.gain.setValueAtTime(0.28, ctx.currentTime + 0.3);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.42);
+
+        lfo.start(ctx.currentTime);
+        osc.start(ctx.currentTime);
+        lfo.stop(ctx.currentTime + 0.42);
+        osc.stop(ctx.currentTime + 0.42);
+      } catch (e) {}
     }
 
-    // Μικρός ήχος «σφύριγμα» κατά την εναλλαγή καρτελών
-    function playTabSound() {
-      playTone(300, 0.08, 'sine', 0.15);
-      setTimeout(() => playTone(500, 0.1, 'sine', 0.12), 60);
+    // Ήχος φύσης — για κάρτες φυτών (απαλοί ψηλοί τόνοι)
+    function playNatureChime() {
+      if (!soundEnabled) return;
+      playTone(784,  0.35, 'sine', 0.15);
+      setTimeout(() => playTone(1047, 0.3,  'sine', 0.12), 130);
+      setTimeout(() => playTone(1319, 0.4,  'sine', 0.1),  270);
     }
 
-    // Εναλλαγή ήχου ανοιχτό ή κλειστό
+    // Ήχος «βρυχηθμός» — για κάρτες δεινόσαυρων
+    function playDinoSound() {
+      if (!soundEnabled) return;
+      try {
+        const ctx = getAudioCtx();
+        const osc  = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(100, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(45, ctx.currentTime + 0.5);
+        gain.gain.setValueAtTime(0.3, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.55);
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + 0.55);
+      } catch (e) {}
+    }
+
+    // R2-D2 χαρούμενα μπιπ — για σωστή απάντηση στο quiz
+    function playCorrectSound() {
+      if (!soundEnabled) return;
+      playTone(880,  0.08, 'sine', 0.25);
+      setTimeout(() => playTone(1100, 0.08, 'sine', 0.25), 130);
+      setTimeout(() => playTone(1320, 0.14, 'sine', 0.3),  260);
+    }
+
+    // Droid malfunction — για λάθος απάντηση στο quiz (κατεβαίνουσα βουητή)
+    function playWrongSound() {
+      if (!soundEnabled) return;
+      playTone(300, 0.12, 'square', 0.2);
+      setTimeout(() => playTone(220, 0.12, 'square', 0.2), 130);
+      setTimeout(() => playTone(150, 0.18, 'square', 0.15), 260);
+    }
+
+    // Whoosh — για εναλλαγή καρτελών
+    function playTabWhoosh() {
+      if (!soundEnabled) return;
+      try {
+        const ctx = getAudioCtx();
+        const osc  = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(600, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(180, ctx.currentTime + 0.18);
+        gain.gain.setValueAtTime(0.18, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + 0.18);
+      } catch (e) {}
+    }
+
+    // Dispatcher: παίζει τον σωστό ήχο ανάλογα με τον τύπο κάρτας
+    function playCardSound(type) {
+      if (type === 'plant') playNatureChime();
+      else if (type === 'dino') playDinoSound();
+      else playLightsaberHum();
+    }
+
+    // Εναλλαγή ήχου ανοιχτό/κλειστό
     function toggleSound() {
       soundEnabled = !soundEnabled;
-      const btn = document.getElementById('sound-btn');
-      btn.textContent = soundEnabled ? '🔊 Ήχοι: ΕΝΕΡΓΟΙ' : '🔇 Ήχοι: ΑΝΕΝΕΡΓΟΙ';
+      document.getElementById('sound-btn').textContent =
+        soundEnabled ? '🔊 Ήχοι: ΕΝΕΡΓΟΙ' : '🔇 Ήχοι: ΑΝΕΝΕΡΓΟΙ';
       if (soundEnabled) playTone(440, 0.1);
     }
 
     // ── ΔΗΜΙΟΥΡΓΙΑ ΚΑΡΤΩΝ ────────────────────────────────
-    // Αυτή η συνάρτηση δημιουργεί τις κλικάρισιμες κάρτες από τα δεδομένα μας.
-    // Είναι σαν ένα εργοστάσιο: δίνεις δεδομένα, χτίζει κάρτες HTML.
     function buildGrid(items, type, containerId) {
       const container = document.getElementById(containerId);
-      container.innerHTML = ''; // Καθαρισμός πρώτα
+      container.innerHTML = '';
 
       items.forEach((item, index) => {
-        // Δημιουργία στοιχείου <div> για την κάρτα
         const card = document.createElement('div');
         card.className = `card ${type}`;
-
-        // Τοποθέτηση emoji και ονόματος μέσα στην κάρτα
         card.innerHTML = `
           <span class="card-emoji">${item.emoji}</span>
           <div class="card-name">${item.name.toUpperCase()}</div>
         `;
 
-        // Τι συμβαίνει όταν ο Ναπολέων κλικάρει μια κάρτα:
         card.addEventListener('click', () => {
-          showFact(item, type === 'plant');
-
-          // Αφαίρεση επισήμανσης από όλες τις κάρτες
+          showFact(item, type);
           document.querySelectorAll('.card').forEach(c => c.style.outline = '');
-          // Επισήμανση της κάρτας που κλικαρίστηκε
-          card.style.outline = `2px solid ${type === 'plant' ? '#4f8' : '#4af'}`;
+          const outlineColor = type === 'plant' ? '#4f8' : type === 'dino' ? '#c084fc' : '#4af';
+          card.style.outline = `2px solid ${outlineColor}`;
         });
 
-        // Μικρή καθυστέρηση για να εμφανίζονται οι κάρτες μία-μία
         card.style.animationDelay = `${index * 40}ms`;
-
         container.appendChild(card);
       });
     }
 
     // ── ΕΜΦΑΝΙΣΗ ΠΑΝΕΛ ΓΕΓΟΝΟΤΟΣ ────────────────────────
-    // Όταν ο Ναπολέων κλικάρει μια κάρτα, αυτό συμπληρώνει το πάνελ γεγονότος.
-    function showFact(item, isPlant) {
+    function showFact(item, type) {
       const panel = document.getElementById('fact-panel');
-
       document.getElementById('fact-emoji').textContent = item.emoji;
       document.getElementById('fact-name').textContent  = item.name;
       document.getElementById('fact-text').textContent  = item.fact;
       document.getElementById('fact-tip').textContent   = item.tip;
 
-      // Αλλαγή χρώματος πλαισίου ανάλογα με Ζώα (μπλε) ή Φυτά (πράσινο)
-      panel.style.borderColor = isPlant ? '#4f8' : '#4af';
-      panel.style.boxShadow   = isPlant
-        ? '0 0 28px #4f844, inset 0 0 30px rgba(68,255,136,0.03)'
-        : '0 0 28px #4af44, inset 0 0 30px rgba(68,170,255,0.03)';
+      if (type === 'dino') {
+        panel.style.borderColor = '#c084fc';
+        panel.style.boxShadow   = '0 0 28px #c084fc44, inset 0 0 30px rgba(192,132,252,0.03)';
+      } else if (type === 'plant') {
+        panel.style.borderColor = '#4f8';
+        panel.style.boxShadow   = '0 0 28px #4f844, inset 0 0 30px rgba(68,255,136,0.03)';
+      } else {
+        panel.style.borderColor = '#4af';
+        panel.style.boxShadow   = '0 0 28px #4af44, inset 0 0 30px rgba(68,170,255,0.03)';
+      }
 
-      // Εμφάνιση του πάνελ (ήταν κρυμμένο πριν)
       panel.style.display = 'block';
-
-      // Αναπαραγωγή ήχου! 🎵
-      playSelectSound(isPlant);
-
-      // Ομαλή κύλιση στο πάνελ γεγονότος για να το διαβάσει ο Ναπολέων εύκολα
+      playCardSound(type);
       setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
     }
 
     // ── ΕΝΑΛΛΑΓΗ ΚΑΡΤΕΛΩΝ ────────────────────────────────
-    // Εμφανίζει είτε το πλέγμα Ζώων είτε το πλέγμα Φυτών.
     function showTab(tab) {
       currentTab = tab;
-      playTabSound();
+      playTabWhoosh();
 
-      const animalsGrid = document.getElementById('animals-grid');
-      const plantsGrid  = document.getElementById('plants-grid');
-      const animalBtn   = document.querySelector('.tab-btn.animals');
-      const plantBtn    = document.querySelector('.tab-btn.plants');
+      // Απόκρυψη όλων
+      ['animals-grid', 'plants-grid', 'dinos-grid'].forEach(id =>
+        document.getElementById(id).classList.add('hidden')
+      );
+      document.getElementById('quiz-section').classList.add('hidden');
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
 
+      // Εμφάνιση της επιλεγμένης καρτέλας
       if (tab === 'animals') {
-        animalsGrid.classList.remove('hidden');
-        plantsGrid.classList.add('hidden');
-        animalBtn.classList.add('active');
-        plantBtn.classList.remove('active');
-      } else {
-        plantsGrid.classList.remove('hidden');
-        animalsGrid.classList.add('hidden');
-        plantBtn.classList.add('active');
-        animalBtn.classList.remove('active');
+        document.getElementById('animals-grid').classList.remove('hidden');
+        document.querySelector('.tab-btn.animals').classList.add('active');
+      } else if (tab === 'plants') {
+        document.getElementById('plants-grid').classList.remove('hidden');
+        document.querySelector('.tab-btn.plants').classList.add('active');
+      } else if (tab === 'dinos') {
+        document.getElementById('dinos-grid').classList.remove('hidden');
+        document.querySelector('.tab-btn.dino').classList.add('active');
+      } else if (tab === 'quiz') {
+        document.getElementById('quiz-section').classList.remove('hidden');
+        document.querySelector('.tab-btn.quiz').classList.add('active');
+        if (!quizInitialized) {
+          quizInitialized = true;
+          startQuiz();
+        }
       }
 
-      // Απόκρυψη πάνελ γεγονότος κατά την εναλλαγή καρτελών
+      // Απόκρυψη πάνελ γεγονότος
       document.getElementById('fact-panel').style.display = 'none';
       document.querySelectorAll('.card').forEach(c => c.style.outline = '');
     }
 
-    // ── ΕΚΚΙΝΗΣΗ ΟΛΩΝ ───────────────────────────────────
-    // Αυτό εκτελείται όταν η σελίδα φορτώνει για πρώτη φορά — σαν να πατάς PLAY.
+    // ── QUIZ ΛΟΓΙΚΗ ──────────────────────────────────────
+    function startQuiz() {
+      quizCurrentQuestion = 0;
+      quizScore = 0;
+      quizAnswered = false;
+      document.getElementById('quiz-result').classList.add('hidden');
+      document.getElementById('quiz-gameplay').classList.remove('hidden');
+      showQuizQuestion();
+    }
+
+    function showQuizQuestion() {
+      if (quizCurrentQuestion >= quizQuestions.length) {
+        showQuizResult();
+        return;
+      }
+
+      quizAnswered = false;
+      const q = quizQuestions[quizCurrentQuestion];
+
+      document.getElementById('quiz-progress').textContent =
+        `Ερώτηση ${quizCurrentQuestion + 1} από ${quizQuestions.length}`;
+      document.getElementById('quiz-score-display').textContent =
+        `Σκορ: ${quizScore}`;
+      document.getElementById('quiz-question-text').textContent = q.question;
+
+      const container = document.getElementById('quiz-options-container');
+      container.innerHTML = '';
+
+      q.options.forEach((option, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'quiz-option-btn';
+        btn.textContent = option;
+        btn.addEventListener('click', () => handleQuizAnswer(index, q.correct));
+        container.appendChild(btn);
+      });
+    }
+
+    function handleQuizAnswer(selectedIndex, correctIndex) {
+      if (quizAnswered) return;
+      quizAnswered = true;
+
+      const buttons = document.querySelectorAll('.quiz-option-btn');
+
+      if (selectedIndex === correctIndex) {
+        buttons[selectedIndex].classList.add('correct');
+        quizScore++;
+        playCorrectSound();
+      } else {
+        buttons[selectedIndex].classList.add('wrong');
+        buttons[correctIndex].classList.add('correct');
+        playWrongSound();
+      }
+
+      buttons.forEach(btn => btn.disabled = true);
+
+      setTimeout(() => {
+        quizCurrentQuestion++;
+        showQuizQuestion();
+      }, 1500);
+    }
+
+    function showQuizResult() {
+      document.getElementById('quiz-gameplay').classList.add('hidden');
+      document.getElementById('quiz-result').classList.remove('hidden');
+
+      let rank;
+      if (quizScore === 8)      rank = "Grand Master Jedi! 🌟";
+      else if (quizScore >= 6)  rank = "Jedi Knight! ⚔️";
+      else if (quizScore >= 4)  rank = "Jedi Padawan! 💚";
+      else                      rank = "Young Padawan, συνέχισε να μαθαίνεις! 💚";
+
+      document.getElementById('quiz-final-score').textContent = `${quizScore} / ${quizQuestions.length}`;
+      document.getElementById('quiz-rank').textContent = rank;
+    }
+
+    // ── LEGO BUILDER ─────────────────────────────────────
+    const legoColors = [
+      { name: 'Κόκκινο',   color: '#e3000f' },
+      { name: 'Μπλε',      color: '#006db7' },
+      { name: 'Κίτρινο',   color: '#ffd700' },
+      { name: 'Πράσινο',   color: '#00a650' },
+      { name: 'Λευκό',     color: '#f0f0f0' },
+      { name: 'Μαύρο',     color: '#1a1a1a' },
+      { name: 'Πορτοκαλί', color: '#f97316' },
+      { name: 'Γόμα',      color: 'eraser'  }
+    ];
+
+    let selectedLegoColor = legoColors[0].color;
+    let isLegoDragging = false;
+
+    function toggleLegoBuilder() {
+      const builder = document.getElementById('lego-builder');
+      const btn     = document.getElementById('lego-toggle-btn');
+      const isHidden = builder.classList.contains('hidden');
+
+      if (isHidden) {
+        builder.classList.remove('hidden');
+        btn.textContent = '🧱 Κλείσε τον Builder';
+        initLegoBuilder();
+      } else {
+        builder.classList.add('hidden');
+        btn.textContent = '🧱 Χτίσε με LEGO!';
+      }
+    }
+
+    function initLegoBuilder() {
+      // Παλέτα χρωμάτων
+      const palette = document.getElementById('lego-palette');
+      palette.innerHTML = '';
+      legoColors.forEach((colorObj, i) => {
+        const swatch = document.createElement('div');
+        swatch.className = 'palette-color' + (i === 0 ? ' selected' : '');
+        swatch.title = colorObj.name;
+
+        if (colorObj.color === 'eraser') {
+          // Γόμα: διαγώνιο μοτίβο
+          swatch.style.background = 'repeating-linear-gradient(45deg,#555 0px,#555 4px,#222 4px,#222 8px)';
+          swatch.innerHTML = '<span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1rem;pointer-events:none;">✕</span>';
+          swatch.style.position = 'relative';
+        } else {
+          swatch.style.background = colorObj.color;
+        }
+
+        swatch.addEventListener('click', () => {
+          document.querySelectorAll('.palette-color').forEach(s => s.classList.remove('selected'));
+          swatch.classList.add('selected');
+          selectedLegoColor = colorObj.color;
+        });
+        palette.appendChild(swatch);
+      });
+
+      // Πλέγμα 10x8
+      const grid = document.getElementById('lego-grid');
+      grid.innerHTML = '';
+      for (let i = 0; i < 80; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'lego-cell';
+
+        cell.addEventListener('mousedown', (e) => {
+          isLegoDragging = true;
+          paintLegoCell(cell);
+          e.preventDefault();
+        });
+        cell.addEventListener('mouseover', () => {
+          if (isLegoDragging) paintLegoCell(cell);
+        });
+        cell.addEventListener('touchstart', (e) => {
+          paintLegoCell(cell);
+          e.preventDefault();
+        }, { passive: false });
+        cell.addEventListener('touchmove', (e) => {
+          const t = e.touches[0];
+          const elem = document.elementFromPoint(t.clientX, t.clientY);
+          if (elem && elem.classList.contains('lego-cell')) paintLegoCell(elem);
+          e.preventDefault();
+        }, { passive: false });
+
+        grid.appendChild(cell);
+      }
+
+      document.addEventListener('mouseup', () => { isLegoDragging = false; });
+    }
+
+    function paintLegoCell(cell) {
+      if (selectedLegoColor === 'eraser') {
+        cell.style.background    = '';
+        cell.style.borderColor   = 'rgba(255,255,255,0.1)';
+        cell.style.boxShadow     = '';
+      } else {
+        cell.style.background    = selectedLegoColor;
+        cell.style.borderColor   = 'rgba(0,0,0,0.35)';
+        cell.style.boxShadow     = `inset 0 -2px 4px rgba(0,0,0,0.3), inset 0 2px 4px rgba(255,255,255,0.15)`;
+      }
+    }
+
+    function clearLegoGrid() {
+      document.querySelectorAll('.lego-cell').forEach(cell => {
+        cell.style.background  = '';
+        cell.style.borderColor = 'rgba(255,255,255,0.1)';
+        cell.style.boxShadow   = '';
+      });
+    }
+
+    // ── ΕΚΚΙΝΗΣΗ ────────────────────────────────────────
     buildGrid(animals, 'animal', 'animals-grid');
     buildGrid(plants,  'plant',  'plants-grid');
+    buildGrid(dinos,   'dino',   'dinos-grid');
 
   </script>
 </body>
