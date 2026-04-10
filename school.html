@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jedi Ακαδημία Ναπολέων 🎓⚔️</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@400;600&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0a0015;
+      background-image:
+        radial-gradient(ellipse at top, #1a0035 0%, #0a0015 60%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Ccircle cx='50' cy='80' r='1.2' fill='white' opacity='0.8'/%3E%3Ccircle cx='120' cy='30' r='0.8' fill='white' opacity='0.6'/%3E%3Ccircle cx='200' cy='110' r='1.5' fill='white' opacity='0.9'/%3E%3Ccircle cx='310' cy='60' r='1' fill='white' opacity='0.7'/%3E%3Ccircle cx='370' cy='150' r='0.7' fill='white' opacity='0.5'/%3E%3Ccircle cx='80' cy='200' r='1.3' fill='white' opacity='0.8'/%3E%3Ccircle cx='250' cy='250' r='1' fill='white' opacity='0.6'/%3E%3Ccircle cx='160' cy='320' r='0.9' fill='white' opacity='0.7'/%3E%3Ccircle cx='340' cy='280' r='1.2' fill='white' opacity='0.9'/%3E%3Ccircle cx='30' cy='350' r='0.8' fill='white' opacity='0.5'/%3E%3Ccircle cx='390' cy='370' r='1.1' fill='white' opacity='0.7'/%3E%3Ccircle cx='220' cy='390' r='0.7' fill='white' opacity='0.6'/%3E%3C/svg%3E");
+      font-family: 'Exo 2', 'Arial', sans-serif;
+      color: #e8e8ff;
+      min-height: 100vh;
+      padding: 16px;
+      overflow-x: hidden;
+    }
+
+    /* ── Κεφαλίδα ── */
+    header { text-align: center; padding: 24px 12px 16px; }
+
+    .welcome-text {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1rem, 4vw, 1.4rem);
+      color: #ffe81f;
+      text-shadow: 0 0 12px #ffe81f88;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.4rem, 6vw, 2.6rem);
+      background: linear-gradient(90deg, #4af, #ffe81f, #4f8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: clamp(0.8rem, 2.5vw, 1.05rem);
+      color: #88aaff;
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    /* ── Διαχωριστής φωτόσπαθου ── */
+    .lightsaber {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 18px auto;
+      max-width: 600px;
+    }
+    .saber-line { flex: 1; height: 3px; border-radius: 2px; box-shadow: 0 0 8px currentColor; }
+    .saber-line.blue  { background: #4af; color: #4af; }
+    .saber-line.green { background: #4f8; color: #4f8; }
+    .saber-handle { font-size: 1.4rem; }
+
+    /* ── Καρτέλες τάξεων ── */
+    .grade-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+
+    .grade-tab-btn {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.7rem, 2.2vw, 0.9rem);
+      padding: 10px 20px;
+      border: 2px solid #4af;
+      border-radius: 30px;
+      cursor: pointer;
+      background: transparent;
+      color: #4af;
+      transition: all 0.25s;
+      letter-spacing: 1px;
+    }
+    .grade-tab-btn:hover {
+      background: #4af22; color: #4af; box-shadow: 0 0 14px #4af44;
+    }
+    .grade-tab-btn.active {
+      background: #4af; color: #000; box-shadow: 0 0 18px #4af;
+    }
+
+    /* ── Περιεχόμενο τάξης ── */
+    .grade-content { display: none; max-width: 860px; margin: 0 auto 32px; }
+    .grade-content.active { display: block; animation: fadeIn 0.3s ease; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Ενότητα (Στην Τάξη / Wordwall) ── */
+    .section-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+      color: #ffe81f;
+      text-align: center;
+      margin: 24px 0 14px;
+      text-shadow: 0 0 10px #ffe81f55;
+      letter-spacing: 1px;
+    }
+
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .link-card {
+      background: rgba(255,255,255,0.04);
+      border: 1.5px solid rgba(68,170,255,0.25);
+      border-radius: 18px;
+      padding: 20px 18px 16px;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .link-card:hover {
+      transform: translateY(-4px);
+      border-color: #4af;
+      box-shadow: 0 0 22px #4af44;
+    }
+
+    .link-card.wordwall {
+      border-color: rgba(159,212,68,0.25);
+    }
+    .link-card.wordwall:hover {
+      border-color: #9fd444;
+      box-shadow: 0 0 22px #9fd44444;
+    }
+
+    .link-emoji { font-size: 2.4rem; line-height: 1; }
+
+    .link-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.82rem;
+      color: #ffe81f;
+      letter-spacing: 1px;
+      line-height: 1.3;
+    }
+
+    .link-desc {
+      font-size: 0.82rem;
+      color: #aabbdd;
+      line-height: 1.4;
+    }
+
+    .link-btn {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 8px 20px;
+      border: 1.5px solid #4af;
+      color: #4af;
+      background: transparent;
+      border-radius: 20px;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.82rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .link-btn:hover { background: #4af; color: #000; box-shadow: 0 0 12px #4af; }
+    .link-card.wordwall .link-btn { border-color: #9fd444; color: #9fd444; }
+    .link-card.wordwall .link-btn:hover { background: #9fd444; color: #000; box-shadow: 0 0 12px #9fd444; }
+
+    /* ── Υποσέλιδο ── */
+    footer {
+      text-align: center;
+      padding: 28px 10px 36px;
+      font-size: 0.82rem;
+      color: #556;
+    }
+
+    .footer-back {
+      display: inline-block;
+      padding: 8px 22px;
+      border: 1.5px solid #4af;
+      color: #4af;
+      text-decoration: none;
+      border-radius: 20px;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 1px;
+      transition: all 0.2s;
+      margin-bottom: 18px;
+    }
+    .footer-back:hover { background: #4af; color: #000; box-shadow: 0 0 14px #4af; }
+
+    .force-quote {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.7rem, 2vw, 0.92rem);
+      color: #ffe81f;
+      text-shadow: 0 0 10px #ffe81f66;
+      letter-spacing: 1px;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================================================
+       ΚΕΦΑΛΙΔΑ
+  ================================================ -->
+  <header>
+    <p class="welcome-text">⚔️ ΚΑΛΩΣ ΗΡΘΕΣ, PADAWAN NAPOLEON! ⚔️</p>
+    <h1>🎓 Η Jedi Ακαδημία του Ναπολέων ⚔️</h1>
+    <p class="subtitle">Καλώς ήρθες, Padawan Napoleon!<br>Διάλεξε την τάξη σου για να ξεκινήσεις την εκπαίδευσή σου! ⚔️</p>
+  </header>
+
+  <div class="lightsaber">
+    <div class="saber-line blue"></div>
+    <span class="saber-handle">🔵</span>
+    <div class="saber-line green"></div>
+  </div>
+
+  <!-- ================================================
+       ΚΑΡΤΕΛΕΣ ΤΑΞΕΩΝ
+  ================================================ -->
+  <div class="grade-tabs">
+    <button class="grade-tab-btn active" onclick="showGrade('a')">Α' Δημοτικού</button>
+    <button class="grade-tab-btn"        onclick="showGrade('b')">Β' Δημοτικού</button>
+    <button class="grade-tab-btn"        onclick="showGrade('c')">Γ' Δημοτικού</button>
+    <button class="grade-tab-btn"        onclick="showGrade('d')">Δ' Δημοτικού</button>
+    <button class="grade-tab-btn"        onclick="showGrade('e')">Ε' Δημοτικού</button>
+    <button class="grade-tab-btn"        onclick="showGrade('st')">ΣΤ' Δημοτικού</button>
+  </div>
+
+  <!-- ================================================
+       Α' ΔΗΜΟΤΙΚΟΥ
+  ================================================ -->
+  <div class="grade-content active" id="grade-a">
+    <div class="section-title">📚 Στην Τάξη !!!</div>
+    <div class="links-grid">
+      <div class="link-card">
+        <div class="link-emoji">📚</div>
+        <div class="link-title">Α' Τάξη — Όλα τα μαθήματα</div>
+        <div class="link-desc">Γλώσσα, Μαθηματικά, Μελέτη και άλλα!</div>
+        <a class="link-btn" href="https://www.stintaxi.com/alpha-tau940xieta.html" target="_blank" rel="noopener">▶ Παίξε τώρα!</a>
+      </div>
+    </div>
+
+    <div class="section-title">🎮 Wordwall</div>
+    <div class="links-grid">
+      <div class="link-card wordwall">
+        <div class="link-emoji">🎮</div>
+        <div class="link-title">Παιχνίδια Α' Δημοτικού</div>
+        <div class="link-desc">Εκατοντάδες διαδραστικά παιχνίδια!</div>
+        <a class="link-btn" href="https://wordwall.net/el-gr/community/%CE%B1-%CE%B4%CE%B7%CE%BC%CE%BF%CF%84%CE%B9%CE%BA%CE%BF%CF%85" target="_blank" rel="noopener">▶ Παίξε τώρα!</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================
+       Β' ΔΗΜΟΤΙΚΟΥ
+  ================================================ -->
+  <div class="grade-content" id="grade-b">
+    <div class="section-title">📚 Στην Τάξη !!!</div>
+    <div class="links-grid">
+      <div class="link-card">
+        <div class="link-emoji">📚</div>
+        <div class="link-title">Β' Τάξη — Όλα τα μαθήματα</div>
+        <div class="link-desc">Γλώσσα, Μαθηματικά, Μελέτη και άλλα!</div>
+        <a class="link-btn" href="https://www.stintaxi.com/beta-tau940xieta.html" target="_blank" rel="noopener">▶ Παίξε τώρα!</a>
+      </div>
+    </div>
+
+    <div class="section-title">🎮 Wordwall</div>
+    <div class="links-grid">
+      <div class="link-card wordwall">
+        <div class="link-emoji">🎮</div>
+        <div class="link-title">Παιχνίδια Β' Δημοτικού</div>
+        <div class="link-desc">Εκατοντάδες διαδραστικά παιχνίδια!</div>
+        <a class="link-btn" href="https://wordwall.net/el-gr/community/%CE%B2-%CE%B4%CE%B7%CE%BC%CE%BF%CF%84%CE%B9%CE%BA%CE%BF%CF%85" target="_blank" rel="noopener">▶ Παίξε τώρα!</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================
+       Γ' ΔΗΜΟΤΙΚΟΥ
+  ================================================ -->
+  <div class="grade-content" id="grade-c">
+    <div class="section-title">📚 Στην Τάξη !!!</div>
+    <div class="links-grid">
+      <div class="link-card">
+        <div class="link-emoji">📚</div>
+        <div class="link-title">Γ' Τάξη — Όλα τα μαθήματα</div>
+        <div class="link-desc">Γλώσσα, Μαθηματικά, Ιστορία και άλλα!</div>
+        <a class="link-btn" href="https://www.stintaxi.com/gamma-tau940xieta.html" target="_blank" rel="noopener">▶ Παίξε τώρα!</a>
+      </div>
+    </div>
+
+    <div class="section-title">🎮 Wordwall</div>
+    <div class="links-grid">
+      <div class="link-card wordwall">
+        <div class="link-emoji">🎮</div>
+        <div class="link-title">Παιχνίδια Γ' Δημοτικού</div>
+        <div class="link-desc">Εκατοντάδες διαδραστικά παιχνίδια!</div>
+        <a class="link-btn" href="https://wordwall.net/el-gr/community/%CE%B3-%CE%B4%CE%B7%CE%BC%CE%BF%CF%84%CE%B9%CE%BA%CE%BF%CF%85" target="_blank" rel="noopener">▶ Παίξε τώρα!</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================
+       Δ' ΔΗΜΟΤΙΚΟΥ
+  ================================================ -->
+  <div class="grade-content" id="grade-d">
+    <div class="section-title">📚 Στην Τάξη !!!</div>
+    <div class="links-grid">
+      <div class="link-card">
+        <div class="link-emoji">📚</div>
+        <div class="link-title">Δ' Τάξη — Όλα τα μαθήματα</div>
+        <div class="link-desc">Γλώσσα, Μαθηματικά, Ιστορία και άλλα!</div>
+        <a class="link-btn" href="https://www.stintaxi.com/delta-tau940xieta.html" target="_blank" rel="noopener">▶ Παίξε τώρα!</a>
+      </div>
+    </div>
+
+    <div class="section-title">🎮 Wordwall</div>
+    <div class="links-grid">
+      <div class="link-card wordwall">
+        <div class="link-emoji">🎮</div>
+        <div class="link-title">Παιχνίδια Δ' Δημοτικού</div>
+        <div class="link-desc">Εκατοντάδες διαδραστικά παιχνίδια!</div>
+        <a class="link-btn" href="https://wordwall.net/el-gr/community/%CE%B4-%CE%B4%CE%B7%CE%BC%CE%BF%CF%84%CE%B9%CE%BA%CE%BF%CF%85" target="_blank" rel="noopener">▶ Παίξε τώρα!</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================
+       Ε' ΔΗΜΟΤΙΚΟΥ
+  ================================================ -->
+  <div class="grade-content" id="grade-e">
+    <div class="section-title">📚 Στην Τάξη !!!</div>
+    <div class="links-grid">
+      <div class="link-card">
+        <div class="link-emoji">📚</div>
+        <div class="link-title">Ε' Τάξη — Όλα τα μαθήματα</div>
+        <div class="link-desc">Γλώσσα, Μαθηματικά, Ιστορία και άλλα!</div>
+        <a class="link-btn" href="https://www.stintaxi.com/epsilon-tau940xieta.html" target="_blank" rel="noopener">▶ Παίξε τώρα!</a>
+      </div>
+    </div>
+
+    <div class="section-title">🎮 Wordwall</div>
+    <div class="links-grid">
+      <div class="link-card wordwall">
+        <div class="link-emoji">🎮</div>
+        <div class="link-title">Παιχνίδια Ε' Δημοτικού</div>
+        <div class="link-desc">Εκατοντάδες διαδραστικά παιχνίδια!</div>
+        <a class="link-btn" href="https://wordwall.net/el-gr/community/%CE%B5-%CE%B4%CE%B7%CE%BC%CE%BF%CF%84%CE%B9%CE%BA%CE%BF%CF%85" target="_blank" rel="noopener">▶ Παίξε τώρα!</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================
+       ΣΤ' ΔΗΜΟΤΙΚΟΥ
+  ================================================ -->
+  <div class="grade-content" id="grade-st">
+    <div class="section-title">📚 Στην Τάξη !!!</div>
+    <div class="links-grid">
+      <div class="link-card">
+        <div class="link-emoji">📚</div>
+        <div class="link-title">ΣΤ' Τάξη — Όλα τα μαθήματα</div>
+        <div class="link-desc">Γλώσσα, Μαθηματικά, Ιστορία και άλλα!</div>
+        <a class="link-btn" href="https://www.stintaxi.com/sigmatau-tau940xieta.html" target="_blank" rel="noopener">▶ Παίξε τώρα!</a>
+      </div>
+    </div>
+
+    <div class="section-title">🎮 Wordwall</div>
+    <div class="links-grid">
+      <div class="link-card wordwall">
+        <div class="link-emoji">🎮</div>
+        <div class="link-title">Παιχνίδια ΣΤ' Δημοτικού</div>
+        <div class="link-desc">Εκατοντάδες διαδραστικά παιχνίδια!</div>
+        <a class="link-btn" href="https://wordwall.net/el-gr/community/%CF%83%CF%84-%CE%B4%CE%B7%CE%BC%CE%BF%CF%84%CE%B9%CE%BA%CE%BF%CF%85" target="_blank" rel="noopener">▶ Παίξε τώρα!</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================
+       ΥΠΟΣΕΛΙΔΟ
+  ================================================ -->
+  <footer>
+    <a class="footer-back" href="index.html">🏠 Πίσω στην Εγκυκλοπαίδεια</a>
+    <br>
+    <p class="force-quote">✨ Η Δύναμη της γνώσης να είναι μαζί σου, Padawan Napoleon! ✨</p>
+  </footer>
+
+  <script>
+    function showGrade(grade) {
+      document.querySelectorAll('.grade-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.grade-tab-btn').forEach(btn => btn.classList.remove('active'));
+
+      document.getElementById('grade-' + grade).classList.add('active');
+
+      const btns = document.querySelectorAll('.grade-tab-btn');
+      const order = ['a', 'b', 'c', 'd', 'e', 'st'];
+      btns[order.indexOf(grade)].classList.add('active');
+    }
+  </script>
+</body>
+</html>

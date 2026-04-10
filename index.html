@@ -412,6 +412,154 @@
     }
     #sound-btn:hover { background: #9f4; color: #000; box-shadow: 0 0 12px #9f4; }
 
+    /* ── LEGO Save/Load ── */
+    .lego-save-area {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+    }
+    .lego-save-btn {
+      padding: 8px 18px;
+      background: transparent;
+      border: 1.5px solid #ffe81f;
+      color: #ffe81f;
+      border-radius: 20px;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lego-save-btn:hover { background: #ffe81f; color: #000; box-shadow: 0 0 12px #ffe81f; }
+    .lego-load-btn {
+      padding: 8px 18px;
+      background: transparent;
+      border: 1.5px solid #4af;
+      color: #4af;
+      border-radius: 20px;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lego-load-btn:hover { background: #4af; color: #000; box-shadow: 0 0 12px #4af; }
+    .lego-counter {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.75rem;
+      color: #f97316;
+      letter-spacing: 1px;
+      width: 100%;
+      text-align: center;
+      margin-top: 4px;
+    }
+    .lego-save-input-area {
+      display: none;
+      margin-top: 12px;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .lego-save-input-area.open { display: flex; }
+    .lego-name-input {
+      background: rgba(255,255,255,0.07);
+      border: 1.5px solid #ffe81f;
+      border-radius: 10px;
+      color: #fff;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.9rem;
+      padding: 8px 14px;
+      width: 100%;
+      max-width: 320px;
+      outline: none;
+    }
+    .lego-name-input::placeholder { color: #888; }
+    .lego-confirm-save-btn {
+      padding: 8px 22px;
+      background: #ffe81f;
+      border: none;
+      border-radius: 20px;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.85rem;
+      color: #000;
+      cursor: pointer;
+      font-weight: 600;
+      transition: box-shadow 0.2s;
+    }
+    .lego-confirm-save-btn:hover { box-shadow: 0 0 14px #ffe81f; }
+    .lego-load-panel {
+      display: none;
+      margin-top: 16px;
+      background: rgba(0,0,10,0.6);
+      border: 1.5px solid #4af;
+      border-radius: 14px;
+      padding: 16px;
+      max-height: 420px;
+      overflow-y: auto;
+      text-align: left;
+    }
+    .lego-load-panel.open { display: block; }
+    .lego-load-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.8rem;
+      color: #4af;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .lego-save-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(68,170,255,0.2);
+      margin-bottom: 8px;
+      background: rgba(68,170,255,0.04);
+    }
+    .lego-thumb {
+      display: grid;
+      grid-template-columns: repeat(10, 4px);
+      gap: 0.5px;
+      flex-shrink: 0;
+    }
+    .lego-thumb-cell { width: 4px; height: 4px; border-radius: 0.5px; }
+    .lego-save-info { flex: 1; min-width: 0; }
+    .lego-save-name {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.72rem;
+      color: #ffe81f;
+      margin-bottom: 3px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .lego-save-date { font-size: 0.7rem; color: #668; }
+    .lego-load-design-btn {
+      padding: 5px 12px;
+      background: transparent;
+      border: 1.5px solid #4af;
+      color: #4af;
+      border-radius: 14px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .lego-load-design-btn:hover { background: #4af; color: #000; }
+    .lego-delete-btn {
+      padding: 5px 10px;
+      background: transparent;
+      border: 1.5px solid #f44;
+      color: #f44;
+      border-radius: 14px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .lego-delete-btn:hover { background: #f44; color: #fff; }
+    .lego-empty-msg { text-align: center; color: #668; font-size: 0.85rem; padding: 12px; }
+
     .hidden { display: none !important; }
 
     /* ── Υποσέλιδο ── */
@@ -503,6 +651,26 @@
       <div class="lego-palette" id="lego-palette"></div>
       <div class="lego-grid" id="lego-grid"></div>
       <button class="lego-clear-btn" onclick="clearLegoGrid()">🗑️ Καθαρισμός</button>
+
+      <!-- Αποθήκευση / Φόρτωση -->
+      <div class="lego-save-area">
+        <button class="lego-save-btn" onclick="toggleLegoSaveInput()">💾 Αποθήκευση</button>
+        <button class="lego-load-btn" onclick="toggleLegoLoadPanel()">📂 Φόρτωση</button>
+        <div class="lego-counter" id="lego-counter">0/345 αποθηκευμένα 🧱</div>
+      </div>
+
+      <!-- Πεδίο ονόματος αποθήκευσης -->
+      <div class="lego-save-input-area" id="lego-save-input-area">
+        <input class="lego-name-input" id="lego-design-name" type="text"
+               placeholder="π.χ. Διαστημόπλοιο του Napoleon" maxlength="50" />
+        <button class="lego-confirm-save-btn" onclick="confirmLegoSave()">💾 Αποθήκευσε!</button>
+      </div>
+
+      <!-- Πάνελ φόρτωσης -->
+      <div class="lego-load-panel" id="lego-load-panel">
+        <div class="lego-load-title">📂 Αποθηκευμένες Δημιουργίες</div>
+        <div id="lego-saves-list"></div>
+      </div>
     </div>
   </div>
 
@@ -511,6 +679,12 @@
   ================================================ -->
   <footer>
     Φτιαγμένο με 💙 για τον <span>Ναπολέων</span> — Jedi Padawan, Εξερευνητής της Φύσης &amp; Μελλοντικός Προγραμματιστής 🚀
+    <br><br>
+    <a href="school.html" style="color:#ffe81f;text-decoration:none;font-family:'Orbitron',monospace;font-size:0.82rem;letter-spacing:1px;border:1.5px solid #ffe81f;padding:6px 18px;border-radius:20px;transition:all 0.2s;"
+       onmouseover="this.style.background='#ffe81f';this.style.color='#000';"
+       onmouseout="this.style.background='';this.style.color='#ffe81f';">
+      🎓 Jedi Ακαδημία
+    </a>
   </footer>
 
 
@@ -1082,6 +1256,7 @@
       }
 
       document.addEventListener('mouseup', () => { isLegoDragging = false; });
+      updateLegoCounter();
     }
 
     function paintLegoCell(cell) {
@@ -1101,6 +1276,147 @@
         cell.style.background  = '';
         cell.style.borderColor = 'rgba(255,255,255,0.1)';
         cell.style.boxShadow   = '';
+      });
+    }
+
+    // ── LEGO SAVE / LOAD ─────────────────────────────────
+    const LEGO_STORAGE_KEY = 'napoleon_lego_saves';
+    const LEGO_MAX_SAVES   = 345;
+
+    function getLegoSaves() {
+      try { return JSON.parse(localStorage.getItem(LEGO_STORAGE_KEY)) || []; }
+      catch (e) { return []; }
+    }
+
+    function setLegoSaves(saves) {
+      localStorage.setItem(LEGO_STORAGE_KEY, JSON.stringify(saves));
+    }
+
+    function getLegoGridColors() {
+      return Array.from(document.querySelectorAll('.lego-cell')).map(cell => {
+        const bg = cell.style.background;
+        return (bg && bg !== '') ? bg : null;
+      });
+    }
+
+    function applyLegoGridColors(colors) {
+      const cells = document.querySelectorAll('.lego-cell');
+      cells.forEach((cell, i) => {
+        const c = colors[i];
+        if (c) {
+          cell.style.background  = c;
+          cell.style.borderColor = 'rgba(0,0,0,0.35)';
+          cell.style.boxShadow   = 'inset 0 -2px 4px rgba(0,0,0,0.3), inset 0 2px 4px rgba(255,255,255,0.15)';
+        } else {
+          cell.style.background  = '';
+          cell.style.borderColor = 'rgba(255,255,255,0.1)';
+          cell.style.boxShadow   = '';
+        }
+      });
+    }
+
+    function updateLegoCounter() {
+      const el = document.getElementById('lego-counter');
+      if (!el) return;
+      const saves = getLegoSaves();
+      el.textContent = `${saves.length}/345 αποθηκευμένα 🧱`;
+    }
+
+    function toggleLegoSaveInput() {
+      const area  = document.getElementById('lego-save-input-area');
+      const panel = document.getElementById('lego-load-panel');
+      panel.classList.remove('open');
+      area.classList.toggle('open');
+      if (area.classList.contains('open')) {
+        document.getElementById('lego-design-name').focus();
+      }
+    }
+
+    function toggleLegoLoadPanel() {
+      const panel = document.getElementById('lego-load-panel');
+      const area  = document.getElementById('lego-save-input-area');
+      area.classList.remove('open');
+      panel.classList.toggle('open');
+      if (panel.classList.contains('open')) renderLegoLoadPanel();
+    }
+
+    function confirmLegoSave() {
+      const saves = getLegoSaves();
+      if (saves.length >= LEGO_MAX_SAVES) {
+        alert('Γέμισες τη συλλογή σου! Διάγραψε κάποια για να αποθηκεύσεις νέα. 🧱');
+        return;
+      }
+      const nameInput = document.getElementById('lego-design-name');
+      const name = nameInput.value.trim() || 'Σχέδιο ' + (saves.length + 1);
+      saves.push({ name, date: new Date().toLocaleString('el-GR'), colors: getLegoGridColors() });
+      setLegoSaves(saves);
+      updateLegoCounter();
+      nameInput.value = '';
+      document.getElementById('lego-save-input-area').classList.remove('open');
+      playTone(880, 0.1, 'sine', 0.2);
+      setTimeout(() => playTone(1100, 0.12, 'sine', 0.2), 120);
+    }
+
+    function renderLegoLoadPanel() {
+      const saves = getLegoSaves();
+      const list  = document.getElementById('lego-saves-list');
+      list.innerHTML = '';
+
+      if (saves.length === 0) {
+        list.innerHTML = '<div class="lego-empty-msg">Δεν έχεις αποθηκεύσει κάτι ακόμα! 🧱</div>';
+        return;
+      }
+
+      // Νεότερα πρώτα
+      [...saves].reverse().forEach((save, revIdx) => {
+        const realIdx = saves.length - 1 - revIdx;
+        const item = document.createElement('div');
+        item.className = 'lego-save-item';
+
+        // Μικρογραφία 10x8
+        const thumb = document.createElement('div');
+        thumb.className = 'lego-thumb';
+        (save.colors || []).forEach(c => {
+          const tc = document.createElement('div');
+          tc.className = 'lego-thumb-cell';
+          tc.style.background = c || 'rgba(255,255,255,0.04)';
+          thumb.appendChild(tc);
+        });
+
+        // Πληροφορίες
+        const info = document.createElement('div');
+        info.className = 'lego-save-info';
+        info.innerHTML = `<div class="lego-save-name">${save.name}</div>
+                          <div class="lego-save-date">${save.date}</div>`;
+
+        // Κουμπί φόρτωσης
+        const loadBtn = document.createElement('button');
+        loadBtn.className = 'lego-load-design-btn';
+        loadBtn.textContent = '📂 Φόρτωση';
+        loadBtn.addEventListener('click', () => {
+          applyLegoGridColors(save.colors);
+          document.getElementById('lego-load-panel').classList.remove('open');
+          playTone(660, 0.1, 'sine', 0.2);
+          setTimeout(() => playTone(880, 0.12, 'sine', 0.2), 100);
+        });
+
+        // Κουμπί διαγραφής
+        const delBtn = document.createElement('button');
+        delBtn.className = 'lego-delete-btn';
+        delBtn.textContent = '🗑️';
+        delBtn.addEventListener('click', () => {
+          const s2 = getLegoSaves();
+          s2.splice(realIdx, 1);
+          setLegoSaves(s2);
+          updateLegoCounter();
+          renderLegoLoadPanel();
+        });
+
+        item.appendChild(thumb);
+        item.appendChild(info);
+        item.appendChild(loadBtn);
+        item.appendChild(delBtn);
+        list.appendChild(item);
       });
     }
 
