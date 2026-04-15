@@ -24,7 +24,39 @@
       color: #e8e8ff;
       min-height: 100vh;
       padding: 16px;
+      padding-top: 50px;
       overflow-x: hidden;
+    }
+
+    /* ── Navbar πλοήγησης ── */
+    #top-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+      background: rgba(10, 0, 21, 0.95);
+      border-bottom: 1px solid #ffe81f44;
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; padding: 6px 12px;
+      box-shadow: 0 2px 16px #ffe81f22;
+      backdrop-filter: blur(4px);
+    }
+    #top-nav a {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.6rem, 2vw, 0.78rem);
+      color: #ffe81f;
+      text-decoration: none;
+      border: 1px solid #ffe81f44;
+      border-radius: 4px;
+      padding: 4px 10px;
+      letter-spacing: 1px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    #top-nav a:hover { border-color: #ffe81f; background: #ffe81f18; box-shadow: 0 0 10px #ffe81f44; }
+    #top-nav .nav-divider { color: #ffe81f55; font-size: 1rem; }
+    #top-nav .nav-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.55rem, 1.8vw, 0.7rem);
+      color: #ffe81f88; letter-spacing: 2px;
+      margin: 0 4px;
     }
 
     /* ── Κεφαλίδα ── */
@@ -568,6 +600,15 @@
   </style>
 </head>
 <body>
+
+  <!-- Navbar πλοήγησης -->
+  <nav id="top-nav">
+    <a href="school.html">🎓 Jedi Ακαδημία</a>
+    <span class="nav-divider">🌿</span>
+    <span class="nav-title">ΕΓΚΥΚΛΟΠΑΙΔΕΙΑ</span>
+    <span class="nav-divider">🌿</span>
+    <a href="diablo.html">⚔️ Diablo Quest</a>
+  </nav>
 
   <!-- ================================================
        ΚΕΦΑΛΙΔΑ

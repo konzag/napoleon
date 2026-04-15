@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>⚔️ Diablo Quest του Ναπολέων 🔥</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════
+       ΒΑΣΙΚΟ ΣΤΥΛ — Σκοτεινό δαιμονικό θέμα!
+    ═══════════════════════════════════════ */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0a0005;
+      color: #e8d5a0;
+      font-family: 'Courier New', monospace;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-start;
+      overflow-x: hidden; padding: 10px 6px;
+      padding-top: 50px;
+    }
+
+    /* ── Navbar πλοήγησης ── */
+    #top-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+      background: #0d0005;
+      border-bottom: 1px solid #440000;
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; padding: 6px 12px;
+      box-shadow: 0 2px 12px #8b000044;
+    }
+    #top-nav a {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.6rem, 2vw, 0.78rem);
+      color: #c8a951;
+      text-decoration: none;
+      border: 1px solid #440000;
+      border-radius: 4px;
+      padding: 4px 10px;
+      letter-spacing: 1px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    #top-nav a:hover { border-color: #c8a951; background: #1a000d; box-shadow: 0 0 8px #c8a95133; }
+    #top-nav .nav-divider { color: #440000; font-size: 1rem; }
+    #top-nav .nav-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.55rem, 1.8vw, 0.7rem);
+      color: #550000; letter-spacing: 2px;
+      margin: 0 4px;
+    }
+
+    .hidden { display: none !important; }
+
+    /* ── Κουμπί ήχου (πάντα ορατό) ── */
+    #sound-toggle {
+      position: fixed; top: 8px; right: 8px;
+      background: #1a000d; border: 1px solid #440000;
+      border-radius: 4px; color: #c8a951;
+      font-size: 1.2rem; width: 36px; height: 36px;
+      cursor: pointer; z-index: 300;
+    }
+    #sound-toggle:hover { border-color: #c8a951; }
+
+    /* ── Μήνυμα overlay ── */
+    #msg-overlay {
+      position: fixed; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: #1a000ddd; border: 2px solid #c8a951;
+      border-radius: 6px; padding: 10px 20px;
+      font-size: 0.95rem; color: #ff8800;
+      font-family: 'Orbitron', monospace;
+      pointer-events: none; opacity: 0;
+      transition: opacity 0.3s; z-index: 200;
+      text-align: center; max-width: 80vw;
+    }
+    #msg-overlay.show { opacity: 1; }
+
+    /* ═══════════════════════════════════════
+       ΟΘΟΝΗ 1 — ΤΙΤΛΟΣ
+    ═══════════════════════════════════════ */
+    #screen-title {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      min-height: 100vh; text-align: center; gap: 22px;
+    }
+
+    .title-main {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.8rem, 7vw, 3.6rem);
+      color: #ff6600; line-height: 1.2;
+      animation: flicker 2.5s infinite alternate;
+    }
+
+    @keyframes flicker {
+      0%   { text-shadow: 0 0 10px #ff6600, 0 0 30px #8b0000, 0 0 60px #ff0000; }
+      30%  { text-shadow: 0 0 22px #ff8800, 0 0 55px #cc0000; }
+      60%  { text-shadow: 0 0 6px  #ff4400, 0 0 20px #8b0000; }
+      100% { text-shadow: 0 0 18px #ff9900, 0 0 40px #ff0000, 0 0 80px #660000; }
+    }
+
+    .title-sub {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.75rem, 2.5vw, 1rem);
+      color: #c8a951; letter-spacing: 3px;
+    }
+
+    .title-fire { font-size: clamp(2rem, 8vw, 4rem); animation: bob 1.5s ease-in-out infinite alternate; }
+    @keyframes bob { from { transform: translateY(0); } to { transform: translateY(-8px); } }
+
+    /* ── Βασικό κουμπί ── */
+    .btn {
+      background: linear-gradient(135deg, #8b0000, #cc2200);
+      color: #c8a951; border: 2px solid #c8a951;
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.9rem, 3vw, 1.2rem);
+      padding: 12px 28px; cursor: pointer;
+      border-radius: 4px; letter-spacing: 2px;
+      transition: all 0.2s; text-shadow: 0 0 6px #c8a951;
+    }
+    .btn:hover { background: linear-gradient(135deg, #cc2200, #ff4400); box-shadow: 0 0 20px #ff6600; transform: scale(1.05); }
+    .btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    .back-btn {
+      background: none; border: 1px solid #440000;
+      color: #666; font-size: 0.8rem;
+      padding: 6px 14px; cursor: pointer; border-radius: 4px;
+    }
+    .back-btn:hover { color: #c8a951; border-color: #c8a951; }
+
+    /* ═══════════════════════════════════════
+       ΟΘΟΝΗ 2 — ΕΠΙΛΟΓΗ ΧΑΡΑΚΤΗΡΑ
+    ═══════════════════════════════════════ */
+    #screen-charselect {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 14px;
+      padding: 16px 8px; width: 100%;
+    }
+
+    .cs-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.95rem, 3vw, 1.4rem);
+      color: #c8a951; letter-spacing: 2px; text-align: center;
+    }
+
+    .char-cards {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 10px; width: 100%; max-width: 720px;
+    }
+
+    .char-card {
+      background: #110008; border: 2px solid #440000;
+      border-radius: 6px; padding: 10px 12px;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .char-card:hover   { border-color: #c8a951; box-shadow: 0 0 14px #c8a95133; transform: translateY(-2px); }
+    .char-card.selected { border-color: #c8a951; background: #1c0012; box-shadow: 0 0 22px #c8a95155; }
+
+    .card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .card-emoji { font-size: 1.6rem; }
+    .card-name-en { font-family: 'Orbitron', monospace; font-size: 0.75rem; color: #ff6600; }
+    .card-name-gr { font-size: 0.7rem; color: #c8a951; }
+
+    .bar-row { margin: 3px 0; }
+    .bar-label { font-size: 0.6rem; color: #777; margin-bottom: 1px; }
+    .bar-track { height: 5px; background: #2a0a1a; border-radius: 3px; overflow: hidden; }
+    .bar-fill-hp   { height: 100%; border-radius: 3px; background: linear-gradient(90deg,#8b0000,#ff3300); }
+    .bar-fill-mana { height: 100%; border-radius: 3px; background: linear-gradient(90deg,#002266,#4488ff); }
+
+    .card-stats { font-size: 0.6rem; color: #999; line-height: 1.7; margin-top: 6px; }
+    .card-stat-gold { color: #c8a951; }
+
+    /* ═══════════════════════════════════════
+       ΟΘΟΝΗ 3 — ΠΑΙΧΝΙΔΙ
+    ═══════════════════════════════════════ */
+    #screen-game {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 6px; width: 100%;
+    }
+
+    /* HUD πάνω από canvas */
+    #hud {
+      background: #0d0008; border: 1px solid #330000;
+      border-radius: 4px; padding: 5px 10px;
+      display: flex; align-items: center;
+      gap: 10px; flex-wrap: wrap;
+      width: 100%; max-width: 600px; font-size: 0.72rem;
+    }
+    #hud-hero { font-size: 1.1rem; white-space: nowrap; }
+    .hud-bar-grp { display:flex; align-items:center; gap:5px; flex:1; min-width:90px; }
+    .hud-bar { flex:1; height:9px; background:#220011; border-radius:5px; overflow:hidden; border:1px solid #440022; }
+    .hud-hp-fill   { height:100%; border-radius:5px; background:linear-gradient(90deg,#8b0000,#ff3300); transition:width 0.25s; }
+    .hud-mp-fill   { height:100%; border-radius:5px; background:linear-gradient(90deg,#002266,#4488ff); transition:width 0.25s; }
+    .hud-val       { font-size:0.65rem; color:#e8d5a0; white-space:nowrap; }
+    .hud-hints     { font-size:0.58rem; color:#555; white-space:nowrap; }
+    #hud-enemies   { color:#ff6600; font-size:0.68rem; white-space:nowrap; margin-left:auto; }
+
+    /* Canvas */
+    #gameCanvas {
+      border: 2px solid #440000; border-radius: 4px;
+      box-shadow: 0 0 28px #8b000033; display: block;
+      max-width: 100%; height: auto;
+      image-rendering: pixelated;
+    }
+
+    /* ── Κινητό gamepad ── */
+    #mobile-controls {
+      display: none; flex-direction: column;
+      align-items: center; gap: 8px; margin-top: 4px;
+    }
+    @media (hover:none) and (pointer:coarse) { #mobile-controls { display: flex; } }
+
+    .dpad {
+      display: grid;
+      grid-template-columns: 44px 44px 44px;
+      grid-template-rows:    44px 44px 44px;
+      gap: 3px;
+    }
+    .dp {
+      background: #1a000d; border: 1px solid #660000;
+      border-radius: 5px; color: #c8a951; font-size: 1.2rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; user-select: none; -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+    .dp:active, .dp.pressed { background: #440000; }
+    .dp-blank { pointer-events: none; }
+
+    .action-btns { display: flex; gap: 14px; }
+    .act-btn {
+      background: linear-gradient(135deg, #660000, #990000);
+      border: 2px solid #c8a951; border-radius: 6px;
+      color: #c8a951; font-size: 0.7rem;
+      font-family: 'Orbitron', monospace;
+      padding: 10px 18px; cursor: pointer;
+      user-select: none; -webkit-user-select: none; touch-action: manipulation;
+    }
+    .act-btn:active { background: linear-gradient(135deg,#990000,#cc2200); }
+
+    /* ═══════════════════════════════════════
+       ΟΘΟΝΗ 4 — GAME OVER
+    ═══════════════════════════════════════ */
+    #screen-gameover {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      min-height: 100vh; text-align: center; gap: 18px; padding: 20px;
+    }
+    .go-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.4rem, 5vw, 2.4rem);
+      color: #8b0000; text-shadow: 0 0 20px #ff0000;
+    }
+
+    /* ═══════════════════════════════════════
+       ΟΘΟΝΗ 5 — ΝΙΚΗ
+    ═══════════════════════════════════════ */
+    #screen-victory {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      min-height: 100vh; text-align: center; gap: 18px; padding: 20px;
+    }
+    .v-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.3rem, 4.5vw, 2.2rem);
+      color: #c8a951; animation: vglow 1s infinite alternate;
+    }
+    @keyframes vglow {
+      from { text-shadow: 0 0 10px #c8a951, 0 0 30px #ff8800; }
+      to   { text-shadow: 0 0 28px #ffcc00, 0 0 60px #ff6600; }
+    }
+    .v-stats {
+      background: #110008; border: 1px solid #c8a951;
+      border-radius: 6px; padding: 14px 28px;
+      font-size: 0.88rem; line-height: 2.1; color: #e8d5a0;
+    }
+    .v-stats strong { color: #c8a951; }
+    .v-msg { font-size: clamp(0.85rem,2.5vw,1.05rem); color: #ff6600; font-style: italic; max-width: 380px; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar πλοήγησης -->
+  <nav id="top-nav">
+    <a href="index.html">🌿 Εγκυκλοπαίδεια</a>
+    <span class="nav-divider">⚔️</span>
+    <span class="nav-title">DIABLO QUEST</span>
+    <span class="nav-divider">⚔️</span>
+    <a href="school.html">🎓 Jedi Ακαδημία</a>
+  </nav>
+
+  <!-- Κουμπί ήχου -->
+  <button id="sound-toggle" onclick="toggleSound()" title="Εναλλαγή ήχου">🔊</button>
+  <!-- Μήνυμα overlay -->
+  <div id="msg-overlay"></div>
+
+  <!-- ═══ ΤΙΤΛΟΣ ═══ -->
+  <div id="screen-title">
+    <div class="title-fire">🔥</div>
+    <div class="title-main">⚔️ Diablo Quest<br>του Ναπολέων 🔥</div>
+    <div class="title-sub">ΤΟ ΜΥΘΙΚΟ RPG ΤΟΥ ΝΑΠΟΛΕΩΝ</div>
+    <div style="font-size:2.5rem;margin:4px 0">🐉 &nbsp; 💀 &nbsp; 🏆</div>
+    <button class="btn" onclick="initAudio();showScreen('charselect')">▶ Ξεκίνα Περιπέτεια!</button>
+    <a href="index.html" style="color:#555;font-size:0.8rem;margin-top:8px">← Πίσω στην Εγκυκλοπαίδεια</a>
+  </div>
+
+  <!-- ═══ ΕΠΙΛΟΓΗ ΧΑΡΑΚΤΗΡΑ ═══ -->
+  <div id="screen-charselect" class="hidden">
+    <div style="height:8px"></div>
+    <div class="cs-title">⚔️ ΕΠΙΛΟΓΗ ΧΑΡΑΚΤΗΡΑ ⚔️</div>
+    <div style="font-size:0.75rem;color:#666">Διάλεξε τον ήρωά σου!</div>
+    <div class="char-cards" id="char-cards"></div>
+    <button class="btn hidden" id="start-btn" onclick="startGame()">▶ Ξεκίνα Αποστολή!</button>
+    <button class="back-btn" onclick="showScreen('title')">← Πίσω</button>
+    <div style="height:8px"></div>
+  </div>
+
+  <!-- ═══ ΠΑΙΧΝΙΔΙ ═══ -->
+  <div id="screen-game" class="hidden">
+    <div id="hud">
+      <span id="hud-hero">⚔️ Ήρωας</span>
+      <div class="hud-bar-grp">
+        <span>❤️</span>
+        <div class="hud-bar"><div class="hud-hp-fill" id="hud-hp-bar" style="width:100%"></div></div>
+        <span class="hud-val" id="hud-hp-val">120/120</span>
+      </div>
+      <div class="hud-bar-grp">
+        <span>💙</span>
+        <div class="hud-bar"><div class="hud-mp-fill" id="hud-mp-bar" style="width:100%"></div></div>
+        <span class="hud-val" id="hud-mp-val">80/80</span>
+      </div>
+      <div class="hud-hints">SPACE=⚔️ &nbsp; CTRL=✨</div>
+      <span id="hud-enemies">🏆 6 εχθροί</span>
+    </div>
+    <canvas id="gameCanvas" width="600" height="390"></canvas>
+    <div id="mobile-controls">
+      <div class="dpad">
+        <div class="dp-blank"></div>
+        <div class="dp" id="dp-up"    ontouchstart="mKey('up',true)"    ontouchend="mKey('up',false)">▲</div>
+        <div class="dp-blank"></div>
+        <div class="dp" id="dp-left"  ontouchstart="mKey('left',true)"  ontouchend="mKey('left',false)">◄</div>
+        <div class="dp-blank"></div>
+        <div class="dp" id="dp-right" ontouchstart="mKey('right',true)" ontouchend="mKey('right',false)">►</div>
+        <div class="dp-blank"></div>
+        <div class="dp" id="dp-down"  ontouchstart="mKey('down',true)"  ontouchend="mKey('down',false)">▼</div>
+        <div class="dp-blank"></div>
+      </div>
+      <div class="action-btns">
+        <button class="act-btn" ontouchstart="heroAttack()">⚔️ ΕΠΙΘΕΣΗ</button>
+        <button class="act-btn" ontouchstart="heroSpell()">✨ ΜΑΓΕΙΑ</button>
+      </div>
+    </div>
+    <button class="back-btn" onclick="confirmQuit()" style="margin-top:4px">← Έξοδος</button>
+  </div>
+
+  <!-- ═══ GAME OVER ═══ -->
+  <div id="screen-gameover" class="hidden">
+    <div style="font-size:4rem">💀</div>
+    <div class="go-title">Έπεσες στη Μάχη!</div>
+    <div style="color:#777;font-size:0.9rem">Οι δαίμονες κέρδισαν αυτή τη φορά...</div>
+    <button class="btn" onclick="showScreen('charselect')">🔄 Παίξε Ξανά!</button>
+    <button class="back-btn" onclick="showScreen('title')">← Αρχική</button>
+  </div>
+
+  <!-- ═══ ΝΙΚΗ ═══ -->
+  <div id="screen-victory" class="hidden">
+    <div style="font-size:3.5rem">🏆</div>
+    <div class="v-title">ΑΠΟΣΤΟΛΗ ΟΛΟΚΛΗΡΩΘΗΚΕ!</div>
+    <div class="v-stats">
+      <div>🗡️ Εχθροί που νίκησες: <strong id="v-kills">0</strong></div>
+      <div>❤️ HP που απέμεινε: <strong id="v-hp">—</strong></div>
+      <div>💙 Mana που απέμεινε: <strong id="v-mana">—</strong></div>
+    </div>
+    <div class="v-msg" id="v-msg"></div>
+    <button class="btn" onclick="showScreen('charselect')">🔄 Παίξε Ξανά!</button>
+    <button class="back-btn" onclick="showScreen('title')">← Αρχική</button>
+  </div>
+
+  <script>
+  // ╔══════════════════════════════════════════════════════════╗
+  // ║  DIABLO QUEST — Ο κώδικας του παιχνιδιού                ║
+  // ║  Φτιαγμένος για τον Ναπολέων! 🎮                        ║
+  // ║                                                          ║
+  // ║  Πώς δουλεύει:                                          ║
+  // ║  • buildMap() — χτίζει τον χάρτη με tiles               ║
+  // ║  • gameLoop() — τρέχει 60 φορές/δευτερόλεπτο           ║
+  // ║  • update() — μετακινεί ήρωα & εχθρούς                  ║
+  // ║  • draw() — ζωγραφίζει τα πάντα στο Canvas              ║
+  // ╚══════════════════════════════════════════════════════════╝
+
+  // ══════════════════════════════════════════
+  // ΣΤΑΘΕΡΕΣ
+  // ══════════════════════════════════════════
+  const TILE      = 30;   // Κάθε πλακίδιο: 30×30 pixels
+  const COLS      = 20;   // Πλάτος χάρτη σε πλακίδια
+  const ROWS      = 13;   // Ύψος χάρτη σε πλακίδια
+  const MOVE_MS   = 160;  // ms μεταξύ βημάτων ήρωα
+
+  // ══════════════════════════════════════════
+  // ΧΑΡΤΗΣ — 0=τοίχος 1=πάτωμα 2=πόρτα
+  // ══════════════════════════════════════════
+  let map = [];
+
+  function buildMap() {
+    // Αρχικά όλα τοίχοι
+    map = Array.from({length: ROWS}, () => Array(COLS).fill(0));
+    // Δωμάτιο 1 (αρχή, πάνω αριστερά)
+    for (let r = 1; r <= 5;  r++) for (let c = 1;  c <= 8;  c++) map[r][c] = 1;
+    // Δωμάτιο 2 (μέση, πάνω δεξιά)
+    for (let r = 1; r <= 5;  r++) for (let c = 11; c <= 18; c++) map[r][c] = 1;
+    // Οριζόντιος διάδρομος Δ1→Δ2
+    for (let r = 3; r <= 4;  r++) for (let c = 8;  c <= 11; c++) map[r][c] = 1;
+    // Δωμάτιο 3 (boss room, κάτω)
+    for (let r = 8; r <= 11; r++) for (let c = 9;  c <= 18; c++) map[r][c] = 1;
+    // Κατακόρυφος διάδρομος Δ2→Δ3
+    for (let r = 5; r <= 8;  r++) for (let c = 13; c <= 14; c++) map[r][c] = 1;
+  }
+
+  // ══════════════════════════════════════════
+  // ΧΑΡΑΚΤΗΡΕΣ
+  // ══════════════════════════════════════════
+  const CHARS = [
+    {
+      id:'paladin',     emoji:'⚔️', name:'Paladin',     greekName:'Παλαδίνος',
+      color:'#c8a951',  hp:120, mana:40,  armor:4,
+      weaponName:'Holy Sword',   weaponDmg:15,
+      spellName:'Holy Light',    spellCost:20, spellDesc:'Θεραπεύει +20 HP',
+      armorDesc:'Βαριά Πανοπλία (ζημιά -4)',
+      victory:'Ο ιερός πολεμιστής νίκησε το σκοτάδι!'
+    },
+    {
+      id:'sorceress',   emoji:'🔥', name:'Sorceress',   greekName:'Μάγισσα',
+      color:'#4488ff',  hp:70,  mana:80,  armor:1,
+      weaponName:'Staff',        weaponDmg:8,
+      spellName:'Fireball',      spellCost:30, spellDesc:'35 ζημιά σε ΟΛΟΥΣ',
+      armorDesc:'Ρόμπα (ζημιά -1)',
+      victory:'Η φλόγα της μαγείας κατέκαψε τους δαίμονες!'
+    },
+    {
+      id:'necromancer', emoji:'💀', name:'Necromancer', greekName:'Νεκρομάντης',
+      color:'#aa44ff',  hp:85,  mana:60,  armor:2,
+      weaponName:'Scythe',       weaponDmg:12,
+      spellName:'Raise Skeleton',spellCost:25, spellDesc:'Καλεί σκελετό σύμμαχο',
+      armorDesc:'Σκοτεινή Ρόμπα (ζημιά -2)',
+      victory:'Ο κύριος των σκελετών κυριάρχησε!'
+    },
+    {
+      id:'barbarian',   emoji:'🪓', name:'Barbarian',   greekName:'Βάρβαρος',
+      color:'#ff4444',  hp:150, mana:30,  armor:3,
+      weaponName:'Great Axe',    weaponDmg:20,
+      spellName:'War Cry',       spellCost:15, spellDesc:'Παραλύει εχθρούς 2 δευτ.',
+      armorDesc:'Πανοπλία Μανιάκου (ζημιά -3)',
+      victory:'Ο άγριος πολεμιστής δεν γνωρίζει ήττα!'
+    },
+  ];
+
+  // ══════════════════════════════════════════
+  // ΗΧΟΣ — Web Audio API, χωρίς αρχεία!
+  // ══════════════════════════════════════════
+  let audioCtx     = null;
+  let soundEnabled = true;
+
+  function initAudio() {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+
+  // Παίζει ένα απλό tone
+  function tone(freq, type, dur, vol, delay) {
+    if (!soundEnabled || !audioCtx) return;
+    vol   = vol   === undefined ? 0.28 : vol;
+    delay = delay === undefined ? 0    : delay;
+    const osc = audioCtx.createOscillator();
+    const g   = audioCtx.createGain();
+    osc.connect(g); g.connect(audioCtx.destination);
+    osc.type = type; osc.frequency.value = freq;
+    const t0 = audioCtx.currentTime + delay;
+    g.gain.setValueAtTime(vol, t0);
+    g.gain.exponentialRampToValueAtTime(0.001, t0 + dur);
+    osc.start(t0); osc.stop(t0 + dur);
+  }
+
+  function playSound(name) {
+    if (!soundEnabled || !audioCtx) return;
+    if (name === 'footstep')   { tone(90,  'square',   0.07, 0.08); }
+    if (name === 'sword')      { tone(520, 'sawtooth', 0.12, 0.35); tone(340,'sawtooth',0.10,0.18,0.05); }
+    if (name === 'spell')      { [280,380,500,650].forEach((f,i) => tone(f,'sine',0.22,0.28,i*0.06)); }
+    if (name === 'enemydeath') { [380,260,160].forEach((f,i) => tone(f,'sawtooth',0.14,0.22,i*0.07)); }
+    if (name === 'bossHit')    { tone(55,'sine',0.35,0.45); tone(80,'triangle',0.28,0.30,0.05); }
+    if (name === 'victory')    { [261,329,392,523,659].forEach((f,i) => tone(f,'sine',0.5,0.38,i*0.14)); }
+    if (name === 'heroDeath')  { [300,240,180,130,90].forEach((f,i) => tone(f,'sine',0.45,0.38,i*0.16)); }
+  }
+
+  function toggleSound() {
+    soundEnabled = !soundEnabled;
+    document.getElementById('sound-toggle').textContent = soundEnabled ? '🔊' : '🔇';
+  }
+
+  // ══════════════════════════════════════════
+  // ΚΑΤΑΣΤΑΣΗ ΠΑΙΧΝΙΔΙΟΥ
+  // ══════════════════════════════════════════
+  let hero        = {};
+  let heroData    = null;
+  let enemies     = [];
+  let allies      = [];    // Σκελετοί Νεκρομάντη
+  let projectiles = [];    // Βλήματα Andariel
+  let floats      = [];    // Αιωρούμενοι αριθμοί
+  let particles   = [];    // Εφέ particles
+
+  let gameRunning   = false;
+  let exitVisible   = false;
+  let enemiesKilled = 0;
+  let lastMoveTime  = 0;
+  let lastManaRegen = 0;
+  let rafId         = null;
+  const keys        = {};
+
+  // ══════════════════════════════════════════
+  // ΔΙΑΧΕΙΡΙΣΗ ΟΘΟΝΩΝ
+  // ══════════════════════════════════════════
+  function showScreen(id) {
+    ['title','charselect','game','gameover','victory'].forEach(s => {
+      const el = document.getElementById('screen-' + s);
+      if (s === id) el.classList.remove('hidden');
+      else          el.classList.add('hidden');
+    });
+  }
+
+  // ══════════════════════════════════════════
+  // ΕΠΙΛΟΓΗ ΧΑΡΑΚΤΗΡΑ
+  // ══════════════════════════════════════════
+  let selectedChar = -1;
+
+  // Δημιουργεί τις κάρτες χαρακτήρων χρησιμοποιώντας DOM (όχι innerHTML)
+  function buildCharCards() {
+    const container = document.getElementById('char-cards');
+    container.textContent = ''; // καθαρισμός
+
+    CHARS.forEach(function(ch, i) {
+      // Κάρτα
+      const card = document.createElement('div');
+      card.className = 'char-card';
+
+      // Πάνω μέρος: emoji + ονόματα
+      const top = document.createElement('div');
+      top.className = 'card-top';
+
+      const em = document.createElement('span');
+      em.className = 'card-emoji';
+      em.textContent = ch.emoji;
+
+      const names = document.createElement('div');
+      const nameEn = document.createElement('div');
+      nameEn.className = 'card-name-en';
+      nameEn.textContent = ch.name;
+      const nameGr = document.createElement('div');
+      nameGr.className = 'card-name-gr';
+      nameGr.textContent = ch.greekName;
+      names.appendChild(nameEn);
+      names.appendChild(nameGr);
+
+      top.appendChild(em);
+      top.appendChild(names);
+      card.appendChild(top);
+
+      // HP bar
+      card.appendChild(makeBarRow('❤️ HP: ' + ch.hp, ch.hp / 150, 'bar-fill-hp'));
+      // Mana bar
+      card.appendChild(makeBarRow('💙 Mana: ' + ch.mana, ch.mana / 80, 'bar-fill-mana'));
+
+      // Στατιστικά κειμένου
+      const stats = document.createElement('div');
+      stats.className = 'card-stats';
+
+      const lines = [
+        { prefix: '🗡️ ', bold: ch.weaponName, suffix: ' — ' + ch.weaponDmg + ' ζημιά' },
+        { prefix: '🛡️ ', bold: null,          suffix: ch.armorDesc },
+        { prefix: '✨ ', bold: ch.spellName,   suffix: ' (' + ch.spellCost + ' mana)' },
+        { prefix: '   ', bold: null,           suffix: ch.spellDesc },
+      ];
+      lines.forEach(function(line, idx) {
+        const row = document.createElement('span');
+        row.textContent = line.prefix;
+        if (line.bold) {
+          const b = document.createElement('span');
+          b.className = 'card-stat-gold';
+          b.textContent = line.bold;
+          row.appendChild(b);
+        }
+        const rest = document.createTextNode(line.suffix);
+        row.appendChild(rest);
+        stats.appendChild(row);
+        if (idx < lines.length - 1) stats.appendChild(document.createElement('br'));
+      });
+      card.appendChild(stats);
+
+      card.addEventListener('click', function() { selectChar(i); });
+      container.appendChild(card);
+    });
+  }
+
+  // Δημιουργεί μια μπάρα στατιστικού
+  function makeBarRow(labelText, pct, fillClass) {
+    const row = document.createElement('div');
+    row.className = 'bar-row';
+
+    const lbl = document.createElement('div');
+    lbl.className = 'bar-label';
+    lbl.textContent = labelText;
+
+    const track = document.createElement('div');
+    track.className = 'bar-track';
+
+    const fill = document.createElement('div');
+    fill.className = fillClass;
+    fill.style.width = Math.round(pct * 100) + '%';
+
+    track.appendChild(fill);
+    row.appendChild(lbl);
+    row.appendChild(track);
+    return row;
+  }
+
+  function selectChar(i) {
+    selectedChar = i;
+    document.querySelectorAll('.char-card').forEach(function(c, j) {
+      c.classList.toggle('selected', j === i);
+    });
+    document.getElementById('start-btn').classList.remove('hidden');
+  }
+
+  function startGame() {
+    if (selectedChar < 0) return;
+    initGame();
+  }
+
+  // ══════════════════════════════════════════
+  // ΑΡΧΙΚΟΠΟΙΗΣΗ ΠΑΙΧΝΙΔΙΟΥ
+  // ══════════════════════════════════════════
+  function initGame() {
+    const ch = CHARS[selectedChar];
+    heroData = ch;
+
+    hero = {
+      row: 3, col: 3,
+      hp: ch.hp, maxHp: ch.hp,
+      mana: ch.mana, maxMana: ch.mana,
+    };
+
+    buildMap();
+
+    // Εχθροί: (τύπος, γραμμή, στήλη, emoji, HP, ζημιά, ms κίνησης, boss;)
+    enemies = [
+      mkEnemy('skeleton',  2,  5, '🦴',  30,  8, 1200),
+      mkEnemy('skeleton',  4,  7, '🦴',  30,  8, 1200),
+      mkEnemy('fallen',    2, 14, '👺',  20,  6,  800),
+      mkEnemy('fallen',    4, 16, '👺',  20,  6,  800),
+      mkEnemy('zombie',    3, 12, '🧟',  50, 12, 2000),
+      mkEnemy('andariel', 10, 14, '👹', 200, 20, 1000, true),
+    ];
+
+    allies      = [];
+    projectiles = [];
+    floats      = [];
+    particles   = [];
+    exitVisible  = false;
+    enemiesKilled = 0;
+    lastManaRegen = Date.now();
+    lastMoveTime  = 0;
+
+    updateHUD();
+    showScreen('game');
+    gameRunning = true;
+
+    if (rafId) cancelAnimationFrame(rafId);
+    let lastT = 0;
+    function loop(t) {
+      if (!gameRunning) return;
+      update(Math.min(t - lastT, 50));
+      lastT = t;
+      draw();
+      rafId = requestAnimationFrame(loop);
+    }
+    rafId = requestAnimationFrame(function(t) { lastT = t; loop(t); });
+  }
+
+  function mkEnemy(type, row, col, emoji, hp, dmg, moveMs, isBoss) {
+    isBoss = isBoss || false;
+    return { type:type, row:row, col:col, emoji:emoji,
+             hp:hp, maxHp:hp, dmg:dmg, moveMs:moveMs,
+             isBoss:isBoss, alive:true,
+             lastMove:0, stunnedUntil:0, lastShot:0 };
+  }
+
+  // ══════════════════════════════════════════
+  // ΕΙΣΟΔΟΣ
+  // ══════════════════════════════════════════
+  document.addEventListener('keydown', function(e) {
+    keys[e.code] = true;
+    var nav = ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',
+               'KeyW','KeyA','KeyS','KeyD','Space','ControlLeft','ControlRight'];
+    if (nav.indexOf(e.code) >= 0) e.preventDefault();
+    if (e.code === 'Space') heroAttack();
+    if (e.code === 'ControlLeft' || e.code === 'ControlRight') heroSpell();
+  });
+  document.addEventListener('keyup', function(e) { keys[e.code] = false; });
+
+  function mKey(dir, pressed) {
+    var mapDir = { up:'ArrowUp', down:'ArrowDown', left:'ArrowLeft', right:'ArrowRight' };
+    keys[mapDir[dir]] = pressed;
+    var el = document.getElementById('dp-' + dir);
+    if (el) el.classList.toggle('pressed', pressed);
+  }
+
+  function confirmQuit() {
+    if (confirm('Θέλεις να βγεις από το παιχνίδι;')) {
+      gameRunning = false;
+      showScreen('charselect');
+    }
+  }
+
+  // ══════════════════════════════════════════
+  // UPDATE — Λογική κάθε frame
+  // ══════════════════════════════════════════
+  function update(dt) {
+    if (!gameRunning) return;
+    var now = Date.now();
+
+    // ── Κίνηση ήρωα ──
+    if (now - lastMoveTime > MOVE_MS) {
+      var dr = 0, dc = 0;
+      if (keys['ArrowUp']   || keys['KeyW']) dr = -1;
+      if (keys['ArrowDown'] || keys['KeyS']) dr =  1;
+      if (keys['ArrowLeft'] || keys['KeyA']) dc = -1;
+      if (keys['ArrowRight']|| keys['KeyD']) dc =  1;
+      if (dr || dc) {
+        var nr = hero.row + dr, nc = hero.col + dc;
+        if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS && map[nr][nc] >= 1) {
+          hero.row = nr; hero.col = nc;
+          lastMoveTime = now;
+          playSound('footstep');
+          if (exitVisible && map[nr][nc] === 2) { triggerVictory(); return; }
+        }
+      }
+    }
+
+    // ── Αναγέννηση Mana (1 ανά 2 δευτ.) ──
+    if (now - lastManaRegen >= 2000) {
+      if (hero.mana < heroData.mana) { hero.mana++; updateHUD(); }
+      lastManaRegen = now;
+    }
+
+    // ── Τεχνητή Νοημοσύνη Εχθρών ──
+    for (var i = 0; i < enemies.length; i++) {
+      var e = enemies[i];
+      if (!e.alive) continue;
+      if (now < e.stunnedUntil) continue;
+      if (now - e.lastMove < e.moveMs) continue;
+      e.lastMove = now;
+
+      var dr2 = hero.row - e.row;
+      var dc2 = hero.col - e.col;
+      var dist = Math.abs(dr2) + Math.abs(dc2);
+      var fleeing = (e.type === 'fallen' && e.hp <= 5);
+
+      if (dist === 1 && !fleeing) {
+        // Επίθεση στον ήρωα!
+        var dmg = Math.max(1, e.dmg - heroData.armor);
+        hero.hp = Math.max(0, hero.hp - dmg);
+        addFloat(hero.col*TILE+TILE/2, hero.row*TILE+TILE/2, '-' + dmg, '#ff3300');
+        updateHUD();
+        if (hero.hp <= 0) { triggerGameOver(); return; }
+      } else if (dist > 0) {
+        var sign = fleeing ? -1 : 1;
+
+        // Πολύ μακριά — περιπολεί τυχαία
+        if (dist > 10 && !fleeing) {
+          if (Math.random() < 0.3) {
+            var pd = [[-1,0],[1,0],[0,-1],[0,1]];
+            var pick = pd[Math.floor(Math.random() * 4)];
+            var tr = e.row + pick[0], tc = e.col + pick[1];
+            if (tr >= 0 && tr < ROWS && tc >= 0 && tc < COLS && map[tr][tc] >= 1)
+              { e.row = tr; e.col = tc; }
+          }
+          // Δεν κυνηγάει ακόμα
+        } else {
+          // Κινείται προς (ή μακριά από) τον ήρωα
+          var mnr = e.row, mnc = e.col;
+          if (Math.abs(dr2) >= Math.abs(dc2)) mnr += Math.sign(dr2) * sign;
+          else                                mnc += Math.sign(dc2) * sign;
+
+          if (canMoveTo(mnr, mnc, e)) { e.row = mnr; e.col = mnc; }
+          else {
+            // Εναλλακτική κατεύθυνση
+            mnr = e.row; mnc = e.col;
+            if (Math.abs(dr2) < Math.abs(dc2)) mnr += Math.sign(dr2) * sign;
+            else                               mnc += Math.sign(dc2) * sign;
+            if (canMoveTo(mnr, mnc, e)) { e.row = mnr; e.col = mnc; }
+          }
+        }
+      }
+
+      // ── Andariel Phase 2: εκτοξεύει δηλητήριο ──
+      if (e.isBoss && e.hp > 0 && e.hp <= 100) {
+        if (now - e.lastShot >= 3000) {
+          e.lastShot = now;
+          var len = Math.sqrt(dr2*dr2 + dc2*dc2);
+          if (len > 0) {
+            var spd = 2.5;
+            projectiles.push({
+              x: e.col*TILE+TILE/2, y: e.row*TILE+TILE/2,
+              vx: (dc2/len)*spd, vy: (dr2/len)*spd, alive: true
+            });
+          }
+        }
+      }
+    }
+
+    // ── Σύμμαχοι Νεκρομάντη ──
+    for (var ai = 0; ai < allies.length; ai++) {
+      var a = allies[ai];
+      if (!a.alive) continue;
+      if (now - a.lastMove < 1200) continue;
+      a.lastMove = now;
+
+      var liveEn = enemies.filter(function(x) { return x.alive; });
+      if (liveEn.length === 0) continue;
+
+      var best = null, bestD = 9999;
+      for (var ti = 0; ti < liveEn.length; ti++) {
+        var td = Math.abs(liveEn[ti].row - a.row) + Math.abs(liveEn[ti].col - a.col);
+        if (td < bestD) { bestD = td; best = liveEn[ti]; }
+      }
+      if (!best) continue;
+
+      var adr = best.row - a.row, adc = best.col - a.col;
+      if (Math.abs(adr) + Math.abs(adc) === 1) {
+        best.hp -= 10;
+        addFloat(best.col*TILE+TILE/2, best.row*TILE+TILE/2, '-10', '#cc88ff');
+        if (best.hp <= 0) killEnemy(best);
+      } else {
+        var anr = a.row, anc = a.col;
+        if (Math.abs(adr) >= Math.abs(adc)) anr += Math.sign(adr);
+        else                                anc += Math.sign(adc);
+        if (anr >= 0 && anr < ROWS && anc >= 0 && anc < COLS && map[anr][anc] >= 1)
+          { a.row = anr; a.col = anc; }
+      }
+    }
+
+    // ── Βλήματα ──
+    for (var pi = projectiles.length - 1; pi >= 0; pi--) {
+      var p = projectiles[pi];
+      if (!p.alive) continue;
+      p.x += p.vx; p.y += p.vy;
+      var ptc = Math.floor(p.x / TILE), ptr = Math.floor(p.y / TILE);
+      if (ptc < 0 || ptc >= COLS || ptr < 0 || ptr >= ROWS || map[ptr][ptc] === 0) {
+        p.alive = false; continue;
+      }
+      var hpx = hero.col*TILE+TILE/2, hpy = hero.row*TILE+TILE/2;
+      var dx = p.x - hpx, dy = p.y - hpy;
+      if (dx*dx + dy*dy < 18*18) {
+        var pdmg = Math.max(1, 15 - heroData.armor);
+        hero.hp = Math.max(0, hero.hp - pdmg);
+        addFloat(hpx, hpy, '-' + pdmg + ' ☠️', '#00ff88');
+        p.alive = false;
+        updateHUD();
+        if (hero.hp <= 0) { triggerGameOver(); return; }
+      }
+    }
+
+    // ── Αιωρούμενοι αριθμοί ──
+    for (var fi = 0; fi < floats.length; fi++) {
+      floats[fi].y -= 1.2;
+      floats[fi].alpha -= 0.022;
+    }
+    floats = floats.filter(function(f) { return f.alpha > 0; });
+
+    // ── Particles ──
+    for (var pci = 0; pci < particles.length; pci++) {
+      var pc = particles[pci];
+      pc.x += pc.vx; pc.y += pc.vy;
+      pc.alpha -= pc.fade; pc.r *= 0.93;
+    }
+    particles = particles.filter(function(pc) { return pc.alpha > 0 && pc.r > 0.5; });
+  }
+
+  function canMoveTo(nr, nc, self) {
+    if (nr < 0 || nr >= ROWS || nc < 0 || nc >= COLS) return false;
+    if (map[nr][nc] < 1) return false;
+    if (hero.row === nr && hero.col === nc) return false;
+    for (var i = 0; i < enemies.length; i++) {
+      var e = enemies[i];
+      if (e !== self && e.alive && e.row === nr && e.col === nc) return false;
+    }
+    for (var j = 0; j < allies.length; j++) {
+      if (allies[j].alive && allies[j].row === nr && allies[j].col === nc) return false;
+    }
+    return true;
+  }
+
+  // ══════════════════════════════════════════
+  // ΗΡΩΑΣ — Επίθεση και Ξόρκι
+  // ══════════════════════════════════════════
+  function heroAttack() {
+    if (!gameRunning) return;
+    // Βρίσκει τον πλησιέστερο εχθρό εντός 2 πλακιδίων
+    var reachable = enemies.filter(function(e) {
+      return e.alive && Math.abs(e.col-hero.col) + Math.abs(e.row-hero.row) <= 2;
+    });
+    if (reachable.length === 0) return;
+    reachable.sort(function(a, b) {
+      return (Math.abs(a.col-hero.col)+Math.abs(a.row-hero.row))
+           - (Math.abs(b.col-hero.col)+Math.abs(b.row-hero.row));
+    });
+    var t = reachable[0];
+    t.hp -= heroData.weaponDmg;
+    playSound(t.isBoss ? 'bossHit' : 'sword');
+    addFloat(t.col*TILE+TILE/2, t.row*TILE+TILE/2, '-' + heroData.weaponDmg, '#ffaa00');
+    spawnParticles(t.col*TILE+TILE/2, t.row*TILE+TILE/2, '#ff8800', 6);
+    if (t.hp <= 0) killEnemy(t);
+  }
+
+  function heroSpell() {
+    if (!gameRunning) return;
+    if (hero.mana < heroData.spellCost) { showMsg('❌ Δεν έχεις αρκετό Mana!'); return; }
+    hero.mana -= heroData.spellCost;
+    playSound('spell');
+    updateHUD();
+
+    if (heroData.id === 'paladin') {
+      var healed = Math.min(heroData.maxHp - hero.hp, 20);
+      hero.hp += healed;
+      addFloat(hero.col*TILE+TILE/2, hero.row*TILE+TILE/2-20, '+' + healed + ' HP', '#88ff88');
+      spawnParticles(hero.col*TILE+TILE/2, hero.row*TILE+TILE/2, '#88ff44', 12);
+      showMsg('✨ Holy Light — Θεραπεύτηκες!');
+      updateHUD();
+    }
+    else if (heroData.id === 'sorceress') {
+      var alive = enemies.filter(function(e) { return e.alive; });
+      for (var i = 0; i < alive.length; i++) {
+        alive[i].hp -= 35;
+        addFloat(alive[i].col*TILE+TILE/2, alive[i].row*TILE+TILE/2, '-35 🔥', '#ff6600');
+        spawnParticles(alive[i].col*TILE+TILE/2, alive[i].row*TILE+TILE/2, '#ff4400', 10);
+        if (alive[i].hp <= 0) killEnemy(alive[i]);
+      }
+      showMsg('🔥 Fireball — Κατέκαψε όλους!');
+    }
+    else if (heroData.id === 'necromancer') {
+      var spots = [
+        {row:hero.row-1,col:hero.col},{row:hero.row+1,col:hero.col},
+        {row:hero.row,col:hero.col-1},{row:hero.row,col:hero.col+1}
+      ].filter(function(sp) {
+        return sp.row>=0 && sp.row<ROWS && sp.col>=0 && sp.col<COLS
+            && map[sp.row][sp.col] >= 1
+            && !enemies.some(function(e) { return e.alive && e.row===sp.row && e.col===sp.col; })
+            && !allies.some(function(al) { return al.alive && al.row===sp.row && al.col===sp.col; });
+      });
+      if (spots.length > 0) {
+        allies.push({row:spots[0].row, col:spots[0].col, hp:30, alive:true, lastMove:0});
+        spawnParticles(spots[0].col*TILE+TILE/2, spots[0].row*TILE+TILE/2, '#aa44ff', 10);
+        showMsg('💀 Raise Skeleton — Σκελετός σύμμαχος!');
+      } else {
+        showMsg('💀 Δεν υπάρχει χώρος για σκελετό!');
+        hero.mana += heroData.spellCost;
+        updateHUD();
+      }
+    }
+    else if (heroData.id === 'barbarian') {
+      var until = Date.now() + 2000;
+      for (var bi = 0; bi < enemies.length; bi++) {
+        if (enemies[bi].alive) enemies[bi].stunnedUntil = until;
+      }
+      spawnParticles(hero.col*TILE+TILE/2, hero.row*TILE+TILE/2, '#ffdd44', 16);
+      showMsg('🪓 War Cry — Εχθροί παραλυμένοι!');
+    }
+  }
+
+  // ══════════════════════════════════════════
+  // ΘΑΝΑΤΟΣ ΕΧΘΡΟΥ
+  // ══════════════════════════════════════════
+  function killEnemy(e) {
+    if (!e.alive) return;
+    e.alive = false;
+    enemiesKilled++;
+    playSound('enemydeath');
+    addFloat(e.col*TILE+TILE/2, e.row*TILE+TILE/2, '💀', '#ffffff');
+    spawnParticles(e.col*TILE+TILE/2, e.row*TILE+TILE/2, '#cc4400', 8);
+    if (e.isBoss) {
+      exitVisible = true;
+      map[10][17] = 2;  // Ανοίγει η πόρτα εξόδου στο boss room
+      showMsg('🚪 Η πόρτα εξόδου άνοιξε! Φτάσε την!');
+    }
+    updateHUD();
+  }
+
+  // ══════════════════════════════════════════
+  // GAME OVER & ΝΙΚΗ
+  // ══════════════════════════════════════════
+  function triggerGameOver() {
+    gameRunning = false;
+    playSound('heroDeath');
+    setTimeout(function() { showScreen('gameover'); }, 700);
+  }
+
+  function triggerVictory() {
+    gameRunning = false;
+    playSound('victory');
+    document.getElementById('v-kills').textContent = enemiesKilled;
+    document.getElementById('v-hp').textContent    = hero.hp + '/' + heroData.maxHp;
+    document.getElementById('v-mana').textContent  = hero.mana + '/' + heroData.mana;
+    document.getElementById('v-msg').textContent   = heroData.victory;
+    setTimeout(function() { showScreen('victory'); }, 500);
+  }
+
+  // ══════════════════════════════════════════
+  // ΣΧΕΔΙΑΣΗ (DRAW)
+  // ══════════════════════════════════════════
+  var canvas = document.getElementById('gameCanvas');
+  var ctx    = canvas.getContext('2d');
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#0a0005';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    drawTiles();
+    drawParticles();
+    drawAllies();
+    drawEnemies();
+    drawProjectiles();
+    drawHero();
+    drawFloats();
+    drawMinimap();
+    var boss = null;
+    for (var i = 0; i < enemies.length; i++) {
+      if (enemies[i].isBoss && enemies[i].alive) { boss = enemies[i]; break; }
+    }
+    if (boss) drawBossBar(boss);
+  }
+
+  // ── Πλακίδια χάρτη ──
+  function drawTiles() {
+    var now = Date.now();
+    for (var r = 0; r < ROWS; r++) {
+      for (var c = 0; c < COLS; c++) {
+        var x = c*TILE, y = r*TILE, t = map[r][c];
+        if (t === 0) {
+          // Τοίχος
+          ctx.fillStyle = '#1a1530';
+          ctx.fillRect(x, y, TILE, TILE);
+          ctx.fillStyle = '#221c3c';
+          ctx.fillRect(x+2, y+2, TILE-4, TILE-4);
+          ctx.fillStyle = '#180e28';
+          ctx.fillRect(x+6, y+6, TILE-12, TILE-12);
+        } else if (t === 1) {
+          // Πάτωμα (σκακιστό μοτίβο)
+          ctx.fillStyle = ((r+c) % 2 === 0) ? '#1e1208' : '#190e06';
+          ctx.fillRect(x, y, TILE, TILE);
+          ctx.strokeStyle = '#2a1a0a';
+          ctx.lineWidth = 0.5;
+          ctx.strokeRect(x, y, TILE, TILE);
+        } else if (t === 2) {
+          // Πόρτα εξόδου (χρυσή)
+          ctx.fillStyle = '#2a1c05';
+          ctx.fillRect(x, y, TILE, TILE);
+          var pulse = 0.45 + 0.55 * Math.sin(now / 280);
+          ctx.strokeStyle = 'rgba(200,169,81,' + pulse + ')';
+          ctx.lineWidth = 2;
+          ctx.strokeRect(x+1, y+1, TILE-2, TILE-2);
+          ctx.lineWidth = 1;
+          ctx.font = '18px serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillStyle = '#c8a951';
+          ctx.fillText('🚪', x + TILE/2, y + TILE/2);
+        }
+      }
+    }
+  }
+
+  // ── Εχθροί ──
+  function drawEnemies() {
+    var now = Date.now();
+    for (var i = 0; i < enemies.length; i++) {
+      var e = enemies[i];
+      if (!e.alive) continue;
+      var px = e.col*TILE+TILE/2, py = e.row*TILE+TILE/2;
+
+      // Boss glow
+      if (e.isBoss) {
+        var glow = 0.5 + 0.5 * Math.sin(now / 200);
+        ctx.save();
+        ctx.shadowBlur  = 16 + glow*8;
+        ctx.shadowColor = '#ff4400';
+        ctx.strokeStyle = 'rgba(255,100,0,' + (0.6 + glow*0.4) + ')';
+        ctx.lineWidth   = 2;
+        ctx.strokeRect(e.col*TILE+1, e.row*TILE+1, TILE-2, TILE-2);
+        ctx.restore();
+      }
+
+      // Stunned: μπλε αχνή
+      if (now < e.stunnedUntil) {
+        ctx.fillStyle = 'rgba(68,136,255,0.18)';
+        ctx.fillRect(e.col*TILE, e.row*TILE, TILE, TILE);
+      }
+
+      // Emoji εχθρού
+      ctx.font = '20px serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(e.emoji, px, py);
+
+      // Μπάρα HP
+      var bw = TILE-4, bx = e.col*TILE+2, by = e.row*TILE+1;
+      ctx.fillStyle = '#550000';
+      ctx.fillRect(bx, by, bw, 3);
+      ctx.fillStyle = e.isBoss ? '#ff6600' : '#ff2200';
+      ctx.fillRect(bx, by, bw * (e.hp / e.maxHp), 3);
+    }
+  }
+
+  // ── Ήρωας ──
+  function drawHero() {
+    if (!heroData) return;
+    var px = hero.col*TILE+TILE/2, py = hero.row*TILE+TILE/2;
+    ctx.save();
+    ctx.shadowBlur  = 14;
+    ctx.shadowColor = heroData.color;
+    ctx.fillStyle   = heroData.color + '33';
+    ctx.fillRect(hero.col*TILE+3, hero.row*TILE+3, TILE-6, TILE-6);
+    ctx.restore();
+    ctx.font = '20px serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(heroData.emoji, px, py);
+  }
+
+  // ── Σύμμαχοι Νεκρομάντη ──
+  function drawAllies() {
+    for (var i = 0; i < allies.length; i++) {
+      var a = allies[i];
+      if (!a.alive) continue;
+      ctx.fillStyle = 'rgba(68,136,255,0.15)';
+      ctx.fillRect(a.col*TILE, a.row*TILE, TILE, TILE);
+      ctx.font = '18px serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('🦴', a.col*TILE+TILE/2, a.row*TILE+TILE/2);
+    }
+  }
+
+  // ── Βλήματα Andariel ──
+  function drawProjectiles() {
+    for (var i = 0; i < projectiles.length; i++) {
+      var p = projectiles[i];
+      if (!p.alive) continue;
+      ctx.save();
+      ctx.shadowBlur  = 10;
+      ctx.shadowColor = '#00ff44';
+      ctx.fillStyle   = '#44ff88';
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  // ── Αιωρούμενοι αριθμοί ──
+  function drawFloats() {
+    for (var i = 0; i < floats.length; i++) {
+      var f = floats[i];
+      if (f.alpha <= 0) continue;
+      ctx.save();
+      ctx.globalAlpha  = f.alpha;
+      ctx.font         = 'bold 13px Courier New, monospace';
+      ctx.fillStyle    = f.color;
+      ctx.strokeStyle  = 'rgba(0,0,0,0.6)';
+      ctx.lineWidth    = 3;
+      ctx.textAlign    = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.strokeText(f.text, f.x, f.y);
+      ctx.fillText(f.text, f.x, f.y);
+      ctx.restore();
+    }
+  }
+
+  // ── Particles ──
+  function drawParticles() {
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
+      ctx.save();
+      ctx.globalAlpha = p.alpha;
+      ctx.fillStyle   = p.color;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  // ── Minimap ──
+  function drawMinimap() {
+    var MS = 2;
+    var MX = canvas.width - COLS*MS - 6;
+    var MY = 5;
+    ctx.fillStyle = 'rgba(10,0,5,0.85)';
+    ctx.fillRect(MX-2, MY-2, COLS*MS+4, ROWS*MS+4);
+    for (var r = 0; r < ROWS; r++) {
+      for (var c = 0; c < COLS; c++) {
+        var t = map[r][c];
+        if (t === 1) ctx.fillStyle = '#443322';
+        else if (t === 2) ctx.fillStyle = '#c8a951';
+        else continue;
+        ctx.fillRect(MX + c*MS, MY + r*MS, MS, MS);
+      }
+    }
+    // Εχθροί
+    for (var ei = 0; ei < enemies.length; ei++) {
+      if (!enemies[ei].alive) continue;
+      ctx.fillStyle = enemies[ei].isBoss ? '#ff6600' : '#ff2200';
+      ctx.fillRect(MX + enemies[ei].col*MS, MY + enemies[ei].row*MS, MS+1, MS+1);
+    }
+    // Ήρωας
+    ctx.fillStyle = '#ffff00';
+    ctx.fillRect(MX + hero.col*MS, MY + hero.row*MS, MS+1, MS+1);
+    // Πλαίσιο
+    ctx.strokeStyle = '#440000';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(MX-2, MY-2, COLS*MS+4, ROWS*MS+4);
+    // Ετικέτες δωματίων
+    ctx.font = '6px monospace';
+    ctx.fillStyle = '#554433';
+    ctx.textAlign = 'left';
+    ctx.fillText('Δ1', MX + 1*MS, MY + 1*MS + 5);
+    ctx.fillText('Δ2', MX + 11*MS, MY + 1*MS + 5);
+    ctx.fillText('Δ3', MX + 9*MS, MY + 8*MS + 5);
+  }
+
+  // ── Μπάρα Boss HP (κάτω) ──
+  function drawBossBar(boss) {
+    var bw = 280, bx = (canvas.width - bw) / 2, by = canvas.height - 18;
+    ctx.fillStyle = '#220000';
+    ctx.fillRect(bx-2, by-2, bw+4, 16);
+    ctx.fillStyle = '#8b0000';
+    ctx.fillRect(bx, by, bw * (boss.hp / boss.maxHp), 12);
+    ctx.strokeStyle = '#ff4400';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(bx, by, bw, 12);
+    ctx.font = 'bold 9px Courier New, monospace';
+    ctx.fillStyle = '#ffdd99';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('ANDARIEL  HP: ' + boss.hp + ' / ' + boss.maxHp, canvas.width/2, by + 6);
+  }
+
+  // ══════════════════════════════════════════
+  // ΒΟΗΘΗΤΙΚΕΣ ΣΥΝΑΡΤΗΣΕΙΣ
+  // ══════════════════════════════════════════
+  function addFloat(x, y, text, color) {
+    floats.push({x:x, y:y, text:text, color:color, alpha:1});
+  }
+
+  function spawnParticles(x, y, color, count) {
+    for (var i = 0; i < count; i++) {
+      var angle = Math.random() * Math.PI * 2;
+      var spd   = 0.8 + Math.random() * 2;
+      particles.push({
+        x:x, y:y,
+        vx: Math.cos(angle)*spd, vy: Math.sin(angle)*spd,
+        r: 2 + Math.random()*3,
+        color:color, alpha:0.9,
+        fade: 0.03 + Math.random()*0.03
+      });
+    }
+  }
+
+  var msgTimer = null;
+  function showMsg(text) {
+    var el = document.getElementById('msg-overlay');
+    el.textContent = text;
+    el.classList.add('show');
+    if (msgTimer) clearTimeout(msgTimer);
+    msgTimer = setTimeout(function() { el.classList.remove('show'); }, 2200);
+  }
+
+  function updateHUD() {
+    if (!heroData) return;
+    document.getElementById('hud-hero').textContent =
+      heroData.emoji + ' ' + heroData.greekName;
+    var hpPct = Math.max(0, (hero.hp / heroData.maxHp) * 100);
+    var mpPct = Math.max(0, (hero.mana / heroData.mana) * 100);
+    document.getElementById('hud-hp-bar').style.width = hpPct + '%';
+    document.getElementById('hud-mp-bar').style.width = mpPct + '%';
+    document.getElementById('hud-hp-val').textContent = Math.max(0, hero.hp) + '/' + heroData.maxHp;
+    document.getElementById('hud-mp-val').textContent = hero.mana + '/' + heroData.mana;
+    var rem = 0;
+    for (var i = 0; i < enemies.length; i++) { if (enemies[i].alive) rem++; }
+    document.getElementById('hud-enemies').textContent = '🏆 ' + rem + ' εχθροί';
+  }
+
+  // ══════════════════════════════════════════
+  // ΕΚΚΙΝΗΣΗ — Χτίζει τις κάρτες χαρακτήρων
+  // ══════════════════════════════════════════
+  buildCharCards();
+  </script>
+</body>
+</html>
