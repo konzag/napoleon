@@ -146,8 +146,12 @@
     }
 
     .char-cards {
-      display: grid; grid-template-columns: repeat(2, 1fr);
-      gap: 10px; width: 100%; max-width: 720px;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 10px; width: 100%; max-width: 960px;
+    }
+    /* Κινητό: 2 στήλες */
+    @media (max-width: 680px) {
+      .char-cards { grid-template-columns: repeat(2, 1fr); }
     }
 
     .char-card {
@@ -170,6 +174,15 @@
     .bar-fill-mana { height: 100%; border-radius: 3px; background: linear-gradient(90deg,#002266,#4488ff); }
 
     .card-stats { font-size: 0.6rem; color: #999; line-height: 1.7; margin-top: 6px; }
+    /* Ελληνική περιγραφή κάρτας */
+    .card-desc { font-size: 0.57rem; color: #aa9955; font-style: italic; margin-top: 5px; line-height: 1.4; }
+    /* Badge «ΝΕΟ!» για τον Warlock */
+    .new-badge {
+      display: inline-block; background: linear-gradient(135deg, #550055, #990099);
+      color: #ffccff; font-size: 0.5rem; padding: 1px 5px; border-radius: 3px;
+      border: 1px solid #cc44cc; font-family: 'Orbitron', monospace;
+      letter-spacing: 1px; vertical-align: middle; margin-left: 4px;
+    }
     .card-stat-gold { color: #c8a951; }
 
     /* ═══════════════════════════════════════
@@ -421,37 +434,86 @@
   // ΧΑΡΑΚΤΗΡΕΣ
   // ══════════════════════════════════════════
   const CHARS = [
+    // ── 1. Ιππότης ──
     {
       id:'paladin',     emoji:'⚔️', name:'Paladin',     greekName:'Ιππότης',
-      color:'#c8a951',  hp:120, mana:40,  armor:4,
-      weaponName:'Holy Sword',   weaponDmg:15,
-      spellName:'Holy Light',    spellCost:20, spellDesc:'Θεραπεύει +20 HP',
+      color:'#ffd700',  hp:120, mana:40,  armor:4,  weaponRange:1,
+      weaponName:'Holy Sword',    weaponDmg:15,
+      spellName:'Holy Light',     spellCost:20, spellDesc:'Θεραπεύει +20 HP',
       armorDesc:'Βαριά Πανοπλία (ζημιά -4)',
+      greekDesc:'Ιερός πολεμιστής που χρησιμοποιεί την πίστη σαν όπλο!',
       victory:'Ο ιερός πολεμιστής νίκησε το σκοτάδι!'
     },
+    // ── 2. Μάγισσα ──
     {
       id:'sorceress',   emoji:'🔥', name:'Sorceress',   greekName:'Μάγισσα',
-      color:'#4488ff',  hp:70,  mana:80,  armor:1,
-      weaponName:'Staff',        weaponDmg:8,
-      spellName:'Fireball',      spellCost:30, spellDesc:'35 ζημιά σε ΟΛΟΥΣ',
+      color:'#4488ff',  hp:70,  mana:80,  armor:1,  weaponRange:1,
+      weaponName:'Staff',         weaponDmg:8,
+      spellName:'Fireball',       spellCost:30, spellDesc:'35 ζημιά σε ΟΛΟΥΣ',
       armorDesc:'Ρόμπα (ζημιά -1)',
+      greekDesc:'Κυρίαρχος της φωτιάς, του πάγου και της αστραπής!',
       victory:'Η φλόγα της μαγείας κατέκαψε τους δαίμονες!'
     },
+    // ── 3. Νεκρομάντης ──
     {
       id:'necromancer', emoji:'💀', name:'Necromancer', greekName:'Νεκρομάντης',
-      color:'#aa44ff',  hp:85,  mana:60,  armor:2,
-      weaponName:'Scythe',       weaponDmg:12,
-      spellName:'Raise Skeleton',spellCost:25, spellDesc:'Καλεί σκελετό σύμμαχο',
+      color:'#9933ff',  hp:85,  mana:60,  armor:2,  weaponRange:1,
+      weaponName:'Scythe',        weaponDmg:12,
+      spellName:'Raise Skeleton', spellCost:25, spellDesc:'Καλεί σκελετό σύμμαχο',
       armorDesc:'Σκοτεινή Ρόμπα (ζημιά -2)',
+      greekDesc:'Μυστηριώδης μάγος που διοικεί στρατό από σκελετούς!',
       victory:'Ο κύριος των σκελετών κυριάρχησε!'
     },
+    // ── 4. Βάρβαρος ──
     {
       id:'barbarian',   emoji:'🪓', name:'Barbarian',   greekName:'Βάρβαρος',
-      color:'#ff4444',  hp:150, mana:30,  armor:3,
-      weaponName:'Great Axe',    weaponDmg:20,
-      spellName:'War Cry',       spellCost:15, spellDesc:'Παραλύει εχθρούς 2 δευτ.',
-      armorDesc:'Πανοπλία Μανιάκου (ζημιά -3)',
+      color:'#cc2200',  hp:150, mana:30,  armor:3,  weaponRange:1,
+      weaponName:'Great Axe',     weaponDmg:20,
+      spellName:'War Cry',        spellCost:15, spellDesc:'Παραλύει εχθρούς 2 δευτ.',
+      armorDesc:'Berserker Πανοπλία (ζημιά -3)',
+      greekDesc:'Αήττητος πολεμιστής από τα βουνά — κανείς δεν τον σταματά!',
       victory:'Ο άγριος πολεμιστής δεν γνωρίζει ήττα!'
+    },
+    // ── 5. Αμαζόνα ──
+    {
+      id:'amazon',      emoji:'🏹', name:'Amazon',      greekName:'Αμαζόνα',
+      color:'#44cc44',  hp:100, mana:50,  armor:2,  weaponRange:3,
+      weaponName:'Bow',           weaponDmg:18, weaponExtra:'(εύρος 3 tiles!)',
+      spellName:'Strafe',         spellCost:20, spellDesc:'Βέλη σε όλους τους εχθρούς',
+      armorDesc:'Ελαφριά Πανοπλία (ζημιά -2)',
+      greekDesc:'Κυρίαρχος τόξου και ακοντίου — χτυπά από μακριά!',
+      victory:'Η κυρίαρχος του τόξου νίκησε τους δαίμονες!'
+    },
+    // ── 6. Δολοφόνος ──
+    {
+      id:'assassin',    emoji:'🗡️', name:'Assassin',    greekName:'Δολοφόνος',
+      color:'#880000',  hp:95,  mana:55,  armor:2,  weaponRange:1,
+      weaponName:'Claws',         weaponDmg:14,
+      spellName:'Shadow Clone',   spellCost:30, spellDesc:'Αντίγραφο επιτίθεται 5 δευτ.',
+      armorDesc:'Σκοτεινά Ρούχα (ζημιά -2)',
+      greekDesc:'Γρήγορη σαν σκιά — εξαφανίζεται πριν την δουν!',
+      victory:'Η σκιά της νύχτας εξαφάνισε τους εχθρούς!'
+    },
+    // ── 7. Δρυίδης ──
+    {
+      id:'druid',       emoji:'🌿', name:'Druid',       greekName:'Δρυίδης',
+      color:'#886622',  hp:110, mana:50,  armor:2,  weaponRange:1,
+      weaponName:'Club',          weaponDmg:13,
+      spellName:'Werewolf Form',  spellCost:25, spellDesc:'Λυκάνθρωπος 8 δευτ.: +30 HP, +8 ζημιά',
+      armorDesc:'Δερμάτινη Πανοπλία (ζημιά -2)',
+      greekDesc:'Φύλακας της φύσης — μετατρέπεται σε λύκο ή αρκούδα!',
+      victory:'Ο φύλακας της φύσης προστάτεψε τη γη!'
+    },
+    // ── 8. Μάγος του Σκότους (ΝΕΟ 2026!) ──
+    {
+      id:'warlock',     emoji:'🌑', name:'Warlock',     greekName:'Μάγος του Σκότους',
+      color:'#aa00aa',  hp:80,  mana:90,  armor:1,  weaponRange:2,
+      weaponName:'Dark Energy',   weaponDmg:10, weaponExtra:'(εύρος 2 tiles)',
+      spellName:'Hellfire Rain',  spellCost:35, spellDesc:'25 ζημιά σε ΟΛΟΥΣ + 3 δευτ. DoT',
+      armorDesc:'Σκοτεινή Ρόμπα (ζημιά -1)',
+      greekDesc:'Ο νεότερος ήρωας! Διοικεί δαίμονες και σκορπά καταστροφή!',
+      isNew: true,
+      victory:'Ο Μάγος του Σκότους έσωσε το Sanctuary!'
     },
   ];
 
@@ -550,30 +612,39 @@
       em.textContent = ch.emoji;
 
       const names = document.createElement('div');
-      const nameEn = document.createElement('div');
-      nameEn.className = 'card-name-en';
-      nameEn.textContent = ch.name;
+      // Ελληνικό όνομα πρώτα (κύριο)
       const nameGr = document.createElement('div');
-      nameGr.className = 'card-name-gr';
+      nameGr.className = 'card-name-en';
       nameGr.textContent = ch.greekName;
-      names.appendChild(nameEn);
+      // Badge «ΝΕΟ!» αν είναι νέος χαρακτήρας
+      if (ch.isNew) {
+        const badge = document.createElement('span');
+        badge.className = 'new-badge';
+        badge.textContent = '✨ ΝΕΟ!';
+        nameGr.appendChild(badge);
+      }
+      // Αγγλικό όνομα σε παρένθεση κάτω
+      const nameEn = document.createElement('div');
+      nameEn.className = 'card-name-gr';
+      nameEn.textContent = '(' + ch.name + ')';
       names.appendChild(nameGr);
+      names.appendChild(nameEn);
 
       top.appendChild(em);
       top.appendChild(names);
       card.appendChild(top);
 
-      // HP bar
+      // HP bar (max 150 = Βάρβαρος)
       card.appendChild(makeBarRow('❤️ HP: ' + ch.hp, ch.hp / 150, 'bar-fill-hp'));
-      // Mana bar
-      card.appendChild(makeBarRow('💙 Mana: ' + ch.mana, ch.mana / 80, 'bar-fill-mana'));
+      // Mana bar (max 90 = Warlock)
+      card.appendChild(makeBarRow('💙 Mana: ' + ch.mana, ch.mana / 90, 'bar-fill-mana'));
 
       // Στατιστικά κειμένου
       const stats = document.createElement('div');
       stats.className = 'card-stats';
 
       const lines = [
-        { prefix: '🗡️ ', bold: ch.weaponName, suffix: ' — ' + ch.weaponDmg + ' ζημιά' },
+        { prefix: '🗡️ ', bold: ch.weaponName, suffix: ' — ' + ch.weaponDmg + ' ζημιά' + (ch.weaponExtra ? ' ' + ch.weaponExtra : '') },
         { prefix: '🛡️ ', bold: null,          suffix: ch.armorDesc },
         { prefix: '✨ ', bold: ch.spellName,   suffix: ' (' + ch.spellCost + ' mana)' },
         { prefix: '   ', bold: null,           suffix: ch.spellDesc },
@@ -593,6 +664,14 @@
         if (idx < lines.length - 1) stats.appendChild(document.createElement('br'));
       });
       card.appendChild(stats);
+
+      // Ελληνική περιγραφή χαρακτήρα
+      if (ch.greekDesc) {
+        const desc = document.createElement('div');
+        desc.className = 'card-desc';
+        desc.textContent = ch.greekDesc;
+        card.appendChild(desc);
+      }
 
       card.addEventListener('click', function() { selectChar(i); });
       container.appendChild(card);
@@ -645,6 +724,11 @@
       row: 3, col: 3,
       hp: ch.hp, maxHp: ch.hp,
       mana: ch.mana, maxMana: ch.mana,
+      // Druid: χρονόμετρο μορφής λύκου
+      werewolfUntil: null,
+      // Warlock: χρονόμετρο Hellfire Rain DoT
+      hellfireUntil: null,
+      lastHellfire:  null,
     };
 
     buildMap();
@@ -726,8 +810,9 @@
     if (!gameRunning) return;
     var now = Date.now();
 
-    // ── Κίνηση ήρωα ──
-    if (now - lastMoveTime > MOVE_MS) {
+    // ── Κίνηση ήρωα (Δρυίδης-λύκος: πιο γρήγορος!) ──
+    var curMoveMs = (heroData && heroData.id === 'druid' && hero.werewolfUntil && now < hero.werewolfUntil) ? 90 : MOVE_MS;
+    if (now - lastMoveTime > curMoveMs) {
       var dr = 0, dc = 0;
       if (keys['ArrowUp']   || keys['KeyW']) dr = -1;
       if (keys['ArrowDown'] || keys['KeyS']) dr =  1;
@@ -741,6 +826,43 @@
           playSound('footstep');
           if (exitVisible && map[nr][nc] === 2) { triggerVictory(); return; }
         }
+      }
+    }
+
+    // ── Druid: λήξη μορφής λύκου ──
+    if (heroData && heroData.id === 'druid' && hero.werewolfUntil && now >= hero.werewolfUntil) {
+      hero.werewolfUntil = null;
+      hero.maxHp = heroData.hp;                       // Επαναφορά αρχικού max HP
+      hero.hp    = Math.min(hero.hp, hero.maxHp);     // Δεν ξεπερνά το νέο max
+      spawnParticles(hero.col*TILE+TILE/2, hero.row*TILE+TILE/2, '#886622', 8);
+      showMsg('🌿 Επέστρεψες στην κανονική μορφή!');
+      updateHUD();
+    }
+
+    // ── Warlock: Hellfire Rain DoT (8 ζημιά ανά 0.8 δευτ.) ──
+    if (heroData && heroData.id === 'warlock' && hero.hellfireUntil) {
+      if (now < hero.hellfireUntil) {
+        if (now - hero.lastHellfire >= 800) {
+          hero.lastHellfire = now;
+          var hfAlive = enemies.filter(function(e) { return e.alive; });
+          for (var hfi = 0; hfi < hfAlive.length; hfi++) {
+            hfAlive[hfi].hp -= 8;
+            addFloat(hfAlive[hfi].col*TILE+TILE/2, hfAlive[hfi].row*TILE+TILE/2, '-8 🔥', '#aa44ff');
+            if (hfAlive[hfi].hp <= 0) killEnemy(hfAlive[hfi]);
+          }
+        }
+      } else {
+        hero.hellfireUntil = null;
+        hero.lastHellfire  = null;
+      }
+    }
+
+    // ── Λήξη Shadow Clone (Δολοφόνος) ──
+    for (var sci = 0; sci < allies.length; sci++) {
+      if (allies[sci].isShadow && allies[sci].alive && allies[sci].dieAt && now >= allies[sci].dieAt) {
+        allies[sci].alive = false;
+        spawnParticles(allies[sci].col*TILE+TILE/2, allies[sci].row*TILE+TILE/2, '#880000', 6);
+        showMsg('🗡️ Το Shadow Clone εξαφανίστηκε!');
       }
     }
 
@@ -835,8 +957,9 @@
 
       var adr = best.row - a.row, adc = best.col - a.col;
       if (Math.abs(adr) + Math.abs(adc) === 1) {
-        best.hp -= 10;
-        addFloat(best.col*TILE+TILE/2, best.row*TILE+TILE/2, '-10', '#cc88ff');
+        var allyDmg = a.dmg || 10;
+        best.hp -= allyDmg;
+        addFloat(best.col*TILE+TILE/2, best.row*TILE+TILE/2, '-' + allyDmg, a.isShadow ? '#ff4444' : '#cc88ff');
         if (best.hp <= 0) killEnemy(best);
       } else {
         var anr = a.row, anc = a.col;
@@ -903,9 +1026,10 @@
   // ══════════════════════════════════════════
   function heroAttack() {
     if (!gameRunning) return;
-    // Βρίσκει τον πλησιέστερο εχθρό εντός 2 πλακιδίων
+    // Εύρος όπλου: Αμαζόνα=3, Warlock=2, υπόλοιποι=1
+    var range = heroData.weaponRange || 1;
     var reachable = enemies.filter(function(e) {
-      return e.alive && Math.abs(e.col-hero.col) + Math.abs(e.row-hero.row) <= 2;
+      return e.alive && Math.abs(e.col-hero.col) + Math.abs(e.row-hero.row) <= range;
     });
     if (reachable.length === 0) return;
     reachable.sort(function(a, b) {
@@ -913,10 +1037,29 @@
            - (Math.abs(b.col-hero.col)+Math.abs(b.row-hero.row));
     });
     var t = reachable[0];
-    t.hp -= heroData.weaponDmg;
+
+    // Ζημιά: Δρυίδης σε μορφή λύκου κάνει +8 επιπλέον
+    var dmg = heroData.weaponDmg;
+    if (heroData.id === 'druid' && hero.werewolfUntil && Date.now() < hero.werewolfUntil) {
+      dmg += 8;
+    }
+
     playSound(t.isBoss ? 'bossHit' : 'sword');
-    addFloat(t.col*TILE+TILE/2, t.row*TILE+TILE/2, '-' + heroData.weaponDmg, '#ffaa00');
     spawnParticles(t.col*TILE+TILE/2, t.row*TILE+TILE/2, '#ff8800', 6);
+
+    if (heroData.id === 'assassin') {
+      // Δολοφόνος: χτυπά 2 φορές γρήγορα!
+      t.hp -= dmg;
+      addFloat(t.col*TILE+TILE/2, t.row*TILE+TILE/2 - 10, '-' + dmg, '#ff8800');
+      if (t.hp > 0) {
+        t.hp -= dmg;
+        addFloat(t.col*TILE+TILE/2, t.row*TILE+TILE/2 + 10, '-' + dmg + ' x2!', '#ff4400');
+      }
+    } else {
+      t.hp -= dmg;
+      addFloat(t.col*TILE+TILE/2, t.row*TILE+TILE/2, '-' + dmg, '#ffaa00');
+    }
+
     if (t.hp <= 0) killEnemy(t);
   }
 
@@ -972,6 +1115,73 @@
       }
       spawnParticles(hero.col*TILE+TILE/2, hero.row*TILE+TILE/2, '#ffdd44', 16);
       showMsg('🪓 War Cry — Εχθροί παραλυμένοι!');
+    }
+    // ── Αμαζόνα: Strafe — βέλη σε ΟΛΟΥΣ τους εχθρούς ──
+    else if (heroData.id === 'amazon') {
+      var aliveAmz = enemies.filter(function(e) { return e.alive; });
+      for (var ai2 = 0; ai2 < aliveAmz.length; ai2++) {
+        aliveAmz[ai2].hp -= 20;
+        addFloat(aliveAmz[ai2].col*TILE+TILE/2, aliveAmz[ai2].row*TILE+TILE/2, '-20 🏹', '#44ff44');
+        spawnParticles(aliveAmz[ai2].col*TILE+TILE/2, aliveAmz[ai2].row*TILE+TILE/2, '#44cc44', 6);
+        if (aliveAmz[ai2].hp <= 0) killEnemy(aliveAmz[ai2]);
+      }
+      showMsg('🏹 Strafe — ' + aliveAmz.length + ' βέλη εκτοξεύτηκαν!');
+    }
+    // ── Δολοφόνος: Shadow Clone — αντίγραφο για 5 δευτ. ──
+    else if (heroData.id === 'assassin') {
+      var cloneSpots = [
+        {row:hero.row-1,col:hero.col},{row:hero.row+1,col:hero.col},
+        {row:hero.row,col:hero.col-1},{row:hero.row,col:hero.col+1}
+      ].filter(function(sp) {
+        return sp.row>=0 && sp.row<ROWS && sp.col>=0 && sp.col<COLS
+            && map[sp.row][sp.col] >= 1
+            && !enemies.some(function(e) { return e.alive && e.row===sp.row && e.col===sp.col; })
+            && !allies.some(function(al) { return al.alive && al.row===sp.row && al.col===sp.col; });
+      });
+      if (cloneSpots.length > 0) {
+        allies.push({
+          row: cloneSpots[0].row, col: cloneSpots[0].col,
+          hp: 60, alive: true, lastMove: 0,
+          isShadow: true, dmg: heroData.weaponDmg,
+          dieAt: Date.now() + 5000
+        });
+        spawnParticles(cloneSpots[0].col*TILE+TILE/2, cloneSpots[0].row*TILE+TILE/2, '#880000', 10);
+        showMsg('🗡️ Shadow Clone — Αντίγραφο σκιά εμφανίστηκε!');
+      } else {
+        showMsg('🗡️ Δεν υπάρχει χώρος για αντίγραφο!');
+        hero.mana += heroData.spellCost;
+        updateHUD();
+      }
+    }
+    // ── Δρυίδης: Werewolf Form — μεταμόρφωση για 8 δευτ. ──
+    else if (heroData.id === 'druid') {
+      if (hero.werewolfUntil && Date.now() < hero.werewolfUntil) {
+        showMsg('🐺 Ήδη σε μορφή λύκου!');
+        hero.mana += heroData.spellCost;  // Επιστρέφουμε το mana
+        updateHUD();
+        return;
+      }
+      // +30 HP προσωρινά
+      hero.werewolfUntil = Date.now() + 8000;
+      hero.maxHp = heroData.hp + 30;
+      hero.hp    = Math.min(hero.hp + 30, hero.maxHp);
+      spawnParticles(hero.col*TILE+TILE/2, hero.row*TILE+TILE/2, '#886622', 16);
+      showMsg('🐺 Werewolf Form — Μεταμόρφωση σε λυκάνθρωπο!');
+      updateHUD();
+    }
+    // ── Warlock: Hellfire Rain — βροχή φλογών + DoT 3 δευτ. ──
+    else if (heroData.id === 'warlock') {
+      var aliveWrl = enemies.filter(function(e) { return e.alive; });
+      for (var wi = 0; wi < aliveWrl.length; wi++) {
+        aliveWrl[wi].hp -= 25;
+        addFloat(aliveWrl[wi].col*TILE+TILE/2, aliveWrl[wi].row*TILE+TILE/2, '-25 🔥', '#dd44ff');
+        spawnParticles(aliveWrl[wi].col*TILE+TILE/2, aliveWrl[wi].row*TILE+TILE/2, '#550055', 10);
+        if (aliveWrl[wi].hp <= 0) killEnemy(aliveWrl[wi]);
+      }
+      // Ενεργοποίηση DoT (συνεχής ζημιά για 3 δευτ.)
+      hero.hellfireUntil = Date.now() + 3000;
+      hero.lastHellfire  = Date.now();
+      showMsg('🌑 Hellfire Rain — Βροχή φλογών από την κόλαση!');
     }
   }
 
@@ -1132,20 +1342,26 @@
     ctx.font = '20px serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(heroData.emoji, px, py);
+    // Δρυίδης σε μορφή λύκου → εμφανίζεται ως 🐺
+    var heroEmoji = heroData.emoji;
+    if (heroData.id === 'druid' && hero.werewolfUntil && Date.now() < hero.werewolfUntil) {
+      heroEmoji = '🐺';
+    }
+    ctx.fillText(heroEmoji, px, py);
   }
 
-  // ── Σύμμαχοι Νεκρομάντη ──
+  // ── Σύμμαχοι Νεκρομάντη / Shadow Clone ──
   function drawAllies() {
     for (var i = 0; i < allies.length; i++) {
       var a = allies[i];
       if (!a.alive) continue;
-      ctx.fillStyle = 'rgba(68,136,255,0.15)';
+      // Shadow Clone: κόκκινη αχνή · Σκελετός: μπλε αχνή
+      ctx.fillStyle = a.isShadow ? 'rgba(136,0,0,0.18)' : 'rgba(68,136,255,0.15)';
       ctx.fillRect(a.col*TILE, a.row*TILE, TILE, TILE);
       ctx.font = '18px serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText('🦴', a.col*TILE+TILE/2, a.row*TILE+TILE/2);
+      ctx.fillText(a.isShadow ? '🗡️' : '🦴', a.col*TILE+TILE/2, a.row*TILE+TILE/2);
     }
   }
 
