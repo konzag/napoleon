@@ -1528,9 +1528,9 @@
 
 <script>
 // === ΟΡΑΤΟΤΗΤΑ GAMEPAD ===
-// Κρύβουμε ΜΟΝΟ αν η συσκευή έχει ποντίκι και ΟΧΙ touch
+// Εμφάνιση αμέσως αν υπάρχει touch, κρύψιμο ΜΟΝΟ αν έχει ποντίκι και ΟΧΙ touch
 var vgp = document.getElementById('vgp');
-var hasTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+var hasTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
 var hasMouse = window.matchMedia('(pointer: fine)').matches;
 if (!hasTouch && hasMouse) {
   vgp.style.display = 'none';
@@ -1541,50 +1541,88 @@ document.getElementById('vToggle').addEventListener('click', function() {
   vgp.style.display = (vgp.style.display === 'none') ? 'flex' : 'none';
 });
 
-// Padding ώστε ο canvas να μην κρύβεται πίσω από το gamepad
-if (hasTouch || !hasMouse) {
-  document.body.style.paddingBottom = '180px';
+// === PORTRAIT / LANDSCAPE LAYOUT ===
+function adjustLayout() {
+  if (!hasTouch && hasMouse) return; // desktop: παράλειψη
+  var isPortrait = window.innerHeight > window.innerWidth;
+  if (isPortrait) {
+    var gpadH = Math.max(210, Math.floor(window.innerHeight * 0.30));
+    vgp.style.height = gpadH + 'px';
+    document.body.style.paddingBottom = (gpadH + 10) + 'px';
+  } else {
+    vgp.style.height = '160px';
+    document.body.style.paddingBottom = '170px';
+  }
   var canvases = document.querySelectorAll('canvas');
   canvases.forEach(function(c) { c.style.maxWidth = '100%'; c.style.height = 'auto'; });
 }
+window.addEventListener('resize', adjustLayout);
+adjustLayout();
 
-// === ΣΥΝΔΕΣΗ ΚΑΤΕΥΘΥΝΣΕΩΝ ===
-// Στέλνουμε KeyboardEvent ώστε να δουλεύει με τον υπάρχοντα χειριστή πληκτρολογίου
-function vPress(key) {
-  window.dispatchEvent(new KeyboardEvent('keydown', { key: key, bubbles: true }));
-}
-function vRelease(key) {
-  window.dispatchEvent(new KeyboardEvent('keyup', { key: key, bubbles: true }));
+// Αποτροπή scroll/zoom κατά τη διάρκεια του παιχνιδιού
+if (hasTouch || !hasMouse) {
+  document.body.style.overflow = 'hidden';
+  document.body.style.position = 'fixed';
+  document.body.style.width = '100%';
+  var gc = document.getElementById('gameCanvas');
+  if (gc) gc.style.touchAction = 'none';
 }
 
-function bindBtn(id, key) {
+// === ΚΙΝΗΣΗ — άμεση ανάθεση στη μεταβλητή keys ===
+// Ο game loop (requestAnimationFrame) διαβάζει keys['ArrowUp'] κ.λπ. κάθε frame.
+// ΔΕΝ χρησιμοποιούμε dispatchEvent — ο listener είναι στο document, όχι window,
+// και τα synthetic events δεν θέτουν σωστά το e.code.
+function bindDir(id, keyCode) {
   var btn = document.getElementById(id);
-  btn.addEventListener('touchstart',  function(e) { e.preventDefault(); vPress(key); },   { passive: false });
-  btn.addEventListener('touchend',    function(e) { e.preventDefault(); vRelease(key); }, { passive: false });
-  btn.addEventListener('touchcancel', function(e) { e.preventDefault(); vRelease(key); }, { passive: false });
-  btn.addEventListener('mousedown', function() { vPress(key); });
-  btn.addEventListener('mouseup',   function() { vRelease(key); });
-}
-
-bindBtn('vUp',    'ArrowUp');
-bindBtn('vDown',  'ArrowDown');
-bindBtn('vLeft',  'ArrowLeft');
-bindBtn('vRight', 'ArrowRight');
-
-// Κουμπιά ενεργειών — SPACE για επίθεση, Control για μαγεία
-function bindAction(id, key, code) {
-  var btn = document.getElementById(id);
-  btn.addEventListener('touchstart', function(e) {
+  function press(e) {
     e.preventDefault();
-    window.dispatchEvent(new KeyboardEvent('keydown', { key: key, code: code, bubbles: true }));
-  }, { passive: false });
-  btn.addEventListener('mousedown', function() {
-    window.dispatchEvent(new KeyboardEvent('keydown', { key: key, code: code, bubbles: true }));
-  });
+    keys[keyCode] = true;
+    btn.style.transform = 'scale(0.88)';
+    btn.style.opacity = '0.7';
+  }
+  function release(e) {
+    if (e) e.preventDefault();
+    keys[keyCode] = false;
+    btn.style.transform = 'scale(1)';
+    btn.style.opacity = '1';
+  }
+  btn.addEventListener('touchstart',  press,   { passive: false });
+  btn.addEventListener('touchend',    release, { passive: false });
+  btn.addEventListener('touchcancel', release, { passive: false });
+  btn.addEventListener('mousedown',  press);
+  btn.addEventListener('mouseup',    release);
+  btn.addEventListener('mouseleave', release);
 }
 
-bindAction('vAttack', ' ',       'Space');
-bindAction('vSpell',  'Control', 'ControlLeft');
+bindDir('vUp',    'ArrowUp');
+bindDir('vDown',  'ArrowDown');
+bindDir('vLeft',  'ArrowLeft');
+bindDir('vRight', 'ArrowRight');
+
+// === ΕΠΙΘΕΣΗ & ΜΑΓΕΙΑ — άμεση κλήση συνάρτησης ===
+// ΔΕΝ χρησιμοποιούμε dispatchEvent — καλούμε heroAttack() / heroSpell() απευθείας.
+function bindActionBtn(id, fn) {
+  var btn = document.getElementById(id);
+  function press(e) {
+    e.preventDefault();
+    fn();
+    btn.style.transform = 'scale(0.88)';
+    btn.style.opacity = '0.7';
+  }
+  function release(e) {
+    if (e) e.preventDefault();
+    btn.style.transform = 'scale(1)';
+    btn.style.opacity = '1';
+  }
+  btn.addEventListener('touchstart',  press,   { passive: false });
+  btn.addEventListener('touchend',    release, { passive: false });
+  btn.addEventListener('touchcancel', release, { passive: false });
+  btn.addEventListener('mousedown',  press);
+  btn.addEventListener('mouseup',    release);
+}
+
+bindActionBtn('vAttack', function() { heroAttack(); });
+bindActionBtn('vSpell',  function() { heroSpell();  });
 
 // === iOS AudioContext fix ===
 document.addEventListener('touchstart', function() {
