@@ -544,6 +544,7 @@
   let lastManaRegen = 0;
   let rafId         = null;
   const keys        = {};
+  window._gameKeys = keys;
 
   // ══════════════════════════════════════════
   // ΔΙΑΧΕΙΡΙΣΗ ΟΘΟΝΩΝ
@@ -1576,13 +1577,13 @@ function bindDir(id, keyCode) {
   var btn = document.getElementById(id);
   function press(e) {
     e.preventDefault();
-    keys[keyCode] = true;
+    if (window._gameKeys) window._gameKeys[keyCode] = true;
     btn.style.transform = 'scale(0.88)';
     btn.style.opacity = '0.7';
   }
   function release(e) {
     if (e) e.preventDefault();
-    keys[keyCode] = false;
+    if (window._gameKeys) window._gameKeys[keyCode] = false;
     btn.style.transform = 'scale(1)';
     btn.style.opacity = '1';
   }
