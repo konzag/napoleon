@@ -230,95 +230,7 @@
       touch-action: none;
     }
 
-    /* ── Κινητό gamepad — fixed overlay, μόνο σε touch συσκευές ── */
-    #mobile-controls {
-      display: none;
-      position: fixed; bottom: 0; left: 0; right: 0;
-      z-index: 500;
-      background: rgba(0,0,0,0.65);
-      border-top: 1px solid #330000;
-      padding: 8px 20px 14px;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      touch-action: none;
-      -webkit-user-select: none;
-      user-select: none;
-    }
-    @media (hover:none) and (pointer:coarse) {
-      #mobile-controls { display: flex; }
-      /* Χώρος κάτω ώστε το gamepad να μην καλύπτει τον canvas */
-      #screen-game { padding-bottom: 175px; }
-      /* Κρύβουμε τις οδηγίες πληκτρολογίου — αντικαθίστανται από gamepad */
-      .hud-hints { display: none !important; }
-    }
-
-    /* D-Pad: σταυρός 3×3, κενά στις γωνίες */
-    .dpad {
-      display: grid;
-      grid-template-columns: 62px 62px 62px;
-      grid-template-rows:    62px 62px 62px;
-      gap: 3px;
-    }
-    .dp {
-      background: rgba(26,0,13,0.9);
-      border: 1px solid #660000;
-      border-radius: 10px;
-      color: #c8a951;
-      font-size: 1.35rem;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
-      user-select: none; -webkit-user-select: none;
-      touch-action: manipulation;
-      min-width: 62px; min-height: 62px;
-      transition: background 0.07s, transform 0.07s, box-shadow 0.07s;
-    }
-    .dp.pressed {
-      background: rgba(140,0,0,0.95);
-      transform: scale(0.86);
-      box-shadow: 0 0 14px #ff440066;
-    }
-    .dp-blank  { pointer-events: none; }
-    .dp-center { background: rgba(10,0,5,0.6); border-radius: 4px; pointer-events: none; }
-
-    /* Κουμπιά ενεργειών — δεξιά, δίπλα-δίπλα */
-    .action-btns {
-      display: flex;
-      flex-direction: row;
-      gap: 14px;
-      align-items: center;
-    }
-    .act-btn {
-      min-width: 74px; min-height: 74px;
-      border-radius: 50%;
-      font-family: 'Orbitron', monospace;
-      font-size: 0.58rem;
-      line-height: 1.3;
-      letter-spacing: 0.5px;
-      user-select: none; -webkit-user-select: none;
-      touch-action: manipulation;
-      cursor: pointer;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 3px;
-      transition: transform 0.07s, box-shadow 0.07s;
-    }
-    .act-btn .btn-icon { font-size: 1.25rem; line-height: 1; }
-    .act-btn.pressed, .act-btn:active { transform: scale(0.86); }
-    .act-attack {
-      background: linear-gradient(145deg, #8b0000, #cc2200);
-      border: 2px solid #c8a951;
-      color: #c8a951;
-      box-shadow: 0 0 10px #ff330033;
-    }
-    .act-attack.pressed { box-shadow: 0 0 22px #ff3300; }
-    .act-spell {
-      background: linear-gradient(145deg, #1a0055, #5500bb);
-      border: 2px solid #9966ff;
-      color: #cc99ff;
-      box-shadow: 0 0 10px #6600ff33;
-    }
-    .act-spell.pressed { box-shadow: 0 0 22px #9933ff; }
+    /* Κινητό: start button πλήρους πλάτους — gamepad handled via inline styles */
 
     /* Κινητό: start button πλήρους πλάτους */
     @media (max-width: 680px) {
@@ -420,29 +332,6 @@
       <span id="hud-enemies">🏆 6 εχθροί</span>
     </div>
     <canvas id="gameCanvas" width="600" height="390"></canvas>
-    <div id="mobile-controls">
-      <!-- D-Pad αριστερά -->
-      <div class="dpad">
-        <div class="dp-blank"></div>
-        <div class="dp" id="dp-up">▲</div>
-        <div class="dp-blank"></div>
-        <div class="dp" id="dp-left">◄</div>
-        <div class="dp-center"></div>
-        <div class="dp" id="dp-right">►</div>
-        <div class="dp-blank"></div>
-        <div class="dp" id="dp-down">▼</div>
-        <div class="dp-blank"></div>
-      </div>
-      <!-- Κουμπιά ενεργειών δεξιά -->
-      <div class="action-btns">
-        <button class="act-btn act-spell" id="btn-spell">
-          <span class="btn-icon">✨</span>ΜΑΓΕΙΑ
-        </button>
-        <button class="act-btn act-attack" id="btn-attack">
-          <span class="btn-icon">⚔️</span>ΧΤΥΠΑ
-        </button>
-      </div>
-    </div>
     <button class="back-btn" onclick="confirmQuit()" style="margin-top:4px">← Έξοδος</button>
   </div>
 
@@ -1597,64 +1486,112 @@
   // ΚΙΝΗΤΟ — Touch controls & iOS audio fix
   // ══════════════════════════════════════════
 
-  // iOS: ο AudioContext χρειάζεται resume μετά από αφή χρήστη
-  document.addEventListener('touchstart', function resumeAudio() {
-    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-  }, { passive: true });
-
-  // Συνδέει ένα d-pad κουμπί με την κατεύθυνση, με σωστή αποτροπή scroll
-  function bindDpad(id, dir) {
-    var el = document.getElementById(id);
-    if (!el) return;
-    el.addEventListener('touchstart', function(e) {
-      e.preventDefault();
-      mKey(dir, true);
-    }, { passive: false });
-    el.addEventListener('touchend', function(e) {
-      e.preventDefault();
-      mKey(dir, false);
-    }, { passive: false });
-    el.addEventListener('touchcancel', function(e) {
-      mKey(dir, false);
-    }, { passive: false });
-  }
-
-  bindDpad('dp-up',    'up');
-  bindDpad('dp-down',  'down');
-  bindDpad('dp-left',  'left');
-  bindDpad('dp-right', 'right');
-
-  // Συνδέει κουμπί ενέργειας: touchstart ενεργοποιεί, visual feedback με .pressed
-  function bindActionBtn(id, fn) {
-    var el = document.getElementById(id);
-    if (!el) return;
-    el.addEventListener('touchstart', function(e) {
-      e.preventDefault();
-      initAudio();
-      el.classList.add('pressed');
-      fn();
-    }, { passive: false });
-    el.addEventListener('touchend', function(e) {
-      e.preventDefault();
-      el.classList.remove('pressed');
-    }, { passive: false });
-    el.addEventListener('touchcancel', function() {
-      el.classList.remove('pressed');
-    }, { passive: false });
-  }
-
-  bindActionBtn('btn-attack', heroAttack);
-  bindActionBtn('btn-spell',  heroSpell);
-
-  // Αποτροπή scroll ενώ χρησιμοποιούμε το gamepad
-  document.getElementById('mobile-controls').addEventListener('touchmove', function(e) {
-    e.preventDefault();
-  }, { passive: false });
 
   // ══════════════════════════════════════════
   // ΕΚΚΙΝΗΣΗ — Χτίζει τις κάρτες χαρακτήρων
   // ══════════════════════════════════════════
   buildCharCards();
   </script>
+
+<!-- ═══════════════════════════════════════
+     VIRTUAL GAMEPAD — always rendered, hidden via JS on desktop
+     Στρατηγική: εμφανίζουμε ΠΑΝΤΑ, κρύβουμε μόνο με JS αν ο χρήστης
+     έχει ποντίκι και ΔΕΝ έχει touch. Πιο αξιόπιστο σε Android Chrome.
+     ═══════════════════════════════════════ -->
+<div id="vgp" style="display:flex; position:fixed; bottom:0; left:0; right:0; height:170px; background:rgba(0,0,0,0.82); border-top:2px solid #8b0000; z-index:9998; align-items:center; justify-content:space-between; padding:0 24px; user-select:none; -webkit-user-select:none;">
+
+  <!-- D-PAD αριστερά -->
+  <div style="display:grid; grid-template-columns:64px 64px 64px; grid-template-rows:64px 64px 64px; gap:4px;">
+    <div></div>
+    <button id="vUp"    style="all:unset; width:64px; height:64px; background:rgba(139,0,0,0.9); border:2px solid #c8a951; border-radius:10px; color:#c8a951; font-size:26px; display:flex; align-items:center; justify-content:center; cursor:pointer; touch-action:manipulation;">▲</button>
+    <div></div>
+    <button id="vLeft"  style="all:unset; width:64px; height:64px; background:rgba(139,0,0,0.9); border:2px solid #c8a951; border-radius:10px; color:#c8a951; font-size:26px; display:flex; align-items:center; justify-content:center; cursor:pointer; touch-action:manipulation;">◀</button>
+    <div style="width:64px; height:64px; background:rgba(30,0,0,0.5); border-radius:50%;"></div>
+    <button id="vRight" style="all:unset; width:64px; height:64px; background:rgba(139,0,0,0.9); border:2px solid #c8a951; border-radius:10px; color:#c8a951; font-size:26px; display:flex; align-items:center; justify-content:center; cursor:pointer; touch-action:manipulation;">▶</button>
+    <div></div>
+    <button id="vDown"  style="all:unset; width:64px; height:64px; background:rgba(139,0,0,0.9); border:2px solid #c8a951; border-radius:10px; color:#c8a951; font-size:26px; display:flex; align-items:center; justify-content:center; cursor:pointer; touch-action:manipulation;">▼</button>
+    <div></div>
+  </div>
+
+  <!-- Κεντρική ετικέτα -->
+  <div style="color:#c8a951; font-family:Orbitron,monospace; font-size:11px; text-align:center; opacity:0.7;">⚔️<br>DIABLO<br>QUEST</div>
+
+  <!-- Κουμπιά ενεργειών δεξιά -->
+  <div style="display:flex; flex-direction:column; gap:14px; align-items:center;">
+    <button id="vSpell"  style="all:unset; width:80px; height:80px; background:rgba(20,20,180,0.9); border:3px solid #4488ff; border-radius:50%; color:#fff; font-size:12px; font-weight:bold; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; touch-action:manipulation; text-align:center; line-height:1.3;">✨<br>ΜΑΓΕΙΑ</button>
+    <button id="vAttack" style="all:unset; width:80px; height:80px; background:rgba(180,0,0,0.9); border:3px solid #ff4444; border-radius:50%; color:#fff; font-size:12px; font-weight:bold; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; touch-action:manipulation; text-align:center; line-height:1.3;">⚔️<br>ΧΤΥΠΑ</button>
+  </div>
+</div>
+
+<!-- Toggle κουμπί — πάντα ορατό -->
+<button id="vToggle" style="position:fixed; top:58px; right:8px; z-index:9999; background:rgba(0,0,0,0.8); border:1px solid #c8a951; border-radius:8px; color:#c8a951; font-size:18px; padding:6px 10px; cursor:pointer; touch-action:manipulation;">🕹️</button>
+
+<script>
+// === ΟΡΑΤΟΤΗΤΑ GAMEPAD ===
+// Κρύβουμε ΜΟΝΟ αν η συσκευή έχει ποντίκι και ΟΧΙ touch
+var vgp = document.getElementById('vgp');
+var hasTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+var hasMouse = window.matchMedia('(pointer: fine)').matches;
+if (!hasTouch && hasMouse) {
+  vgp.style.display = 'none';
+}
+
+// Toggle κουμπί
+document.getElementById('vToggle').addEventListener('click', function() {
+  vgp.style.display = (vgp.style.display === 'none') ? 'flex' : 'none';
+});
+
+// Padding ώστε ο canvas να μην κρύβεται πίσω από το gamepad
+if (hasTouch || !hasMouse) {
+  document.body.style.paddingBottom = '180px';
+  var canvases = document.querySelectorAll('canvas');
+  canvases.forEach(function(c) { c.style.maxWidth = '100%'; c.style.height = 'auto'; });
+}
+
+// === ΣΥΝΔΕΣΗ ΚΑΤΕΥΘΥΝΣΕΩΝ ===
+// Στέλνουμε KeyboardEvent ώστε να δουλεύει με τον υπάρχοντα χειριστή πληκτρολογίου
+function vPress(key) {
+  window.dispatchEvent(new KeyboardEvent('keydown', { key: key, bubbles: true }));
+}
+function vRelease(key) {
+  window.dispatchEvent(new KeyboardEvent('keyup', { key: key, bubbles: true }));
+}
+
+function bindBtn(id, key) {
+  var btn = document.getElementById(id);
+  btn.addEventListener('touchstart',  function(e) { e.preventDefault(); vPress(key); },   { passive: false });
+  btn.addEventListener('touchend',    function(e) { e.preventDefault(); vRelease(key); }, { passive: false });
+  btn.addEventListener('touchcancel', function(e) { e.preventDefault(); vRelease(key); }, { passive: false });
+  btn.addEventListener('mousedown', function() { vPress(key); });
+  btn.addEventListener('mouseup',   function() { vRelease(key); });
+}
+
+bindBtn('vUp',    'ArrowUp');
+bindBtn('vDown',  'ArrowDown');
+bindBtn('vLeft',  'ArrowLeft');
+bindBtn('vRight', 'ArrowRight');
+
+// Κουμπιά ενεργειών — SPACE για επίθεση, Control για μαγεία
+function bindAction(id, key, code) {
+  var btn = document.getElementById(id);
+  btn.addEventListener('touchstart', function(e) {
+    e.preventDefault();
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: key, code: code, bubbles: true }));
+  }, { passive: false });
+  btn.addEventListener('mousedown', function() {
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: key, code: code, bubbles: true }));
+  });
+}
+
+bindAction('vAttack', ' ',       'Space');
+bindAction('vSpell',  'Control', 'ControlLeft');
+
+// === iOS AudioContext fix ===
+document.addEventListener('touchstart', function() {
+  if (typeof audioCtx !== 'undefined' && audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+}, { once: true, passive: true });
+</script>
 </body>
 </html>
