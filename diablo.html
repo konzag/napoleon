@@ -26,18 +26,8 @@
       padding-top: 50px;
       overscroll-behavior: none;
     }
-    /* iOS Safari rubber-band / scroll prevention */
-    html, body {
-      overflow: hidden !important;
-      position: fixed !important;
-      width: 100% !important;
-      height: 100% !important;
-      touch-action: none !important;
-    }
-    #screen-charselect { overflow-y: auto; -webkit-overflow-scrolling: touch; max-height: 100dvh; padding-bottom: 16px; }
-    @media (hover:none) and (pointer:coarse) {
-      #screen-charselect { overflow-y: auto; -webkit-overflow-scrolling: touch; max-height: 100dvh; padding-bottom: 16px; }
-    }
+    /* Scroll controlled dynamically via updateBodyScroll() in JS */
+    #screen-charselect { overflow-y: auto; -webkit-overflow-scrolling: touch; max-height: 100vh; padding-bottom: 16px; }
 
     /* ── Navbar πλοήγησης ── */
     #top-nav {
@@ -372,7 +362,10 @@
 
   <script>
   document.addEventListener('touchmove', function(e) {
-    e.preventDefault();
+    if (document.getElementById('screen-game') &&
+        !document.getElementById('screen-game').classList.contains('hidden')) {
+      e.preventDefault();
+    }
   }, { passive: false });
   // ╔══════════════════════════════════════════════════════════╗
   // ║  DIABLO QUEST — Ο κώδικας του παιχνιδιού                ║
@@ -564,12 +557,27 @@
   // ══════════════════════════════════════════
   // ΔΙΑΧΕΙΡΙΣΗ ΟΘΟΝΩΝ
   // ══════════════════════════════════════════
+  function updateBodyScroll(screenId) {
+    if (screenId === 'game') {
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.height = '100%';
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.height = '';
+    }
+  }
+
   function showScreen(id) {
     ['title','charselect','game','gameover','victory'].forEach(s => {
       const el = document.getElementById('screen-' + s);
       if (s === id) el.classList.remove('hidden');
       else          el.classList.add('hidden');
     });
+    updateBodyScroll(id);
   }
 
   // ══════════════════════════════════════════
@@ -1575,14 +1583,9 @@ function adjustLayout() {
 window.addEventListener('resize', adjustLayout);
 adjustLayout();
 
-// Αποτροπή scroll/zoom κατά τη διάρκεια του παιχνιδιού
-if (hasTouch || !hasMouse) {
-  document.body.style.overflow = 'hidden';
-  document.body.style.position = 'fixed';
-  document.body.style.width = '100%';
-  var gc = document.getElementById('gameCanvas');
-  if (gc) gc.style.touchAction = 'none';
-}
+// Canvas touch-action blocked unconditionally (game canvas never needs scroll)
+var gc = document.getElementById('gameCanvas');
+if (gc) gc.style.touchAction = 'none';
 
 // === ΚΙΝΗΣΗ — άμεση ανάθεση στη μεταβλητή keys ===
 // Ο game loop (requestAnimationFrame) διαβάζει keys['ArrowUp'] κ.λπ. κάθε frame.
