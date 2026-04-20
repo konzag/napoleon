@@ -26,10 +26,16 @@
       padding-top: 50px;
       overscroll-behavior: none;
     }
-    /* iOS Safari rubber-band prevention */
+    /* iOS Safari rubber-band / scroll prevention */
+    html, body {
+      overflow: hidden !important;
+      position: fixed !important;
+      width: 100% !important;
+      height: 100% !important;
+      touch-action: none !important;
+    }
+    #screen-charselect { overflow-y: auto; -webkit-overflow-scrolling: touch; max-height: 100dvh; padding-bottom: 16px; }
     @media (hover:none) and (pointer:coarse) {
-      html { overflow: hidden; }
-      body { overflow: hidden; position: fixed; width: 100%; top: 0; left: 0; right: 0; bottom: 0; }
       #screen-charselect { overflow-y: auto; -webkit-overflow-scrolling: touch; max-height: 100dvh; padding-bottom: 16px; }
     }
 
@@ -229,6 +235,12 @@
       image-rendering: pixelated;
       touch-action: none;
     }
+    #vgp, #vgp * {
+      touch-action: none !important;
+    }
+    canvas {
+      touch-action: none !important;
+    }
 
     /* Κινητό: start button πλήρους πλάτους — gamepad handled via inline styles */
 
@@ -359,6 +371,9 @@
   </div>
 
   <script>
+  document.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+  }, { passive: false });
   // ╔══════════════════════════════════════════════════════════╗
   // ║  DIABLO QUEST — Ο κώδικας του παιχνιδιού                ║
   // ║  Φτιαγμένος για τον Ναπολέων! 🎮                        ║
