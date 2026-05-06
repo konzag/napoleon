@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23fff4fb'/%3E%3Cpath d='M50 78C28 62 18 50 18 35c0-10 8-18 18-18 6 0 11 3 14 8 3-5 8-8 14-8 10 0 18 8 18 18 0 15-10 27-32 43Z' fill='%23ff5c8a'/%3E%3Cpath d='M50 25v42M32 42h36' stroke='%23ffffff' stroke-width='8' stroke-linecap='round'/%3E%3C/svg%3E">
+  <title>Το Σώμα του Ναπολέοντα</title>
+  <link rel="stylesheet" href="css/anatomy.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Πλοήγηση παιχνιδιού">
+      <div class="brand">
+        <span class="brand-icon" aria-hidden="true">🫀</span>
+        <div>
+          <strong>Μικροί Εξερευνητές</strong>
+          <small>Το Σώμα του Ναπολέοντα</small>
+        </div>
+      </div>
+
+      <nav class="section-nav">
+        <button class="nav-link active" data-section="profile">Προφίλ Ναπολέοντα</button>
+        <button class="nav-link" data-section="body">Το Σώμα μου</button>
+        <button class="nav-link" data-section="parts">Μέρη του Σώματος</button>
+        <button class="nav-link" data-section="organs">Όργανα</button>
+        <button class="nav-link" data-section="skeleton">Σκελετός</button>
+        <button class="nav-link" data-section="senses">Οι 5 Αισθήσεις</button>
+        <button class="nav-link" data-section="breathing">Αναπνοή</button>
+        <button class="nav-link" data-section="heart">Καρδιά & Αίμα</button>
+        <button class="nav-link" data-section="digestion">Πέψη</button>
+        <button class="nav-link" data-section="movement">Κίνηση</button>
+        <button class="nav-link" data-section="habits">Υγιεινές Συνήθειες</button>
+        <button class="nav-link" data-section="collections">Συλλογές</button>
+        <button class="nav-link" data-section="progress">Πρόοδος</button>
+        <button class="nav-link" data-section="settings">Ρυθμίσεις</button>
+        <a class="nav-link menu-link" href="home.html">Επιστροφή στο Μενού</a>
+      </nav>
+
+      <div class="platform-links">
+        <a href="../index.html">Εγκυκλοπαίδεια</a>
+        <a href="../diablo.html">Diablo Quest</a>
+        <a href="../school.html">Jedi Ακαδημία</a>
+        <a href="../farm.html">Μαγικό Αγρόκτημα</a>
+        <a href="anatomy.html">Σώμα</a>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="hero-card">
+        <div>
+          <p class="soft-label">Γιατρός Πίξελ λέει:</p>
+          <h1>Το Σώμα του Ναπολέοντα: Μικροί Εξερευνητές μέσα στο Σώμα</h1>
+          <p>Παίξε, άγγιξε, σύρε και ανακάλυψε πώς δουλεύει το σώμα σου. Δεν είναι quiz. Είναι αποστολή εξερεύνησης.</p>
+        </div>
+        <div class="guide-bubble" id="guideBubble">Γεια σου Ναπολέων! Πάμε να γνωρίσουμε το σώμα με χαμόγελο.</div>
+      </header>
+
+      <section class="panel section-screen active" id="profile">
+        <div class="profile-grid">
+          <div class="profile-card">
+            <div class="avatar">Ν</div>
+            <h2>Προφίλ Ναπολέοντα</h2>
+            <p>Εξερευνητής Α’ Δημοτικού. Στόχος: να μάθει το σώμα με παιχνίδι, ιστορίες και αυτοκόλλητα.</p>
+            <div class="turn-box">
+              <span>Λειτουργία:</span>
+              <button id="singleModeBtn">Μόνος μου</button>
+              <button id="twoPlayerBtn">2 παίκτες</button>
+            </div>
+            <p id="turnMessage">Παίζει ο Ναπολέων.</p>
+          </div>
+          <div class="mission-card">
+            <h2>Σημερινή αποστολή</h2>
+            <p>Άγγιξε ένα μέρος του σώματος, ολοκλήρωσε έναν σταθμό και μάζεψε ένα αυτοκόλλητο.</p>
+            <button class="primary-action" data-section-jump="body">Ξεκίνα εξερεύνηση</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel section-screen" id="body">
+        <div class="explorer-layout">
+          <div class="body-stage" aria-label="Διαδραστικό σώμα">
+            <svg class="body-svg" viewBox="0 0 260 430" role="img" aria-label="Χαρούμενο παιδικό σώμα">
+              <circle class="body-area" data-part="Εγκέφαλος" cx="130" cy="56" r="34"></circle>
+              <path class="body-area" data-part="Πνεύμονες" d="M92 128c-24 8-34 44-20 70 22-4 37-25 38-62Zm76 0-18 8c1 37 16 58 38 62 14-26 4-62-20-70Z"></path>
+              <path class="body-area heart-area" data-part="Καρδιά" d="M130 190c-23-17-35-29-35-45 0-13 10-22 22-22 7 0 12 3 16 9 4-6 9-9 16-9 12 0 22 9 22 22 0 16-12 28-41 45Z"></path>
+              <ellipse class="body-area" data-part="Στομάχι" cx="139" cy="230" rx="35" ry="25"></ellipse>
+              <path class="body-outline" d="M130 20c32 0 58 26 58 58 0 21-11 39-27 49v35h34c20 0 36 16 36 36v70h-34v130h-42V283h-50v115H63V268H29v-70c0-20 16-36 36-36h34v-35c-16-10-27-28-27-49 0-32 26-58 58-58Z"></path>
+              <circle cx="113" cy="66" r="4" fill="#45305f"></circle>
+              <circle cx="147" cy="66" r="4" fill="#45305f"></circle>
+              <path d="M111 85c11 9 27 9 38 0" fill="none" stroke="#45305f" stroke-width="5" stroke-linecap="round"></path>
+              <text x="130" y="350" text-anchor="middle">Ναπολέων</text>
+            </svg>
+          </div>
+          <article class="discovery-panel" id="discoveryPanel">
+            <span class="mascot">Γιατρός Πίξελ</span>
+            <h2>Άγγιξε το σώμα</h2>
+            <p>Διάλεξε εγκέφαλο, καρδιά, πνεύμονες ή στομάχι. Το μέρος θα φωτίσει και θα ανοίξει μικρή ανακάλυψη.</p>
+            <button id="learnedBtn" class="primary-action">Το έμαθα!</button>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel section-screen" id="parts">
+        <h2>Μέρη του Σώματος</h2>
+        <div class="learning-grid" id="partsGrid"></div>
+      </section>
+
+      <section class="panel section-screen" id="organs">
+        <h2>Όργανα</h2>
+        <p class="section-note">Σύρε τα όργανα στο περίγραμμα. Είναι παιχνίδι τοποθέτησης, όχι διαγώνισμα.</p>
+        <div class="builder">
+          <div class="organ-palette" id="organPalette"></div>
+          <div class="body-drop-zone" id="bodyDropZone">
+            <div class="drop-slot" data-organ="brain">Εγκέφαλος</div>
+            <div class="drop-slot" data-organ="lungs">Πνεύμονες</div>
+            <div class="drop-slot" data-organ="heart">Καρδιά</div>
+            <div class="drop-slot" data-organ="stomach">Στομάχι</div>
+          </div>
+        </div>
+        <p id="builderFeedback" class="feedback">Βάλε την καρδιά στη θέση της.</p>
+      </section>
+
+      <section class="panel section-screen" id="skeleton">
+        <h2>Σκελετός</h2>
+        <div class="system-card bones">
+          <div class="system-art skeleton-art">☻<br>|-|<br>/ \</div>
+          <div>
+            <h3>Κύριος Σκελετούλης</h3>
+            <p>Τα κόκαλα κρατούν το σώμα όρθιο και προστατεύουν σημαντικά όργανα. Φτιάξε τον σκελετό με απαλά βήματα.</p>
+            <button class="collect-btn" data-collect="badge:Σκελετός">Πάρε σήμα σκελετού</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel section-screen" id="senses">
+        <h2>Οι 5 Αισθήσεις</h2>
+        <p class="section-note">Άναψε τις 5 αισθήσεις για να δεις πώς μαθαίνουμε τον κόσμο.</p>
+        <div class="sense-row" id="senseRow"></div>
+      </section>
+
+      <section class="panel section-screen" id="breathing">
+        <h2>Αναπνοή</h2>
+        <div class="system-card lungs-card">
+          <div class="lungs-animation">🫁</div>
+          <div>
+            <h3>Πνευμονάκια</h3>
+            <p>Βοήθησε τους πνεύμονες να πάρουν αέρα. Όταν εισπνέουμε γεμίζουν, όταν εκπνέουμε μικραίνουν.</p>
+            <button class="collect-btn" data-collect="badge:Αναπνοή">Πάρε ανάσα</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel section-screen" id="heart">
+        <h2>Καρδιά & Αίμα</h2>
+        <div class="system-card heart-card">
+          <div class="heart-animation">❤</div>
+          <div>
+            <h3>Καρδούλης</h3>
+            <p>Η καρδιά σπρώχνει το αίμα σε όλο το σώμα. Το αίμα μεταφέρει οξυγόνο και δύναμη.</p>
+            <button class="collect-btn" data-collect="sticker:Καρδούλης">Άκου τον χτύπο</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel section-screen" id="digestion">
+        <h2>Πέψη</h2>
+        <div class="digestion-track">
+          <span>στόμα</span><span class="food-dot"></span><span>στομάχι</span><span>έντερα</span>
+        </div>
+        <p>Ταξίδεψε την μπουκιά από το στόμα στο στομάχι. Το σώμα παίρνει ενέργεια από την τροφή.</p>
+        <button class="collect-btn" data-collect="card:Πέψη">Ταξίδεψε την μπουκιά από το στόμα στο στομάχι</button>
+      </section>
+
+      <section class="panel section-screen" id="movement">
+        <h2>Κίνηση</h2>
+        <div class="system-card">
+          <div class="muscle-arm">💪</div>
+          <div>
+            <h3>Μύες σε δράση</h3>
+            <p>Οι μύες τραβούν τα κόκαλα και μας βοηθούν να περπατάμε, να γράφουμε και να παίζουμε.</p>
+            <button class="collect-btn" data-collect="badge:Κίνηση">Κάνε κίνηση</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel section-screen" id="habits">
+        <h2>Υγιεινές Συνήθειες</h2>
+        <div class="habit-grid" id="habitGrid"></div>
+      </section>
+
+      <section class="panel section-screen" id="collections">
+        <h2>Συλλογές</h2>
+        <div class="collection-grid" id="collectionGrid"></div>
+      </section>
+
+      <section class="panel section-screen" id="progress">
+        <h2>Πρόοδος</h2>
+        <div class="progress-board" id="progressBoard"></div>
+      </section>
+
+      <section class="panel section-screen" id="settings">
+        <h2>Ρυθμίσεις</h2>
+        <label class="setting-row">
+          <span>Ήχοι placeholder</span>
+          <input type="checkbox" id="soundToggle">
+        </label>
+        <label class="setting-row">
+          <span>Μεγαλύτερα γράμματα</span>
+          <input type="checkbox" id="bigTextToggle">
+        </label>
+        <button id="resetBtn" class="danger-action">Καθαρισμός προόδου</button>
+        <p class="section-note">Έτοιμο για μελλοντική αφήγηση, backend save system, περισσότερα προφίλ και νέα επίπεδα ανατομίας.</p>
+      </section>
+
+      <section class="journey-panel">
+        <h2>Ταξίδι μέσα στο σώμα</h2>
+        <div class="station-map" id="stationMap"></div>
+      </section>
+    </main>
+  </div>
+  <script src="js/anatomy.js"></script>
+</body>
+</html>

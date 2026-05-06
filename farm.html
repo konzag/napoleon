@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23102818'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-size='62'%3E%F0%9F%9A%9C%3C/text%3E%3C/svg%3E">
+  <title>Το Μαγικό Αγρόκτημα του Ναπολέοντα</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(255, 232, 120, 0.18), transparent 28rem),
+        linear-gradient(180deg, #102818 0%, #07140d 100%);
+      color: #f4ffe8;
+      font-family: "Trebuchet MS", Arial, sans-serif;
+      padding: 54px 14px 18px;
+    }
+    #top-nav {
+      position: fixed; inset: 0 0 auto; z-index: 20;
+      min-height: 38px;
+      background: rgba(6, 26, 13, 0.96);
+      border-bottom: 1px solid #b7f47a55;
+      display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+      gap: 6px; padding: 6px 10px;
+      box-shadow: 0 2px 14px #0008;
+    }
+    #top-nav a, #top-nav .nav-title {
+      color: #dfff8f;
+      text-decoration: none;
+      border: 1px solid #dfff8f55;
+      border-radius: 5px;
+      padding: 4px 9px;
+      font-size: clamp(0.68rem, 2vw, 0.82rem);
+      white-space: nowrap;
+    }
+    #top-nav .nav-title { color: #fff4a8; border-color: #fff4a888; background: #fff4a812; }
+    #top-nav a:hover { background: #dfff8f1f; border-color: #dfff8f; }
+    .shell { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(290px, 0.75fr); gap: 14px; }
+    header { max-width: 1180px; margin: 0 auto 14px; padding: 18px; border: 1px solid #b7f47a55; border-radius: 8px; background: rgba(12, 45, 23, 0.72); }
+    h1 { margin: 0 0 8px; font-size: clamp(1.7rem, 5vw, 3rem); line-height: 1.08; color: #fff4a8; }
+    .intro { margin: 0; color: #cbeeb8; line-height: 1.5; }
+    .panel { border: 1px solid #b7f47a44; border-radius: 8px; background: rgba(4, 18, 10, 0.72); padding: 14px; box-shadow: inset 0 1px 0 #ffffff12; }
+    .terminal { min-height: 430px; max-height: 58vh; overflow: auto; padding: 12px; background: #07100a; border: 1px solid #78c95755; border-radius: 6px; font-family: Consolas, "Courier New", monospace; line-height: 1.45; }
+    .line { margin: 0 0 8px; white-space: pre-wrap; }
+    .line.system { color: #d8ff9f; }
+    .line.good { color: #88ffac; }
+    .line.bad { color: #ffb3a6; }
+    .line.cmd { color: #9fd7ff; }
+    .command-row { display: flex; gap: 8px; margin-top: 10px; }
+    input {
+      flex: 1; min-width: 0;
+      background: #f6ffe9; color: #17331f;
+      border: 2px solid #b7f47a; border-radius: 6px;
+      padding: 12px; font-size: 1rem;
+    }
+    button {
+      border: 0; border-radius: 6px; padding: 11px 14px;
+      background: #ffd95a; color: #172313; font-weight: 700; cursor: pointer;
+      box-shadow: 0 3px 0 #9d7c18;
+    }
+    button:hover { filter: brightness(1.05); }
+    button:active { transform: translateY(2px); box-shadow: 0 1px 0 #9d7c18; }
+    .side { display: grid; gap: 14px; align-content: start; }
+    h2 { margin: 0 0 10px; color: #fff4a8; font-size: 1.05rem; }
+    .map-row, .progress-row { display: flex; justify-content: space-between; gap: 10px; border-bottom: 1px dashed #b7f47a33; padding: 5px 0; color: #dfffd1; }
+    .map-row.done { color: #86ff9e; }
+    .help { color: #cbeeb8; font-size: 0.95rem; line-height: 1.45; }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip { background: #173d22; color: #dfffd1; border: 1px solid #b7f47a44; border-radius: 5px; padding: 5px 7px; font-size: 0.85rem; }
+    pre { margin: 0; color: #b7f47a; font-family: Consolas, "Courier New", monospace; font-size: clamp(0.72rem, 2vw, 0.9rem); white-space: pre-wrap; }
+    .hidden { display: none; }
+    @media (max-width: 850px) {
+      body { padding-top: 78px; }
+      .shell { grid-template-columns: 1fr; }
+      .terminal { max-height: 50vh; }
+      .command-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <nav id="top-nav">
+    <a href="index.html">Εγκυκλοπαίδεια</a>
+    <a href="diablo.html">Diablo Quest</a>
+    <a href="school.html">Jedi Ακαδημία</a>
+    <a href="farm.html">Μαγικό Αγρόκτημα</a>
+    <a href="anatomy-game/anatomy.html">🫀 Το Σώμα</a>
+  </nav>
+
+  <header>
+    <h1>Το Μαγικό Αγρόκτημα του Ναπολέοντα</h1>
+    <p class="intro">Retro text adventure για ανάγνωση, ορθογραφία και μικρές αποστολές φάρμας. Γράψε εντολές με σωστούς τόνους: <strong>πήγαινε στάβλος</strong>, <strong>τάισε κότα</strong>, <strong>πάρε φτυάρι</strong>.</p>
+  </header>
+
+  <main class="shell">
+    <section class="panel">
+      <h2>Τερματικό Αγρότη</h2>
+      <div id="terminal" class="terminal" aria-live="polite"></div>
+      <div class="command-row">
+        <input id="commandInput" autocomplete="off" spellcheck="false" placeholder="γράψε εντολή εδώ">
+        <button id="runBtn">Εκτέλεση</button>
+        <button id="newGameBtn">Νέο παιχνίδι</button>
+      </div>
+    </section>
+
+    <aside class="side">
+      <section class="panel">
+        <h2>Χάρτης</h2>
+        <div id="map"></div>
+      </section>
+      <section class="panel">
+        <h2>Πρόοδος</h2>
+        <div id="progress"></div>
+      </section>
+      <section class="panel">
+        <h2>Λέξεις Εξάσκησης</h2>
+        <div id="wordChips" class="chips"></div>
+      </section>
+      <section class="panel">
+        <h2>Σκηνή</h2>
+        <pre id="ascii"></pre>
+      </section>
+      <section class="panel help">
+        <h2>Παραδείγματα</h2>
+        πήγαινε κοτέτσι<br>
+        φύτεψε ντομάτα<br>
+        τάισε αγελάδα<br>
+        πάρε το ποτιστήρι<br>
+        βρες τρακτέρ<br>
+        φάε μήλο
+      </section>
+    </aside>
+  </main>
+
+  <script>
+    const REQUIRE_ACCENTS = true;
+    const REST_SECONDS = 180;
+    const HUNGER_AFTER_ACTIONS = 20;
+    const HUNGER_AFTER_MS = 20 * 60 * 1000;
+
+    const PLANTS = {
+      'μαρούλι': { season: 'Άνοιξη', hint: 'Το μαρούλι έχει ου.' },
+      'πατάτα': { season: 'Άνοιξη', hint: 'Η πατάτα έχει δύο α.' },
+      'φασόλι': { season: 'Άνοιξη', hint: 'Το φασόλι έχει ό.' },
+      'ντομάτα': { season: 'Καλοκαίρι', hint: 'Η ντομάτα έχει ντ και ά.' },
+      'αγγούρι': { season: 'Καλοκαίρι', hint: 'Το αγγούρι έχει γγ.' },
+      'πιπεριά': { season: 'Καλοκαίρι', hint: 'Η πιπεριά τελειώνει σε ιά.' },
+      'μήλο': { season: 'Φθινόπωρο', hint: 'Το μήλο έχει ή.' },
+      'καρότο': { season: 'Φθινόπωρο', hint: 'Το καρότο έχει ό.' },
+      'λάχανο': { season: 'Φθινόπωρο', hint: 'Το λάχανο έχει ά.' },
+      'σπανάκι': { season: 'Χειμώνας', hint: 'Το σπανάκι έχει ά.' },
+      'μπρόκολο': { season: 'Χειμώνας', hint: 'Το μπρόκολο έχει μπρ.' },
+      'κρεμμύδι': { season: 'Χειμώνας', hint: 'Το κρεμμύδι έχει δύο μ.' }
+    };
+
+    const ANIMALS = {
+      'κότα': { verb: 'τάισε', place: 'Κοτέτσι', done: 'Μπράβο! Η κότα έφαγε και έκανε κο-κο-κο!', hint: 'Η κότα έχει ό.' },
+      'κόκορας': { verb: 'τάισε', place: 'Κοτέτσι', done: 'Ο κόκορας στάθηκε περήφανος στην αυλή!', hint: 'Ο κόκορας έχει δύο φορές κο.' },
+      'πάπια': { verb: 'τάισε', place: 'Λιμνούλα', done: 'Η πάπια πλατσούρισε χαρούμενη.', hint: 'Η πάπια έχει ά.' },
+      'αγελάδα': { verb: 'τάισε', place: 'Στάβλος', done: 'Η αγελάδα μασάει ήρεμα το χορτάρι.', hint: 'Η αγελάδα έχει γε στη μέση.' },
+      'πρόβατο': { verb: 'τάισε', place: 'Στάβλος', done: 'Το πρόβατο βέλαξε χαρούμενο.', hint: 'Το πρόβατο γράφεται με β.' },
+      'κατσίκα': { verb: 'τάισε', place: 'Στάβλος', done: 'Η κατσίκα πήδηξε πάνω σε ένα μικρό ξύλο.', hint: 'Η κατσίκα έχει τσ.' },
+      'γάιδαρος': { verb: 'πότισε', place: 'Πηγάδι', done: 'Ο γάιδαρος ήπιε νερό και ξεκουράστηκε.', hint: 'Ο γάιδαρος έχει άι.' },
+      'άλογο': { verb: 'πότισε', place: 'Στάβλος', done: 'Το άλογο τίναξε τη χαίτη του.', hint: 'Το άλογο αρχίζει με ά.' },
+      'σκύλος': { verb: 'βρες', place: 'Αυλή', done: 'Ο σκύλος βρέθηκε δίπλα στον φράχτη.', hint: 'Ο σκύλος έχει ύ.' },
+      'γάτα': { verb: 'χάιδεψε', place: 'Μικρό Σπίτι', done: 'Η γάτα γουργούρισε απαλά.', hint: 'Η γάτα έχει ά.' },
+      'κουνέλι': { verb: 'μέτρα', place: 'Αυλή', done: 'Το κουνέλι μέτρησε καρότα μαζί σου.', hint: 'Το κουνέλι έχει έ.' }
+    };
+
+    const TOOLS = {
+      'φτυάρι': { verbs: ['πάρε'], place: 'Αποθήκη', hint: 'Το φτυάρι αρχίζει με φτ.' },
+      'τσουγκράνα': { verbs: ['χρησιμοποίησε', 'πάρε'], place: 'Αχυρώνας', hint: 'Η τσουγκράνα αρχίζει με τσου.' },
+      'ποτιστήρι': { verbs: ['πάρε'], place: 'Αποθήκη', hint: 'Το ποτιστήρι έχει ήρι στο τέλος.' },
+      'κουβάς': { verbs: ['γέμισε', 'πάρε'], place: 'Πηγάδι', hint: 'Ο κουβάς έχει ά.' },
+      'λάστιχο': { verbs: ['πάρε'], place: 'Υπόστεγο', hint: 'Το λάστιχο έχει ά.' },
+      'καρότσι': { verbs: ['πάρε'], place: 'Αχυρώνας', hint: 'Το καρότσι έχει τσ.' },
+      'σκάλα': { verbs: ['πάρε'], place: 'Αποθήκη', hint: 'Η σκάλα έχει ά.' },
+      'καλάθι': { verbs: ['πάρε'], place: 'Μικρό Σπίτι', hint: 'Το καλάθι έχει θ.' },
+      'σχοινί': { verbs: ['πάρε'], place: 'Αχυρώνας', hint: 'Το σχοινί αρχίζει με σχ.' },
+      'σπόροι': { verbs: ['βάλε', 'πάρε'], place: 'Μικρό Σπίτι', hint: 'Οι σπόροι έχουν ό.' }
+    };
+
+    const MACHINES = {
+      'τρακτέρ': { verbs: ['βρες'], place: 'Υπόστεγο', hint: 'Το τρακτέρ έχει έ.' },
+      'άροτρο': { verbs: ['βρες'], place: 'Υπόστεγο', hint: 'Το άροτρο αρχίζει με ά.' },
+      'ρυμούλκα': { verbs: ['βρες'], place: 'Υπόστεγο', hint: 'Η ρυμούλκα έχει ύ.' },
+      'μηχανή': { verbs: ['βρες'], place: 'Υπόστεγο', hint: 'Η μηχανή έχει ή.' },
+      'αντλία': { verbs: ['βρες'], place: 'Πηγάδι', hint: 'Η αντλία έχει ντ.' },
+      'φράχτης': { verbs: ['φτιάξε'], place: 'Φράχτης', hint: 'Ο φράχτης έχει ά.' },
+      'στάβλος': { verbs: ['πήγαινε'], place: 'Στάβλος', hint: 'Ο στάβλος έχει ά.' },
+      'κοτέτσι': { verbs: ['πήγαινε'], place: 'Κοτέτσι', hint: 'Το κοτέτσι έχει έ.' },
+      'αχυρώνας': { verbs: ['πήγαινε'], place: 'Αχυρώνας', hint: 'Ο αχυρώνας έχει ώ.' },
+      'αποθήκη': { verbs: ['πήγαινε'], place: 'Αποθήκη', hint: 'Η αποθήκη έχει ή.' }
+    };
+
+    const FOODS = ['μήλο', 'ψωμί', 'τυρί', 'γάλα', 'γεύμα'];
+    const QUICK_FOODS = ['μήλο', 'ψωμί', 'τυρί', 'γάλα'];
+    const HARVEST = ['μήλο', 'ντομάτα', 'πατάτα', 'καρότο', 'λάχανο'];
+
+    const LOCATIONS = {
+      'Αυλή': { aliases: ['αυλή'], total: 3, art: 'yard' },
+      'Άνοιξη': { aliases: ['άνοιξη'], total: 3, art: 'field' },
+      'Καλοκαίρι': { aliases: ['καλοκαίρι'], total: 3, art: 'field' },
+      'Φθινόπωρο': { aliases: ['φθινόπωρο'], total: 3, art: 'field' },
+      'Χειμώνας': { aliases: ['χειμώνας'], total: 3, art: 'field' },
+      'Στάβλος': { aliases: ['στάβλος'], total: 4, art: 'stable' },
+      'Κοτέτσι': { aliases: ['κοτέτσι'], total: 2, art: 'coop' },
+      'Αχυρώνας': { aliases: ['αχυρώνας'], total: 3, art: 'barn' },
+      'Αποθήκη': { aliases: ['αποθήκη'], total: 4, art: 'shed' },
+      'Υπόστεγο': { aliases: ['υπόστεγο'], total: 5, art: 'tractor' },
+      'Πηγάδι': { aliases: ['πηγάδι'], total: 3, art: 'well' },
+      'Λιμνούλα': { aliases: ['λιμνούλα'], total: 1, art: 'pond' },
+      'Μικρό Σπίτι': { aliases: ['σπίτι', 'μικρό σπίτι'], total: 4, art: 'house' },
+      'Φράχτης': { aliases: ['φράχτης'], total: 1, art: 'fence' }
+    };
+
+    const ASCII = {
+      yard: String.raw`
+      ΜΑΓΙΚΗ ΑΥΛΗ
+   ________________
+  |  σπόροι  καλάθι |
+  |__  ____  ______|
+     ||    ||
+  -- φράχτης -- σκύλος --`,
+      field: String.raw`
+~~~~~~~~~~~~~~~~~~~~
+  v   v   v   v
+~~~~~~~~~~~~~~~~~~~~
+ Χωράφι με μικρά φυτά`,
+      stable: String.raw`
+     /----------\
+    /  ΣΤΑΒΛΟΣ   \
+   |  αγελάδα    |
+   |  άλογο      |`,
+      coop: String.raw`
+     /\_/\
+    /     \
+   | ΚΟΤΕΤΣΙ |
+   |  κότα   |`,
+      tractor: String.raw`
+      ______
+ ___ /|_||_\`.__
+|   |        |  |
+'---()-()---()-()`,
+      well: String.raw`
+     ______
+    /      \
+   | ΠΗΓΑΔΙ |
+   |__||___|
+      ||`,
+      pond: String.raw`
+   ~~~~~~~~~~~~~
+  ~  πάπια      ~
+   ~~~~~~~~~~~~~`,
+      house: String.raw`
+      /\
+     /  \
+    /____\
+    | [] |
+    |____|`,
+      barn: String.raw`
+       /\
+      /__\
+     |    |
+     |ΑΧΥΡ|
+     |____|`,
+      shed: String.raw`
+   ___________
+  | ΑΠΟΘΗΚΗ  |
+  | εργαλεία |
+  |__________|`,
+      fence: String.raw`
+|_|_|_|_|_|_|_|_|
+  Ο φράχτης θέλει φτιάξιμο`,
+      feast: String.raw`
+  *  ΓΙΟΡΤΗ ΦΑΡΜΑΣ  *
+ /|\  τραπέζι  /|\
+  |  μήλο ψωμί τυρί
+ Μπράβο, μικρέ αγρότη!`
+    };
+
+    const initialState = () => ({
+      chapter: 1,
+      location: 'Μικρό Σπίτι',
+      planted: [],
+      animals: [],
+      tools: [],
+      machines: [],
+      harvest: [],
+      attempts: 0,
+      spellingErrors: 0,
+      correctActions: 0,
+      hungerShown: false,
+      hungerPending: false,
+      restUntil: 0,
+      startedAt: Date.now(),
+      won: false,
+      introDone: false
+    });
+
+    let state = initialState();
+    let restInterval = null;
+
+    const terminal = document.getElementById('terminal');
+    const input = document.getElementById('commandInput');
+    const runBtn = document.getElementById('runBtn');
+    const newGameBtn = document.getElementById('newGameBtn');
+
+    function stripAccents(text) {
+      return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+
+    function cleanCommand(text) {
+      return text.normalize('NFC').toLocaleLowerCase('el-GR').trim().replace(/\s+/g, ' ');
+    }
+
+    function splitCommand(text) {
+      const parts = cleanCommand(text).split(' ').filter(Boolean);
+      const verb = parts.shift() || '';
+      if (parts[0] === 'το' || parts[0] === 'τη' || parts[0] === 'την' || parts[0] === 'τον') parts.shift();
+      return { verb, word: parts.join(' ') };
+    }
+
+    function hasAccentNearMiss(given, expected) {
+      return REQUIRE_ACCENTS && given !== expected && stripAccents(given) === stripAccents(expected);
+    }
+
+    function findExpectedWord(word, groups) {
+      for (const group of groups) {
+        for (const expected of Object.keys(group)) {
+          if (word === expected || stripAccents(word) === stripAccents(expected)) return expected;
+        }
+      }
+      return '';
+    }
+
+    function write(text, type = 'system') {
+      const p = document.createElement('p');
+      p.className = 'line ' + type;
+      p.textContent = text;
+      terminal.appendChild(p);
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    function renderAsciiArt(kind) {
+      const artKind = kind || LOCATIONS[state.location]?.art || 'yard';
+      document.getElementById('ascii').textContent = ASCII[artKind] || ASCII.yard;
+    }
+
+    function locationDoneCount(name) {
+      let count = 0;
+      for (const plant of state.planted) if (PLANTS[plant]?.season === name) count++;
+      for (const animal of state.animals) if (ANIMALS[animal]?.place === name) count++;
+      for (const tool of state.tools) if (TOOLS[tool]?.place === name) count++;
+      for (const machine of state.machines) if (MACHINES[machine]?.place === name) count++;
+      for (const product of state.harvest) if (name === 'Αυλή') count++;
+      if (state.location === name && name === 'Μικρό Σπίτι' && state.introDone) count = Math.max(count, 2);
+      return Math.min(count, LOCATIONS[name].total);
+    }
+
+    function renderMap() {
+      const map = document.getElementById('map');
+      map.textContent = '';
+      Object.keys(LOCATIONS).forEach((name) => {
+        const done = locationDoneCount(name);
+        const total = LOCATIONS[name].total;
+        const row = document.createElement('div');
+        row.className = 'map-row' + (done >= total ? ' done' : '');
+        const left = document.createElement('span');
+        left.textContent = '[' + name + ']';
+        const right = document.createElement('span');
+        right.textContent = done >= total ? 'ΟΛΟΚΛΗΡΩΘΗΚΕ' : done + '/' + total;
+        row.append(left, right);
+        map.appendChild(row);
+      });
+    }
+
+    function renderProgress() {
+      const rows = [
+        ['Σωστές φυτεύσεις', state.planted.length + '/12'],
+        ['Ζώα που φροντίστηκαν', state.animals.length + '/6+'],
+        ['Εργαλεία που βρέθηκαν', state.tools.length + '/6+'],
+        ['Μηχανήματα που επισκευάστηκαν', state.machines.length + '/4+'],
+        ['Προϊόντα που μαζεύτηκαν', state.harvest.length + '/5'],
+        ['Συνολικές προσπάθειες', String(state.attempts)],
+        ['Λάθη ορθογραφίας', String(state.spellingErrors)],
+        ['Τρέχον κεφάλαιο', String(state.chapter)]
+      ];
+      const progress = document.getElementById('progress');
+      progress.textContent = '';
+      rows.forEach(([label, value]) => {
+        const row = document.createElement('div');
+        row.className = 'progress-row';
+        const l = document.createElement('span');
+        const v = document.createElement('strong');
+        l.textContent = label;
+        v.textContent = value;
+        row.append(l, v);
+        progress.appendChild(row);
+      });
+      renderMap();
+    }
+
+    function renderWordChips() {
+      const words = [
+        ...Object.keys(PLANTS),
+        ...Object.keys(ANIMALS),
+        ...Object.keys(TOOLS),
+        ...Object.keys(MACHINES),
+        ...FOODS
+      ];
+      const chips = document.getElementById('wordChips');
+      chips.textContent = '';
+      [...new Set(words)].forEach((word) => {
+        const chip = document.createElement('span');
+        chip.className = 'chip';
+        chip.textContent = word;
+        chips.appendChild(chip);
+      });
+    }
+
+    function success(message) {
+      state.correctActions++;
+      write(message, 'good');
+      handleHungerEvent();
+      checkChapterCompletion();
+      checkFinalVictory();
+      renderProgress();
+    }
+
+    function spellingProblem(word, expected, hint) {
+      state.spellingErrors++;
+      if (hasAccentNearMiss(word, expected)) {
+        write('Πολύ κοντά! Πρόσεξε τους τόνους και ξαναδοκίμασε.', 'bad');
+      } else {
+        write('Η λέξη μπερδεύτηκε λίγο. Η σωστή γραφή είναι: ' + expected + '. Δοκίμασε ξανά.', 'bad');
+      }
+      if (hint) write('Hint: ' + hint, 'system');
+      renderProgress();
+    }
+
+    function goToPlace(word) {
+      for (const [place, meta] of Object.entries(LOCATIONS)) {
+        for (const alias of meta.aliases) {
+          if (word === alias) {
+            state.location = place;
+            renderAsciiArt();
+            success('Ο Ναπολέων πήγε στον χώρο: ' + place + '.');
+            return true;
+          }
+          if (hasAccentNearMiss(word, alias)) {
+            spellingProblem(word, alias, MACHINES[alias]?.hint);
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+
+    function handlePlantQuest(verb, word) {
+      if (verb !== 'φύτεψε' && verb !== 'βάλε') return false;
+      const expected = findExpectedWord(word, [PLANTS]);
+      if (!expected) return false;
+      if (word !== expected) {
+        spellingProblem(word, expected, PLANTS[expected].hint);
+        return true;
+      }
+      if (state.planted.includes(expected)) {
+        write('Το ' + expected + ' έχει ήδη φυτευτεί.', 'system');
+        return true;
+      }
+      state.planted.push(expected);
+      renderAsciiArt('field');
+      success('Μπράβο! Φύτεψες σωστά: ' + expected + ' στην εποχή ' + PLANTS[expected].season + '.');
+      return true;
+    }
+
+    function handleAnimalCare(verb, word) {
+      const expected = findExpectedWord(word, [ANIMALS]);
+      if (!expected) return false;
+      const animal = ANIMALS[expected];
+      if (word !== expected) {
+        spellingProblem(word, expected, animal.hint);
+        return true;
+      }
+      if (verb !== animal.verb) {
+        write('Κοντά είσαι. Για το ζώο "' + expected + '" γράψε: ' + animal.verb + ' ' + expected + '.', 'system');
+        return true;
+      }
+      if (!state.animals.includes(expected)) state.animals.push(expected);
+      success(animal.done);
+      return true;
+    }
+
+    function handleToolQuest(verb, word) {
+      const expected = findExpectedWord(word, [TOOLS]);
+      if (!expected) return false;
+      const tool = TOOLS[expected];
+      if (word !== expected) {
+        spellingProblem(word, expected, tool.hint);
+        return true;
+      }
+      if (!tool.verbs.includes(verb)) {
+        write('Δοκίμασε μια σωστή εντολή όπως: ' + tool.verbs[0] + ' ' + expected + '.', 'system');
+        return true;
+      }
+      if (!state.tools.includes(expected)) state.tools.push(expected);
+      success('Το εργαλείο "' + expected + '" μπήκε στη σωστή θέση.');
+      return true;
+    }
+
+    function handleMachineQuest(verb, word) {
+      const expected = findExpectedWord(word, [MACHINES]);
+      if (!expected) return false;
+      const machine = MACHINES[expected];
+      if (word !== expected) {
+        spellingProblem(word, expected, machine.hint);
+        return true;
+      }
+      if (!machine.verbs.includes(verb)) return false;
+      if (!state.machines.includes(expected)) state.machines.push(expected);
+      renderAsciiArt(expected === 'τρακτέρ' ? 'tractor' : undefined);
+      success('Ο Ναπολέων έλεγξε σωστά: ' + expected + '.');
+      return true;
+    }
+
+    function handleHarvestQuest(verb, word) {
+      if (verb !== 'μάζεψε' && verb !== 'βάλε') return false;
+      const expected = HARVEST.find((item) => word === item || stripAccents(word) === stripAccents(item));
+      if (!expected) return false;
+      if (word !== expected) {
+        spellingProblem(word, expected, PLANTS[expected]?.hint);
+        return true;
+      }
+      if (!state.harvest.includes(expected)) state.harvest.push(expected);
+      success('Το προϊόν "' + expected + '" μπήκε στο καλάθι.');
+      return true;
+    }
+
+    function handleFood(verb, word) {
+      if (verb !== 'φάε') return false;
+      const expected = FOODS.find((item) => word === item || stripAccents(word) === stripAccents(item)) || (word === 'μεγάλο γεύμα' ? 'μεγάλο γεύμα' : '');
+      if (!expected) return false;
+      if (word !== expected) {
+        spellingProblem(word, expected, 'Πρόσεξε τον τόνο στη λέξη.');
+        return true;
+      }
+      state.hungerPending = false;
+      if (QUICK_FOODS.includes(word)) {
+        success('Ο Ναπολέων έφαγε κάτι γρήγορο και συνεχίζει τη δουλειά του.');
+      } else if (word === 'μεγάλο γεύμα') {
+        write('Ο Ναπολέων έφαγε καλά και τώρα πρέπει να ξεκουραστεί για 3 λεπτά.', 'system');
+        startRestTimer(REST_SECONDS);
+      }
+      return true;
+    }
+
+    function handleHungerEvent() {
+      if (state.hungerShown) return;
+      if (state.correctActions >= HUNGER_AFTER_ACTIONS || Date.now() - state.startedAt >= HUNGER_AFTER_MS) {
+        state.hungerShown = true;
+        state.hungerPending = true;
+        write('Ο Ναπολέων ακούει την κοιλίτσα του να γουργουρίζει. Δούλεψε πολύ στο χωράφι και τώρα πεινάει!', 'system');
+        write('Διάλεξε: φάε μήλο, φάε ψωμί, φάε τυρί, φάε γάλα ή φάε μεγάλο γεύμα.', 'system');
+      }
+    }
+
+    function startRestTimer(seconds = REST_SECONDS) {
+      state.restUntil = Date.now() + seconds * 1000;
+      if (restInterval) clearInterval(restInterval);
+      const tick = () => {
+        const left = Math.max(0, Math.ceil((state.restUntil - Date.now()) / 1000));
+        const mm = String(Math.floor(left / 60)).padStart(2, '0');
+        const ss = String(left % 60).padStart(2, '0');
+        input.placeholder = 'Ξεκούραση: ' + mm + ':' + ss;
+        if (left <= 0) {
+          clearInterval(restInterval);
+          restInterval = null;
+          state.restUntil = 0;
+          input.placeholder = 'γράψε εντολή εδώ';
+          write('Ο Ναπολέων σηκώθηκε γεμάτος ενέργεια! Πάμε πάλι στο χωράφι.', 'good');
+        }
+      };
+      tick();
+      restInterval = setInterval(tick, 1000);
+    }
+
+    function checkChapterCompletion() {
+      const old = state.chapter;
+      if (state.introDone) state.chapter = Math.max(state.chapter, 2);
+      if (state.planted.length >= 12) state.chapter = Math.max(state.chapter, 3);
+      if (state.animals.length >= 6) state.chapter = Math.max(state.chapter, 4);
+      if (state.tools.length >= 6) state.chapter = Math.max(state.chapter, 5);
+      if (['μηχανή', 'αντλία', 'ρυμούλκα', 'λάστιχο'].every((w) => state.machines.includes(w) || state.tools.includes(w))) state.chapter = Math.max(state.chapter, 6);
+      if (state.harvest.length >= 5) state.chapter = Math.max(state.chapter, 7);
+      if (state.chapter !== old) write('Νέο κεφάλαιο: ' + chapterTitle(state.chapter), 'good');
+    }
+
+    function chapterTitle(chapter) {
+      return [
+        '',
+        'Το πρωινό στο αγρόκτημα',
+        'Οι τέσσερις εποχές',
+        'Τα ζώα ζητούν βοήθεια',
+        'Τα εργαλεία χάθηκαν',
+        'Το τρακτέρ δεν ξεκινά',
+        'Το μεγάλο μάζεμα',
+        'Η γιορτή της φάρμας'
+      ][chapter] || 'Αγρόκτημα';
+    }
+
+    function checkFinalVictory() {
+      if (state.won) return false;
+      const machineDone = ['μηχανή', 'αντλία', 'ρυμούλκα'].every((w) => state.machines.includes(w)) && state.tools.includes('λάστιχο');
+      const done = state.planted.length >= 12 && state.animals.length >= 6 && state.tools.length >= 6 && machineDone && state.harvest.length >= 5 && state.chapter >= 7;
+      if (!done) return false;
+      state.won = true;
+      renderAsciiArt('feast');
+      const seconds = Math.floor((Date.now() - state.startedAt) / 1000);
+      const minutes = Math.floor(seconds / 60);
+      const rest = String(seconds % 60).padStart(2, '0');
+      write('Ο Ναπολέων κοίταξε το Μαγικό Χωράφι και χαμογέλασε. Τα φυτά ήταν στη σωστή εποχή, τα ζώα ήταν χαρούμενα, τα εργαλεία μπήκαν στη θέση τους και το τρακτέρ δούλεψε ξανά. Το αγρόκτημα γέμισε χρώματα, ήχους και σωστά γραμμένες λέξεις. Μπράβο, μικρέ αγρότη!', 'good');
+      write('Συνολικός χρόνος παιχνιδιού: ' + minutes + ':' + rest + '\nΣυνολικές προσπάθειες: ' + state.attempts + '\nΣωστές ενέργειες: ' + state.correctActions + '\nΛάθη ορθογραφίας: ' + state.spellingErrors + '\nΜήνυμα επιβράβευσης: Είσαι προσεκτικός μικρός αγρότης!', 'good');
+      return true;
+    }
+
+    function handleCommand(raw) {
+      const command = cleanCommand(raw);
+      if (!command) return;
+      write('> ' + command, 'cmd');
+      if (state.restUntil && Date.now() < state.restUntil) {
+        write('Ο Ναπολέων ξεκουράζεται ακόμα. Σε λίγο θα συνεχίσει.', 'system');
+        return;
+      }
+      state.attempts++;
+      const { verb, word } = splitCommand(command);
+      if (handleFood(verb, word)) return;
+      if (state.hungerPending) {
+        write('Πρώτα διάλεξε κάτι να φάει ο Ναπολέων.', 'system');
+        return;
+      }
+      if (verb === 'χάρτης') { renderMap(); write('Ο χάρτης ενημερώθηκε.', 'system'); return; }
+      if (verb === 'πρόοδος') { renderProgress(); write('Ο πίνακας προόδου ενημερώθηκε.', 'system'); return; }
+      if (verb === 'βοήθεια') { showHelp(); return; }
+      if (verb === 'πήγαινε' && goToPlace(word)) return;
+      if (handlePlantQuest(verb, word)) return;
+      if (handleAnimalCare(verb, word)) return;
+      if (handleToolQuest(verb, word)) return;
+      if (handleMachineQuest(verb, word)) return;
+      if (handleHarvestQuest(verb, word)) return;
+
+      const expected = findExpectedWord(word, [PLANTS, ANIMALS, TOOLS, MACHINES]);
+      if (expected) spellingProblem(word, expected, PLANTS[expected]?.hint || ANIMALS[expected]?.hint || TOOLS[expected]?.hint || MACHINES[expected]?.hint);
+      else write('Δεν κατάλαβα ακόμα αυτή την εντολή. Γράψε "βοήθεια" για ιδέες.', 'bad');
+      renderProgress();
+    }
+
+    function showHelp() {
+      write('Κεφάλαιο 1: πάρε καλάθι, πάρε σπόροι, πήγαινε αυλή.\nΚεφάλαιο 2: φύτεψε μαρούλι, φύτεψε ντομάτα, φύτεψε μήλο...\nΖώα: τάισε κότα, πότισε άλογο, χάιδεψε γάτα.\nΕργαλεία: πάρε φτυάρι, χρησιμοποίησε τσουγκράνα, γέμισε κουβάς.\nΤρακτέρ: βρες μηχανή, βρες αντλία, βρες ρυμούλκα, πάρε λάστιχο.\nΜάζεμα: μάζεψε μήλο, μάζεψε ντομάτα, μάζεψε πατάτα, μάζεψε καρότο, μάζεψε λάχανο.', 'system');
+    }
+
+    function startNewGame() {
+      state = initialState();
+      terminal.textContent = '';
+      if (restInterval) clearInterval(restInterval);
+      restInterval = null;
+      input.placeholder = 'γράψε εντολή εδώ';
+      renderWordChips();
+      renderAsciiArt('yard');
+      renderProgress();
+      write('Ο Ναπολέων ξυπνά στο Μικρό Σπίτι και βλέπει τον χάρτη του αγροκτήματος.', 'system');
+      write(ASCII.house, 'system');
+      write('Πρώτη αποστολή: πάρε καλάθι, πάρε σπόροι και πήγαινε αυλή.', 'system');
+      state.introDone = true;
+      renderProgress();
+    }
+
+    runBtn.addEventListener('click', () => {
+      const value = input.value;
+      input.value = '';
+      handleCommand(value);
+      input.focus();
+    });
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') runBtn.click();
+    });
+    newGameBtn.addEventListener('click', startNewGame);
+
+    startNewGame();
+  </script>
+</body>
+</html>
