@@ -1,0 +1,591 @@
+/* =====================================================
+       ΣΤΥΛ — Αυτό ελέγχει πώς φαίνονται όλα!
+       Σκέψου το σαν να διαλέγεις χρώματα για τουβλάκια LEGO.
+    ===================================================== */
+
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@400;600&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0a0015;
+      background-image:
+        radial-gradient(ellipse at top, #1a0035 0%, #0a0015 60%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Ccircle cx='50' cy='80' r='1.2' fill='white' opacity='0.8'/%3E%3Ccircle cx='120' cy='30' r='0.8' fill='white' opacity='0.6'/%3E%3Ccircle cx='200' cy='110' r='1.5' fill='white' opacity='0.9'/%3E%3Ccircle cx='310' cy='60' r='1' fill='white' opacity='0.7'/%3E%3Ccircle cx='370' cy='150' r='0.7' fill='white' opacity='0.5'/%3E%3Ccircle cx='80' cy='200' r='1.3' fill='white' opacity='0.8'/%3E%3Ccircle cx='250' cy='250' r='1' fill='white' opacity='0.6'/%3E%3Ccircle cx='160' cy='320' r='0.9' fill='white' opacity='0.7'/%3E%3Ccircle cx='340' cy='280' r='1.2' fill='white' opacity='0.9'/%3E%3Ccircle cx='30' cy='350' r='0.8' fill='white' opacity='0.5'/%3E%3Ccircle cx='390' cy='370' r='1.1' fill='white' opacity='0.7'/%3E%3Ccircle cx='220' cy='390' r='0.7' fill='white' opacity='0.6'/%3E%3C/svg%3E");
+      font-family: 'Exo 2', 'Arial', sans-serif;
+      color: #e8e8ff;
+      min-height: 100vh;
+      padding: 16px;
+      padding-top: 50px;
+      overflow-x: hidden;
+    }
+
+    /* ── Navbar πλοήγησης ── */
+    #top-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+      background: rgba(10, 0, 21, 0.95);
+      border-bottom: 1px solid #ffe81f44;
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; padding: 6px 12px;
+      box-shadow: 0 2px 16px #ffe81f22;
+      backdrop-filter: blur(4px);
+    }
+    #top-nav a {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.6rem, 2vw, 0.78rem);
+      color: #ffe81f;
+      text-decoration: none;
+      border: 1px solid #ffe81f44;
+      border-radius: 4px;
+      padding: 4px 10px;
+      letter-spacing: 1px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    #top-nav a:hover { border-color: #ffe81f; background: #ffe81f18; box-shadow: 0 0 10px #ffe81f44; }
+    #top-nav .nav-divider { color: #ffe81f55; font-size: 1rem; }
+    #top-nav .nav-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.55rem, 1.8vw, 0.7rem);
+      color: #ffe81f88; letter-spacing: 2px;
+      margin: 0 4px;
+    }
+
+    /* ── Κεφαλίδα ── */
+    header { text-align: center; padding: 24px 12px 16px; }
+
+    .welcome-text {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1rem, 4vw, 1.4rem);
+      color: #ffe81f;
+      text-shadow: 0 0 12px #ffe81f88;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.4rem, 6vw, 2.6rem);
+      background: linear-gradient(90deg, #4af, #9f4, #f4a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: clamp(0.75rem, 2.5vw, 1rem);
+      color: #88aaff;
+      margin-top: 6px;
+    }
+
+    /* ── Διαχωριστής φωτόσπαθου ── */
+    .lightsaber {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 18px auto;
+      max-width: 600px;
+    }
+    .saber-line { flex: 1; height: 3px; border-radius: 2px; box-shadow: 0 0 8px currentColor; }
+    .saber-line.blue  { background: #4af; color: #4af; }
+    .saber-line.green { background: #4f8; color: #4f8; }
+    .saber-handle { font-size: 1.4rem; }
+
+    /* ── Καρτέλες ── */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.72rem, 2.2vw, 0.95rem);
+      padding: 10px 20px;
+      border: 2px solid;
+      border-radius: 30px;
+      cursor: pointer;
+      background: transparent;
+      transition: all 0.25s;
+      letter-spacing: 1px;
+    }
+
+    .tab-btn.animals { color: #4af; border-color: #4af; }
+    .tab-btn.animals:hover, .tab-btn.animals.active {
+      background: #4af; color: #000; box-shadow: 0 0 18px #4af;
+    }
+
+    .tab-btn.plants { color: #4f8; border-color: #4f8; }
+    .tab-btn.plants:hover, .tab-btn.plants.active {
+      background: #4f8; color: #000; box-shadow: 0 0 18px #4f8;
+    }
+
+    /* Καρτέλα Δεινόσαυροι — μωβ/κόκκινο */
+    .tab-btn.dino { color: #c084fc; border-color: #c084fc; }
+    .tab-btn.dino:hover, .tab-btn.dino.active {
+      background: #c084fc; color: #000; box-shadow: 0 0 18px #c084fc;
+    }
+
+    /* Καρτέλα Quiz — πορτοκαλί/χρυσό Star Wars */
+    .tab-btn.quiz { color: #ffa500; border-color: #ffa500; }
+    .tab-btn.quiz:hover, .tab-btn.quiz.active {
+      background: #ffa500; color: #000; box-shadow: 0 0 18px #ffa500;
+    }
+
+    /* ── Πλέγμα καρτών ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 14px;
+      max-width: 900px;
+      margin: 0 auto 24px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      padding: 18px 10px 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      user-select: none;
+    }
+    .card:hover { transform: translateY(-4px) scale(1.04); }
+
+    /* Κάρτες ζώων — μπλε φωτόσπαθο */
+    .card.animal { border-color: rgba(68,170,255,0.3); }
+    .card.animal:hover { border-color: #4af; box-shadow: 0 0 20px #4af55; }
+
+    /* Κάρτες φυτών — πράσινο φωτόσπαθο */
+    .card.plant { border-color: rgba(68,255,136,0.3); }
+    .card.plant:hover { border-color: #4f8; box-shadow: 0 0 20px #4f855; }
+
+    /* Κάρτες δεινόσαυρων — μωβ λάμψη */
+    .card.dino { border-color: rgba(192,132,252,0.3); }
+    .card.dino:hover { border-color: #c084fc; box-shadow: 0 0 20px #c084fc55; }
+
+    .card-emoji {
+      font-size: 3rem; line-height: 1; margin-bottom: 8px; display: block;
+      transition: transform 0.15s;
+    }
+    .card:hover .card-emoji { transform: scale(1.15) rotate(-5deg); }
+    .card:active .card-emoji { transform: scale(0.9); }
+
+    .card-name {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.7rem; letter-spacing: 1px; color: #cce; margin-top: 4px;
+    }
+
+    /* ── Πάνελ γεγονότος ── */
+    #fact-panel {
+      max-width: 680px;
+      margin: 0 auto 28px;
+      background: rgba(10,0,30,0.92);
+      border: 2px solid #ffe81f;
+      border-radius: 20px;
+      padding: 22px 24px;
+      box-shadow: 0 0 28px #ffe81f44, inset 0 0 30px rgba(255,232,31,0.04);
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .fact-header { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+    .fact-big-emoji { font-size: 3rem; line-height: 1; flex-shrink: 0; }
+    .fact-title { font-family: 'Orbitron', monospace; font-size: clamp(1rem, 3vw, 1.4rem); color: #ffe81f; }
+    .fact-text { font-size: clamp(0.9rem, 2.5vw, 1.05rem); line-height: 1.65; color: #dde8ff; }
+    .fact-jedi-tip { margin-top: 12px; font-size: 0.82rem; color: #88aaff; font-style: italic; }
+
+    /* ── Quiz section ── */
+    #quiz-section {
+      max-width: 680px;
+      margin: 0 auto 28px;
+      background: rgba(10,0,30,0.92);
+      border: 2px solid #ffa500;
+      border-radius: 20px;
+      padding: 28px 24px;
+      box-shadow: 0 0 28px #ffa50044;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .quiz-progress {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #888;
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+    }
+
+    .quiz-score-display {
+      text-align: center;
+      font-family: 'Orbitron', monospace;
+      font-size: 1rem;
+      color: #ffa500;
+      margin-bottom: 18px;
+    }
+
+    .quiz-question-text {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.95rem, 2.8vw, 1.25rem);
+      color: #ffe81f;
+      margin-bottom: 22px;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .quiz-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    @media (max-width: 400px) { .quiz-options { grid-template-columns: 1fr; } }
+
+    .quiz-option-btn {
+      font-family: 'Exo 2', sans-serif;
+      font-size: clamp(0.85rem, 2.5vw, 1rem);
+      padding: 14px 10px;
+      background: rgba(255,165,0,0.08);
+      border: 2px solid #ffa500;
+      border-radius: 12px;
+      color: #ffe8cc;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .quiz-option-btn:hover:not(:disabled) {
+      background: #ffa500; color: #000; box-shadow: 0 0 12px #ffa500;
+    }
+    .quiz-option-btn.correct { background: #4f8; border-color: #4f8; color: #000; }
+    .quiz-option-btn.wrong   { background: #f44; border-color: #f44; color: #fff; }
+    .quiz-option-btn:disabled { cursor: default; }
+
+    #quiz-result { text-align: center; padding-top: 8px; }
+    .quiz-result-score-text { color: #88aaff; font-size: 1rem; margin-bottom: 10px; }
+
+    .quiz-result-rank {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.1rem, 3.5vw, 1.7rem);
+      color: #ffe81f;
+      margin: 8px 0 12px;
+      text-shadow: 0 0 16px #ffe81f88;
+      line-height: 1.3;
+    }
+
+    .quiz-final-score {
+      font-size: 1.3rem;
+      color: #ffa500;
+      font-family: 'Orbitron', monospace;
+      margin-bottom: 16px;
+    }
+
+    .quiz-restart-btn {
+      font-family: 'Orbitron', monospace;
+      padding: 12px 28px;
+      background: transparent;
+      border: 2px solid #ffa500;
+      color: #ffa500;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .quiz-restart-btn:hover { background: #ffa500; color: #000; box-shadow: 0 0 16px #ffa500; }
+
+    /* ── LEGO Builder ── */
+    #lego-section { max-width: 680px; margin: 0 auto 32px; text-align: center; }
+
+    #lego-toggle-btn {
+      display: inline-block;
+      padding: 10px 28px;
+      background: transparent;
+      border: 2px solid #f97316;
+      color: #f97316;
+      border-radius: 30px;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 16px;
+    }
+    #lego-toggle-btn:hover { background: #f97316; color: #000; box-shadow: 0 0 16px #f97316; }
+
+    #lego-builder {
+      background: rgba(10,0,30,0.92);
+      border: 2px solid #f97316;
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: 0 0 24px #f9731644;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .lego-label {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.82rem;
+      color: #f97316;
+      margin-bottom: 14px;
+      letter-spacing: 1px;
+    }
+
+    .lego-palette {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .palette-color {
+      width: 38px;
+      height: 38px;
+      border-radius: 6px;
+      cursor: pointer;
+      border: 3px solid transparent;
+      position: relative;
+      transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+    }
+    .palette-color::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50%; height: 50%;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+      pointer-events: none;
+    }
+    .palette-color:hover { transform: scale(1.15); }
+    .palette-color.selected { border-color: #ffe81f; box-shadow: 0 0 10px #ffe81f; transform: scale(1.2); }
+
+    .lego-grid {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 3px;
+      margin: 0 auto 14px;
+      max-width: 500px;
+    }
+
+    .lego-cell {
+      aspect-ratio: 1;
+      border-radius: 4px;
+      border: 1.5px solid rgba(255,255,255,0.1);
+      cursor: pointer;
+      position: relative;
+      background: rgba(255,255,255,0.04);
+      transition: transform 0.1s;
+    }
+    .lego-cell::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 38%; height: 38%;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      pointer-events: none;
+    }
+    .lego-cell:hover { transform: scale(1.08); border-color: #ffe81f44; }
+
+    .lego-clear-btn {
+      padding: 8px 22px;
+      background: transparent;
+      border: 1.5px solid #f44;
+      color: #f44;
+      border-radius: 20px;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lego-clear-btn:hover { background: #f44; color: #fff; }
+
+    /* ── Φράση Δύναμης ── */
+    .force-quote {
+      text-align: center;
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.7rem, 2vw, 0.95rem);
+      color: #ffe81f;
+      text-shadow: 0 0 10px #ffe81f66;
+      margin: 10px 0 6px;
+      letter-spacing: 1px;
+    }
+
+    /* ── Κουμπί ήχου ── */
+    #sound-btn {
+      display: block;
+      margin: 14px auto 20px;
+      padding: 8px 20px;
+      background: transparent;
+      border: 1.5px solid #9f4;
+      color: #9f4;
+      border-radius: 20px;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    #sound-btn:hover { background: #9f4; color: #000; box-shadow: 0 0 12px #9f4; }
+
+    /* ── LEGO Save/Load ── */
+    .lego-save-area {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+    }
+    .lego-save-btn {
+      padding: 8px 18px;
+      background: transparent;
+      border: 1.5px solid #ffe81f;
+      color: #ffe81f;
+      border-radius: 20px;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lego-save-btn:hover { background: #ffe81f; color: #000; box-shadow: 0 0 12px #ffe81f; }
+    .lego-load-btn {
+      padding: 8px 18px;
+      background: transparent;
+      border: 1.5px solid #4af;
+      color: #4af;
+      border-radius: 20px;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lego-load-btn:hover { background: #4af; color: #000; box-shadow: 0 0 12px #4af; }
+    .lego-counter {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.75rem;
+      color: #f97316;
+      letter-spacing: 1px;
+      width: 100%;
+      text-align: center;
+      margin-top: 4px;
+    }
+    .lego-save-input-area {
+      display: none;
+      margin-top: 12px;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .lego-save-input-area.open { display: flex; }
+    .lego-name-input {
+      background: rgba(255,255,255,0.07);
+      border: 1.5px solid #ffe81f;
+      border-radius: 10px;
+      color: #fff;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.9rem;
+      padding: 8px 14px;
+      width: 100%;
+      max-width: 320px;
+      outline: none;
+    }
+    .lego-name-input::placeholder { color: #888; }
+    .lego-confirm-save-btn {
+      padding: 8px 22px;
+      background: #ffe81f;
+      border: none;
+      border-radius: 20px;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.85rem;
+      color: #000;
+      cursor: pointer;
+      font-weight: 600;
+      transition: box-shadow 0.2s;
+    }
+    .lego-confirm-save-btn:hover { box-shadow: 0 0 14px #ffe81f; }
+    .lego-load-panel {
+      display: none;
+      margin-top: 16px;
+      background: rgba(0,0,10,0.6);
+      border: 1.5px solid #4af;
+      border-radius: 14px;
+      padding: 16px;
+      max-height: 420px;
+      overflow-y: auto;
+      text-align: left;
+    }
+    .lego-load-panel.open { display: block; }
+    .lego-load-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.8rem;
+      color: #4af;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .lego-save-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(68,170,255,0.2);
+      margin-bottom: 8px;
+      background: rgba(68,170,255,0.04);
+    }
+    .lego-thumb {
+      display: grid;
+      grid-template-columns: repeat(10, 4px);
+      gap: 0.5px;
+      flex-shrink: 0;
+    }
+    .lego-thumb-cell { width: 4px; height: 4px; border-radius: 0.5px; }
+    .lego-save-info { flex: 1; min-width: 0; }
+    .lego-save-name {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.72rem;
+      color: #ffe81f;
+      margin-bottom: 3px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .lego-save-date { font-size: 0.7rem; color: #668; }
+    .lego-load-design-btn {
+      padding: 5px 12px;
+      background: transparent;
+      border: 1.5px solid #4af;
+      color: #4af;
+      border-radius: 14px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .lego-load-design-btn:hover { background: #4af; color: #000; }
+    .lego-delete-btn {
+      padding: 5px 10px;
+      background: transparent;
+      border: 1.5px solid #f44;
+      color: #f44;
+      border-radius: 14px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .lego-delete-btn:hover { background: #f44; color: #fff; }
+    .lego-empty-msg { text-align: center; color: #668; font-size: 0.85rem; padding: 12px; }
+
+    .hidden { display: none !important; }
+
+    /* ── Υποσέλιδο ── */
+    footer { text-align: center; padding: 20px 10px 30px; font-size: 0.78rem; color: #556; }
+    footer span { color: #ffe81f; }
