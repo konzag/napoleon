@@ -1,35 +1,20 @@
-# napoleon
+# Napoleon — Claude Context
 
-## What is this
-A Star Wars + nature encyclopedia app built for Napoleon (age 6), his first coding project.
-Two standalone programs with heavy comments so Napoleon can read the code someday.
+## Project
+Interactive programming projects and educational games for Napoleon (6 years old).
+HTML + CSS + JS (browser) + Python (terminal). Public GitHub Pages site.
 
-## Files
-- `index.html` — Interactive browser encyclopedia (animals, plants, dinosaurs, quiz, LEGO builder, Star Wars theme)
-- `napoleon.py` — Terminal Jedi Nature Explorer (animals, plants, music notes, Star Wars ASCII)
+## Live Site
+https://konzag.github.io/napoleon/
 
 ## Stack
-- HTML + CSS + JavaScript (vanilla, no frameworks, no build step)
-- Python 3 (colorama optional, winsound built-in Windows)
+- index.html: Single-file web game (Star Wars / animals / dinosaurs theme)
+- napoleon.py: Python terminal program (Windows, colorama + winsound)
+- No backend, no deploy pipeline, no database
 
-## How to run
-```bash
-# Browser app — just double-click index.html
-# Terminal app
-python napoleon.py
-```
-
-## Key facts
-- Target user: Napoleon, age 6
-- Language: Greek UI throughout
-- No backend, no database, no deployment
-- Repo: konzag/napoleon (GitHub Pages: konzag.github.io/napoleon)
-- `.claude/` folder exists at repo root with Claude Code settings
-
-## Notes for Claude Code
-- Keep all UI text in Greek
-- Star Wars + nature theme must be preserved
-- Code must be heavily commented (Napoleon may read it someday)
-- Audio via Web Audio API only — no external files
-- LEGO builder grid is 10×8 with 8 colors + eraser
-- Quiz has 8 questions with Jedi ranking at the end
+## Rules
+- No auto-deploy needed (GitHub Pages serves static files automatically)
+- All content in Greek
+- Code must have extensive comments so Napoleon can read it someday
+- Keep age-appropriate: 6 years old, Star Wars fan, loves animals and dinosaurs
+- Never add server-side code or dependencies requiring installation
