@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+  <title>Jedi Ακαδημία Φύσης — Ναπολέων 🌿⚔️</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════
+       JEDI ΑΚΑΔΗΜΙΑ ΦΥΣΗΣ — Star Wars theme
+    ═══════════════════════════════════ */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0015;
+      --panel: rgba(255,255,255,0.05);
+      --border: rgba(255,232,31,0.25);
+      --yellow: #ffe81f;
+      --blue: #44aaff;
+      --green: #44ff88;
+      --text: #e8e8ff;
+      --muted: #8888aa;
+      --glow-y: 0 0 16px rgba(255,232,31,0.4);
+      --glow-b: 0 0 16px rgba(68,170,255,0.4);
+      --glow-g: 0 0 16px rgba(68,255,136,0.4);
+      --radius: 14px;
+    }
+
+    body {
+      background: var(--bg);
+      background-image:
+        radial-gradient(ellipse at top, #1a0035 0%, #0a0015 60%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Ccircle cx='50' cy='80' r='1.2' fill='white' opacity='0.8'/%3E%3Ccircle cx='120' cy='30' r='0.8' fill='white' opacity='0.6'/%3E%3Ccircle cx='200' cy='110' r='1.5' fill='white' opacity='0.9'/%3E%3Ccircle cx='310' cy='60' r='1' fill='white' opacity='0.7'/%3E%3Ccircle cx='370' cy='150' r='0.7' fill='white' opacity='0.5'/%3E%3Ccircle cx='80' cy='200' r='1.3' fill='white' opacity='0.8'/%3E%3Ccircle cx='250' cy='250' r='1' fill='white' opacity='0.6'/%3E%3Ccircle cx='160' cy='320' r='0.9' fill='white' opacity='0.7'/%3E%3Ccircle cx='340' cy='280' r='1.2' fill='white' opacity='0.9'/%3E%3Ccircle cx='30' cy='350' r='0.8' fill='white' opacity='0.5'/%3E%3Ccircle cx='390' cy='370' r='1.1' fill='white' opacity='0.7'/%3E%3Ccircle cx='220' cy='390' r='0.7' fill='white' opacity='0.6'/%3E%3C/svg%3E");
+      font-family: 'Exo 2', Arial, sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      padding-top: 44px;
+    }
+
+    /* ── Top Nav ── */
+    #top-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 6px 14px;
+      background: rgba(10,0,21,0.95);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+      min-height: 44px;
+    }
+
+    #top-nav a {
+      color: var(--yellow);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 3px 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    #top-nav a:hover { background: rgba(255,232,31,0.1); border-color: var(--yellow); }
+    #top-nav a.active { background: rgba(255,232,31,0.15); border-color: var(--yellow); }
+
+    /* ── Hero ── */
+    .hero {
+      text-align: center;
+      padding: 36px 20px 24px;
+    }
+
+    .lightsaber {
+      font-family: monospace;
+      font-size: clamp(0.65rem, 2vw, 0.9rem);
+      color: var(--blue);
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 0 6px var(--blue));
+    }
+
+    .hero h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1.1rem, 3.5vw, 2rem);
+      color: var(--yellow);
+      text-shadow: var(--glow-y);
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: clamp(0.82rem, 2vw, 0.98rem);
+      max-width: 560px;
+      margin: 0 auto 16px;
+      line-height: 1.6;
+    }
+
+    .progress-badge {
+      display: inline-block;
+      background: rgba(255,232,31,0.1);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 18px;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.82rem;
+      color: var(--yellow);
+    }
+
+    .celebration {
+      display: none;
+      margin-top: 12px;
+      font-family: 'Orbitron', monospace;
+      font-size: 1rem;
+      color: var(--green);
+      text-shadow: var(--glow-g);
+      animation: pulse-text 2s infinite;
+    }
+
+    @keyframes pulse-text {
+      0%,100% { opacity: 1; }
+      50%      { opacity: 0.6; }
+    }
+
+    /* ── Tabs ── */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 20px 20px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--muted);
+      padding: 10px 22px;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      letter-spacing: 0.05em;
+    }
+
+    .tab-btn:hover { color: var(--yellow); border-color: var(--yellow); }
+
+    .tab-btn.active {
+      background: rgba(255,232,31,0.12);
+      border-color: var(--yellow);
+      color: var(--yellow);
+      box-shadow: var(--glow-y);
+    }
+
+    /* ── Tab Content ── */
+    .tab-content { display: none; padding: 0 20px 40px; max-width: 1100px; margin: 0 auto; }
+    .tab-content.active { display: block; animation: fade-in 0.25s ease; }
+
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.85rem, 2vw, 1.1rem);
+      color: var(--blue);
+      margin-bottom: 18px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Cards grid ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 16px;
+      cursor: pointer;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      border-color: var(--yellow);
+      box-shadow: var(--glow-y);
+      transform: translateY(-2px);
+    }
+
+    .card.learned {
+      border-color: var(--green);
+      background: rgba(68,255,136,0.06);
+      box-shadow: var(--glow-g);
+    }
+
+    .card-emoji { font-size: 2.4rem; display: block; margin-bottom: 8px; }
+
+    .card-name-el {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.82rem;
+      color: var(--yellow);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .card-name-en {
+      font-size: 0.72rem;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .card-detail {
+      display: none;
+      margin-top: 10px;
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+    }
+
+    .card-detail.open { display: block; animation: fade-in 0.2s ease; }
+
+    .card-fact {
+      font-size: 0.8rem;
+      color: var(--text);
+      line-height: 1.55;
+      margin-bottom: 8px;
+    }
+
+    .card-jedi {
+      font-size: 0.75rem;
+      color: var(--blue);
+      font-style: italic;
+      line-height: 1.4;
+      margin-bottom: 12px;
+      border-left: 2px solid var(--blue);
+      padding-left: 8px;
+    }
+
+    .learn-btn {
+      width: 100%;
+      background: transparent;
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      color: var(--green);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 7px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .learn-btn:hover { background: rgba(68,255,136,0.15); }
+
+    .learn-btn.done {
+      border-color: var(--muted);
+      color: var(--muted);
+      cursor: default;
+    }
+
+    .learned-star {
+      position: absolute;
+      top: 10px; right: 10px;
+      font-size: 1rem;
+      display: none;
+    }
+
+    .card.learned .learned-star { display: block; }
+
+    /* ── Music tab ── */
+    .music-section { max-width: 680px; margin: 0 auto; }
+
+    .music-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.85rem, 2vw, 1.1rem);
+      color: var(--yellow);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .note-btn {
+      border: none;
+      border-radius: 12px;
+      padding: 18px 10px;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+      color: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .note-btn:hover { transform: scale(1.06); filter: brightness(1.2); }
+    .note-btn:active { transform: scale(0.95); }
+
+    .note-name-greek { font-size: 1rem; }
+    .note-name-latin { font-size: 0.62rem; opacity: 0.7; }
+    .note-hz         { font-size: 0.6rem; opacity: 0.6; }
+
+    .melodies-section { margin-top: 8px; }
+
+    .melodies-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    .melody-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .melody-btn {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--yellow);
+      font-family: 'Orbitron', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 14px 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .melody-btn:hover {
+      background: rgba(255,232,31,0.1);
+      border-color: var(--yellow);
+      box-shadow: var(--glow-y);
+    }
+
+    .melody-btn:disabled { opacity: 0.5; cursor: default; }
+
+    .sound-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .toggle-btn {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      padding: 5px 14px;
+      font-size: 0.82rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .toggle-btn:hover { border-color: var(--yellow); color: var(--yellow); }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .cards-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+      .notes-grid { grid-template-columns: repeat(4, 1fr); gap: 7px; }
+      .melody-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 400px) {
+      .notes-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav id="top-nav">
+    <a href="../index.html">🌿 Εγκυκλοπαίδεια</a>
+    <a href="../school-game/school.html">🎓 Jedi Ακαδημία</a>
+    <a href="../diablo-game/diablo.html">⚔️ Diablo Quest</a>
+    <a href="../farm-game/farm.html">🚜 Αγρόκτημα</a>
+    <a href="../anatomy-game/anatomy.html">🫀 Το Σώμα</a>
+    <a href="jedi.html" class="active">🌿 Φύση</a>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="lightsaber">|=====|================================&gt;</div>
+    <h1>🌿 Jedi Ακαδημία Φύσης του Ναπολέων ⚔️</h1>
+    <p>Καλώς ήρθες, Padawan Napoleon! Εξερεύνησε τη φύση με τη δύναμη του Jedi!</p>
+    <div class="progress-badge" id="progressBadge">Έμαθα 0/20 πλάσματα! 🌟</div>
+    <div class="celebration" id="celebration">🎉 Έγινες Jedi Master της Φύσης, Napoleon! 🎉</div>
+  </header>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="animals">🦁 Ζώα</button>
+    <button class="tab-btn" data-tab="plants">🌿 Φυτά</button>
+    <button class="tab-btn" data-tab="music">🎵 Μουσική</button>
+  </div>
+
+  <!-- Animals Tab -->
+  <div class="tab-content active" id="tab-animals">
+    <p class="section-title">🦁 ΖΩΟΛΟΓΙΚΟΣ ΚΟΣΜΟΣ — Ανακάλυψε τα ζώα της Γης!</p>
+    <div class="cards-grid" id="animalsGrid"></div>
+  </div>
+
+  <!-- Plants Tab -->
+  <div class="tab-content" id="tab-plants">
+    <p class="section-title">🌿 ΦΥΤΟΛΟΓΙΚΟΣ ΚΟΣΜΟΣ — Ανακάλυψε τα φυτά της Γης!</p>
+    <div class="cards-grid" id="plantsGrid"></div>
+  </div>
+
+  <!-- Music Tab -->
+  <div class="tab-content" id="tab-music">
+    <div class="music-section">
+      <p class="music-title">🎵 Παίξε Μουσικές Νότες, Padawan!</p>
+      <div class="notes-grid" id="notesGrid"></div>
+      <div class="melodies-section">
+        <p class="melodies-title">🎼 Παίξε μια μελωδία!</p>
+        <div class="melody-grid">
+          <button class="melody-btn" id="melodyJedi">⚔️ Θέμα Jedi</button>
+          <button class="melody-btn" id="melodyNature">🌿 Τραγούδι Φύσης</button>
+          <button class="melody-btn" id="melodyBravo">🎉 Μπράβο!</button>
+        </div>
+      </div>
+      <div class="sound-toggle">
+        <span>Ήχος:</span>
+        <button class="toggle-btn" id="soundToggle">🔊 Ενεργός</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ════════════════════════════════════════════════════════
+    //  ΔΕΔΟΜΕΝΑ — Ζώα, Φυτά, Νότες
+    //  Κάθε αντικείμενο έχει: id, emoji, nameEl, nameEn, fact, jedi
+    // ════════════════════════════════════════════════════════
+
+    const ANIMALS = [
+      { id:'lion',    emoji:'🦁', nameEl:'Λιοντάρι',       nameEn:'Lion',       fact:'Ο βασιλιάς της σαβάνας! Κοιμάται 20 ώρες την ημέρα και ζει σε οικογένειες που λέγονται αγέλες. Ο βρυχηθμός του ακούγεται 8 χλμ μακριά!',     jedi:'Η δύναμη δεν είναι μόνο σωματική.' },
+      { id:'elephant',emoji:'🐘', nameEl:'Ελέφαντας',      nameEn:'Elephant',   fact:'Το μεγαλύτερο χερσαίο ζώο στον κόσμο! Θυμάται τα πάντα και ποτέ δεν ξεχνά φίλους που δεν έχει δει για 20 χρόνια.',                         jedi:'Η μνήμη είναι δύναμη.' },
+      { id:'dolphin', emoji:'🐬', nameEl:'Δελφίνι',        nameEn:'Dolphin',    fact:'Κοιμάται με το μισό μυαλό ανοιχτό για να μην πνιγεί! Έχει το δικό του όνομα που τα άλλα δελφίνια το αναγνωρίζουν.',                         jedi:'Πάντα σε εγρήγορση.' },
+      { id:'eagle',   emoji:'🦅', nameEl:'Αετός',          nameEn:'Eagle',      fact:'Βλέπει 8 φορές καλύτερα από τον άνθρωπο! Πετά σε ύψος 3.000 μέτρων και κυνηγά με ταχύτητα 160 χλμ/ώρα.',                                  jedi:'Η όραση είναι σοφία.' },
+      { id:'octopus', emoji:'🐙', nameEl:'Χταπόδι',        nameEn:'Octopus',    fact:'Έχει 3 καρδιές και μπλε αίμα! Μπορεί να αλλάξει χρώμα σε 1 δευτερόλεπτο. Αν χάσει ένα πλοκάμι, μεγαλώνει καινούργιο!',                    jedi:'Το διαφορετικό είναι δυνατό.' },
+      { id:'giraffe', emoji:'🦒', nameEl:'Καμηλοπάρδαλη',  nameEn:'Giraffe',    fact:'Η γλώσσα της είναι 45 εκατοστά και μωβ! Είναι το ψηλότερο ζώο στη Γη — έως 6 μέτρα. Κοιμάται μόνο 30 λεπτά την ημέρα!',                  jedi:'Το ύψος δίνει προοπτική.' },
+      { id:'penguin', emoji:'🐧', nameEl:'Πιγκουΐνος',     nameEn:'Penguin',    fact:'Δεν πετά αλλά κολυμπά με 40 χλμ/ώρα! Οι μπαμπάδες επωάζουν το αυγό κρατώντας το στα πόδια τους στο κρύο.',                               jedi:'Κάθε αδυναμία κρύβει δύναμη.' },
+      { id:'chameleon',emoji:'🦎',nameEl:'Χαμαιλέων',      nameEn:'Chameleon',  fact:'Αλλάζει χρώμα για να επικοινωνεί συναισθήματα, όχι απλά για καμουφλάζ! Τα μάτια του κινούνται ανεξάρτητα.',                               jedi:'Η προσαρμογή είναι τέχνη.' },
+      { id:'bee',     emoji:'🐝', nameEl:'Μέλισσα',        nameEn:'Bee',        fact:'Επικοινωνεί με χορό για να δείξει πού υπάρχουν λουλούδια! Μία μέλισσα παράγει μόνο 1/12 κουταλάκι μέλι σε όλη της τη ζωή.',                 jedi:'Η συνεργασία νικά τα πάντα.' },
+      { id:'fox',     emoji:'🦊', nameEl:'Αλεπού',         nameEn:'Fox',        fact:'Χρησιμοποιεί το μαγνητικό πεδίο της Γης για να κυνηγά με ακρίβεια! Ανιχνεύει κίνηση κάτω από το χιόνι από ψηλά.',                         jedi:'Η φύση έχει τη δική της Δύναμη.' },
+      { id:'koala',   emoji:'🐨', nameEl:'Κοάλα',          nameEn:'Koala',      fact:'Κοιμάται 22 ώρες την ημέρα! Τρώει μόνο ευκάλυπτο, που είναι τοξικός για τα περισσότερα ζώα.',                                             jedi:'Η απλότητα είναι σοφία.' },
+      { id:'butterfly',emoji:'🦋',nameEl:'Πεταλούδα',      nameEn:'Butterfly',  fact:'Γεύεται με τα πόδια της! Ξεκινά ως κάμπια και μετασχηματίζεται ολοκληρωτικά μέσα στο κουκούλι.',                                           jedi:'Η μεταμόρφωση είναι αρχή.' }
+    ];
+
+    const PLANTS = [
+      { id:'cactus',    emoji:'🌵', nameEl:'Κάκτος',    nameEn:'Cactus',    fact:'Επιβιώνει 2 χρόνια χωρίς βροχή! Αποθηκεύει νερό στον χοντρό βλαστό του. Τα αγκάθια είναι φύλλα που εξελίχθηκαν.',             jedi:'Η αντοχή είναι δύναμη.' },
+      { id:'bamboo',    emoji:'🎋', nameEl:'Μπαμπού',   nameEn:'Bamboo',    fact:'Μεγαλώνει 90 εκατοστά ΤΗΝ ΗΜΕΡΑ — είναι το γρηγορότερο φυτό! Δεν είναι δέντρο αλλά γιγάντιο χορτάρι.',                       jedi:'Η ανάπτυξη δεν σταματά.' },
+      { id:'orchid',    emoji:'🌺', nameEl:'Ορχιδέα',   nameEn:'Orchid',    fact:'Υπάρχουν 25.000 είδη ορχιδέας — το πιο πολυπληθές γένος φυτών! Μερικές μυρίζουν σοκολάτα.',                                    jedi:'Η ποικιλομορφία είναι πλούτος.' },
+      { id:'mushroom',  emoji:'🍄', nameEl:'Μανιτάρι',  nameEn:'Mushroom',  fact:'Δεν είναι φυτό — είναι μύκητας! Τα δέντρα μοιράζονται τροφή μέσω υπόγειου δικτύου μυκητών.',                                  jedi:'Τα πράγματα δεν είναι πάντα αυτό που φαίνονται.' },
+      { id:'sunflower', emoji:'🌻', nameEl:'Ηλίανθος',  nameEn:'Sunflower', fact:'Στρέφεται πάντα προς τον ήλιο — αυτό λέγεται ηλιοτροπισμός! Ένα "λουλούδι" αποτελείται από 2.000 μικροσκοπικά άνθη.',          jedi:'Ακολούθα το φως.' },
+      { id:'clover',    emoji:'🍀', nameEl:'Τριφύλλι',  nameEn:'Clover',    fact:'Το τετράφυλλο τριφύλλι εμφανίζεται 1 φορά στα 10.000! Παράγει οξυγόνο κάθε μέρα για να αναπνέουμε.',                         jedi:'Η τύχη ευνοεί τον προετοιμασμένο.' },
+      { id:'aloe',      emoji:'🌿', nameEl:'Αλόη',      nameEn:'Aloe Vera', fact:'Το τζελ μέσα στα φύλλα της θεραπεύει εγκαύματα φυσικά. Ζει χιλιάδες χρόνια στην έρημο χωρίς πολύ νερό.',                      jedi:'Η φύση θεραπεύει.' },
+      { id:'sequoia',   emoji:'🌲', nameEl:'Σεκόια',    nameEn:'Sequoia',   fact:'Το ψηλότερο δέντρο φτάνει 115 μέτρα! Ζει πάνω από 3.000 χρόνια. Ένα δέντρο μπορεί να αποθηκεύει 1.000 λίτρα νερό.',          jedi:'Τα μεγάλα πράγματα μεγαλώνουν αργά.' }
+    ];
+
+    // Μουσικές νότες — ελληνικό όνομα, λατινικό, συχνότητα Hz, χρώμα
+    const NOTES = [
+      { nameEl:'Ντο',  nameLat:'C',  hz:262, color:'#ff5555' },
+      { nameEl:'Ρε',   nameLat:'D',  hz:294, color:'#ff9933' },
+      { nameEl:'Μι',   nameLat:'E',  hz:330, color:'#ffe81f' },
+      { nameEl:'Φα',   nameLat:'F',  hz:349, color:'#44ff88' },
+      { nameEl:'Σολ',  nameLat:'G',  hz:392, color:'#44aaff' },
+      { nameEl:'Λα',   nameLat:'A',  hz:440, color:'#8866ff' },
+      { nameEl:'Σι',   nameLat:'B',  hz:494, color:'#cc44ff' },
+      { nameEl:'Ντο\'',nameLat:'C2', hz:523, color:'#ff55aa' },
+    ];
+
+    // Μελωδίες — κάθε στοιχείο είναι [index_νότας, διάρκεια_ms]
+    const MELODIES = {
+      jedi:   [[0,300],[2,300],[4,400],[2,200],[0,200],[4,600]],
+      nature: [[0,280],[1,280],[2,280],[3,280],[4,600]],
+      bravo:  [[0,200],[2,200],[4,200],[7,500]]
+    };
+
+
+    // ════════════════════════════════════════════════════════
+    //  ΚΑΤΑΣΤΑΣH — localStorage για πρόοδο
+    // ════════════════════════════════════════════════════════
+
+    const STORAGE_KEY = 'napoleon_jedi_learned';
+    let learned = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
+    let soundOn  = true;
+    let audioCtx = null;
+
+    function saveLearned() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify([...learned]));
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const total   = ANIMALS.length + PLANTS.length;   // 20
+      const count   = learned.size;
+      const badge   = document.getElementById('progressBadge');
+      const celeb   = document.getElementById('celebration');
+      badge.textContent = `Έμαθα ${count}/${total} πλάσματα! 🌟`;
+      if (count >= total) {
+        celeb.style.display = 'block';
+      }
+    }
+
+
+    // ════════════════════════════════════════════════════════
+    //  ΔΗΜΙΟΥΡΓΙΑ ΚΑΡΤΩΝ
+    // ════════════════════════════════════════════════════════
+
+    function makeCard(item) {
+      const isLearned = learned.has(item.id);
+      const card = document.createElement('article');
+      card.className = 'card' + (isLearned ? ' learned' : '');
+      card.dataset.id = item.id;
+
+      card.innerHTML = `
+        <span class="learned-star">✅</span>
+        <span class="card-emoji">${item.emoji}</span>
+        <span class="card-name-el">${item.nameEl}</span>
+        <span class="card-name-en">${item.nameEn}</span>
+        <div class="card-detail" id="detail-${item.id}">
+          <p class="card-fact">${item.fact}</p>
+          <p class="card-jedi">⚔️ Jedi Wisdom: "${item.jedi}"</p>
+          <button class="learn-btn${isLearned ? ' done' : ''}" data-id="${item.id}">
+            ${isLearned ? '✅ Ήδη γνωρίζεις!' : 'Το έμαθα! ✅'}
+          </button>
+        </div>
+      `;
+
+      // Toggle detail on card click (except the button)
+      card.addEventListener('click', e => {
+        if (e.target.classList.contains('learn-btn')) return;
+        const detail = document.getElementById('detail-' + item.id);
+        detail.classList.toggle('open');
+      });
+
+      // Learn button
+      card.querySelector('.learn-btn').addEventListener('click', () => {
+        if (learned.has(item.id)) return;
+        learned.add(item.id);
+        saveLearned();
+        card.classList.add('learned');
+        const btn = card.querySelector('.learn-btn');
+        btn.textContent = '✅ Ήδη γνωρίζεις!';
+        btn.classList.add('done');
+        // Small celebrate beep
+        playNote(523, 0.15);
+        setTimeout(() => playNote(659, 0.15), 160);
+        setTimeout(() => playNote(784, 0.25), 320);
+      });
+
+      return card;
+    }
+
+    function renderCards() {
+      const ag = document.getElementById('animalsGrid');
+      const pg = document.getElementById('plantsGrid');
+      ANIMALS.forEach(a => ag.appendChild(makeCard(a)));
+      PLANTS.forEach(p  => pg.appendChild(makeCard(p)));
+    }
+
+
+    // ════════════════════════════════════════════════════════
+    //  TABS
+    // ════════════════════════════════════════════════════════
+
+    function setupTabs() {
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+          btn.classList.add('active');
+          document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+        });
+      });
+    }
+
+
+    // ════════════════════════════════════════════════════════
+    //  WEB AUDIO — Notes & Melodies
+    //  Χρησιμοποιούμε OscillatorNode + GainNode για ήχο χωρίς
+    //  εξωτερικά αρχεία. Το gainNode σβήνει απαλά για να
+    //  αποφύγουμε το "κλικ" στο τέλος κάθε νότας.
+    // ════════════════════════════════════════════════════════
+
+    function getAudioCtx() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      return audioCtx;
+    }
+
+    function playNote(freq, duration = 0.5) {
+      if (!soundOn) return;
+      const ctx  = getAudioCtx();
+      const osc  = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+
+      // Ramp up then fade out to prevent audio click artifact
+      gain.gain.setValueAtTime(0, ctx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.5, ctx.currentTime + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + duration + 0.05);
+    }
+
+    async function playMelody(steps) {
+      // Disable all melody buttons while playing
+      document.querySelectorAll('.melody-btn').forEach(b => b.disabled = true);
+      let offset = 0;
+      for (const [noteIdx, durMs] of steps) {
+        const freq = NOTES[noteIdx].hz;
+        setTimeout(() => playNote(freq, durMs / 1000 + 0.1), offset);
+        offset += durMs + 30;
+      }
+      setTimeout(() => {
+        document.querySelectorAll('.melody-btn').forEach(b => b.disabled = false);
+      }, offset + 200);
+    }
+
+    function setupMusic() {
+      // Individual note buttons
+      const grid = document.getElementById('notesGrid');
+      NOTES.forEach(note => {
+        const btn = document.createElement('button');
+        btn.className = 'note-btn';
+        btn.style.background = note.color;
+        btn.innerHTML = `
+          <span class="note-name-greek">${note.nameEl}</span>
+          <span class="note-name-latin">${note.nameLat}</span>
+          <span class="note-hz">${note.hz} Hz</span>
+        `;
+        btn.addEventListener('click', () => playNote(note.hz));
+        grid.appendChild(btn);
+      });
+
+      // Melody buttons
+      document.getElementById('melodyJedi').addEventListener('click',   () => playMelody(MELODIES.jedi));
+      document.getElementById('melodyNature').addEventListener('click', () => playMelody(MELODIES.nature));
+      document.getElementById('melodyBravo').addEventListener('click',  () => playMelody(MELODIES.bravo));
+
+      // Sound toggle
+      const toggleBtn = document.getElementById('soundToggle');
+      toggleBtn.addEventListener('click', () => {
+        soundOn = !soundOn;
+        toggleBtn.textContent = soundOn ? '🔊 Ενεργός' : '🔇 Ανενεργός';
+      });
+    }
+
+
+    // ════════════════════════════════════════════════════════
+    //  ΑΡΧΙΚΟΠΟΙΗΣΗ
+    // ════════════════════════════════════════════════════════
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCards();
+      setupTabs();
+      setupMusic();
+      updateProgress();
+    });
+  </script>
+</body>
+</html>
