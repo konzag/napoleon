@@ -16,6 +16,7 @@ const js = read('anatomy-game/js/anatomy.js');
 
 assert.match(html, /<link rel="icon" href="data:image\/svg\+xml/, 'inline svg favicon exists');
 assert.match(html, /Ναπολέων/, 'default profile is Napoleon');
+assert.match(html, /<nav id="top-nav"/, 'shared top navigation exists');
 assert.match(html, /<aside class="sidebar"/, 'left sidebar exists');
 assert.match(html, /href="\.\.\/index\.html"/, 'anatomy links to encyclopedia');
 assert.match(html, /href="\.\.\/diablo\.html"/, 'anatomy links to diablo');
