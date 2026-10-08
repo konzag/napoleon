@@ -86,6 +86,7 @@
     <a href="../school-game/school.html">Jedi Ακαδημία</a>
     <a href="farm.html">Μαγικό Αγρόκτημα</a>
     <a href="../anatomy-game/anatomy.html">🫀 Το Σώμα</a>
+    <a href="../jedi-game/jedi.html">🌿 Φύση</a>
   </nav>
 
   <header>
@@ -335,11 +336,19 @@
       return '';
     }
 
+    // Πόσες γραμμές κρατάει το τερματικό το πολύ.
+    const MAX_TERMINAL_LINES = 400;
+
     function write(text, type = 'system') {
       const p = document.createElement('p');
       p.className = 'line ' + type;
       p.textContent = text;
       terminal.appendChild(p);
+      // Κρατάμε μόνο τις τελευταίες MAX_TERMINAL_LINES γραμμές, για να μη
+      // γεμίσει η σελίδα με χιλιάδες γραμμές και αρχίσει να «κολλάει».
+      while (terminal.childElementCount > MAX_TERMINAL_LINES) {
+        terminal.removeChild(terminal.firstElementChild);
+      }
       terminal.scrollTop = terminal.scrollHeight;
     }
 

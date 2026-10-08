@@ -12,14 +12,14 @@
 #  Για να τρέξεις: python jedi.py
 # ============================================================
 
+import os
 import sys
 import time
 
-try:
-    import winsound
-    SOUND_AVAILABLE = True
-except ImportError:
-    SOUND_AVAILABLE = False
+# Φορτώνουμε τις κοινές βοηθητικές συναρτήσεις από τον φάκελο common/
+# (τις μοιράζονται το jedi.py και το diablo.py).
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "common"))
+from terminal import beep as _beep, clear_ish, print_divider, run_game, slow_print  # noqa: E402
 
 
 # ============================================================
@@ -177,31 +177,9 @@ MUSIC_NOTES = [
 #  ΒΟΗΘΗΤΙΚΕΣ ΣΥΝΑΡΤΗΣΕΙΣ
 # ============================================================
 
-def clear_ish():
-    """Εκτύπωσε μερικές κενές γραμμές για εφέ «καθαρής οθόνης»."""
-    print("\n" * 2)
-
-
-def print_divider(color_char="=", width=55):
-    """Εκτύπωσε μια διακοσμητική γραμμή στην οθόνη."""
-    print(color_char * width)
-
-
-def slow_print(text, delay=0.03):
-    """Εκτύπωσε κείμενο ένα γράμμα τη φορά — σαν το text crawl του Star Wars!"""
-    for char in text:
-        sys.stdout.write(char)
-        sys.stdout.flush()
-        time.sleep(delay)
-    print()
-
-
 def beep(frequency, duration_ms=300):
-    """Παίξε έναν ήχο χρησιμοποιώντας το ενσωματωμένο ηχείο του υπολογιστή."""
-    if SOUND_AVAILABLE:
-        winsound.Beep(frequency, duration_ms)
-    else:
-        print(f"  ♪ (παίζω νότα στα {frequency} Hz) ♪")
+    """Παίξε έναν ήχο — η πραγματική δουλειά γίνεται στο common/terminal.py."""
+    _beep(frequency, duration_ms, fallback="  ♪ (παίζω νότα στα {hz} Hz) ♪")
 
 
 def print_animal_fact(animal):
@@ -502,4 +480,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    run_game(main, goodbye="  Αντίο, Padawan Ναπολέων! Η Δύναμη να είναι μαζί σου! ✨")

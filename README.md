@@ -105,7 +105,7 @@
 
 ---
 
-### 2. 🐍 Jedi Εξερευνητής Φύσης (`napoleon.py`)
+### 2. 🐍 Jedi Εξερευνητής Φύσης (`jedi-game/jedi.py`)
 
 Ένα **πρόγραμμα τερματικού** γραμμένο σε Python — η πρώτη γλώσσα προγραμματισμού του Ναπολέων!
 
@@ -118,7 +118,8 @@
 
 **Πώς να το τρέξεις:**
 ```bash
-python napoleon.py
+python jedi-game/jedi.py      # Jedi Εξερευνητής Φύσης
+python diablo-game/diablo.py  # Κόσμος των Δαιμόνων
 ```
 
 ---
@@ -144,7 +145,15 @@ python napoleon.py
 | Αρχείο | Τι είναι |
 |---|---|
 | `index.html` | Διαδραστική Εγκυκλοπαίδεια με Quiz, LEGO Builder & Δεινόσαυροι |
-| `napoleon.py` | Πρόγραμμα τερματικού Jedi Εξερευνητή Φύσης |
+| `assets/styles.css` | Στυλ της αρχικής σελίδας |
+| `assets/storage.js` | Ασφαλής αποθήκευση προόδου (localStorage με try/catch) για όλα τα παιχνίδια |
+| `diablo-game/` | `diablo.html` (web) και `diablo.py` (τερματικό) |
+| `school-game/school.html` | Jedi Ακαδημία |
+| `farm-game/farm.html` | Μαγικό Αγρόκτημα (παιχνίδι εντολών) |
+| `anatomy-game/` | Εξερευνητής Σώματος (`anatomy.html`, `css/`, `js/`) |
+| `jedi-game/` | `jedi.html` (web) και `jedi.py` (τερματικό) |
+| `common/terminal.py` | Κοινές βοηθητικές συναρτήσεις για τα παιχνίδια Python |
+| `tests/*.mjs` | Smoke tests — τρέξε `node tests/site-smoke.mjs` κ.λπ. |
 | `README.md` | Αυτό το αρχείο — η περιγραφή αποστολής! |
 
 ---

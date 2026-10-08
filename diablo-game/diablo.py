@@ -8,14 +8,14 @@
 #  Για να τρέξεις: python diablo.py
 # ============================================================
 
+import os
 import sys
 import time
 
-try:
-    import winsound
-    SOUND_AVAILABLE = True
-except ImportError:
-    SOUND_AVAILABLE = False
+# Φορτώνουμε τις κοινές βοηθητικές συναρτήσεις από τον φάκελο common/
+# (τις μοιράζονται το jedi.py και το diablo.py).
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "common"))
+from terminal import beep as _beep, clear_ish, print_divider, run_game, slow_print, wrap_print  # noqa: E402
 
 
 # ============================================================
@@ -307,45 +307,9 @@ ITEMS = [
 #  ΒΟΗΘΗΤΙΚΕΣ ΣΥΝΑΡΤΗΣΕΙΣ
 # ============================================================
 
-def clear_ish():
-    """Εκτύπωσε μερικές κενές γραμμές για εφέ «καθαρής οθόνης»."""
-    print("\n" * 2)
-
-
-def print_divider(char="=", width=55):
-    """Εκτύπωσε μια διακοσμητική γραμμή."""
-    print(char * width)
-
-
-def slow_print(text, delay=0.03):
-    """Εκτύπωσε κείμενο ένα γράμμα τη φορά."""
-    for char in text:
-        sys.stdout.write(char)
-        sys.stdout.flush()
-        time.sleep(delay)
-    print()
-
-
 def beep(frequency, duration_ms=300):
-    """Παίξε έναν ήχο χρησιμοποιώντας το ενσωματωμένο ηχείο."""
-    if SOUND_AVAILABLE:
-        winsound.Beep(frequency, duration_ms)
-    else:
-        print(f"  ♪ ({frequency} Hz) ♪")
-
-
-def wrap_print(text, indent="  ", width=56):
-    """Εκτύπωσε κείμενο με αναδίπλωση γραμμής."""
-    words = text.split()
-    line = indent
-    for word in words:
-        if len(line) + len(word) + 1 > width:
-            print(line)
-            line = indent + word + " "
-        else:
-            line += word + " "
-    if line.strip():
-        print(line)
+    """Παίξε έναν ήχο — η πραγματική δουλειά γίνεται στο common/terminal.py."""
+    _beep(frequency, duration_ms, fallback="  ♪ ({hz} Hz) ♪")
 
 
 # ============================================================
@@ -660,4 +624,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    run_game(main, goodbye="  Αντίο, γενναίε ήρωα! 🔥")

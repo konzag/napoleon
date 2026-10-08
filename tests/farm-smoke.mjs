@@ -4,7 +4,7 @@ import fs from 'node:fs';
 const root = new URL('../', import.meta.url);
 const read = (name) => fs.readFileSync(new URL(name, root), 'utf8');
 
-const farm = read('farm.html');
+const farm = read('farm-game/farm.html');
 
 for (const name of [
   'handleAnimalCare',
@@ -24,12 +24,12 @@ for (const word of ['στάβλος', 'κοτέτσι', 'αχυρώνας', 'α�
   assert.match(farm, new RegExp(word), `farm contains ${word}`);
 }
 
-for (const file of ['index.html', 'diablo.html', 'school.html', 'farm.html']) {
-  const html = read(file);
-  for (const target of ['index.html', 'diablo.html', 'school.html', 'farm.html']) {
-    assert.match(html, new RegExp(`href="${target}"`), `${file} links to ${target}`);
-  }
-}
+// Κάθε σελίδα πρέπει να δείχνει (με σωστή σχετική διαδρομή) σε όλες τις άλλες.
+// Ο πλήρης έλεγχος συνδέσμων γίνεται στο tests/site-smoke.mjs.
+assert.match(farm, /href="\.\.\/index\.html"/, 'farm links back to the encyclopedia');
+assert.match(farm, /href="\.\.\/jedi-game\/jedi\.html"/, 'farm links to the jedi nature page');
+assert.match(farm, /const MAX_TERMINAL_LINES = \d+;/, 'farm terminal output is capped');
 
 const index = read('index.html');
 assert.doesNotMatch(index, /lego-save-name">\$\{save\.name\}/, 'LEGO save name is not injected through innerHTML');
+console.log('farm-smoke: ok');
