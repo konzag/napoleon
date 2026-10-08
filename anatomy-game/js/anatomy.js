@@ -87,18 +87,17 @@ let state = {
 /* ── Storage ── */
 
 function loadState() {
-  try {
-    const c = JSON.parse(localStorage.getItem(STORAGE_KEY_COLLECTED) || '[]');
-    const p = JSON.parse(localStorage.getItem(STORAGE_KEY_PROGRESS)  || '{}');
-    if (Array.isArray(c)) state.collected = c;
-    Object.assign(state, p);
-  } catch (_) { /* fresh start */ }
+  // NapoleonStorage (../assets/storage.js) επιστρέφει την προεπιλογή αν κάτι λείπει ή είναι χαλασμένο.
+  const c = NapoleonStorage.readJson(STORAGE_KEY_COLLECTED, []);
+  const p = NapoleonStorage.readJson(STORAGE_KEY_PROGRESS, {});
+  if (Array.isArray(c)) state.collected = c;
+  if (p && typeof p === 'object' && !Array.isArray(p)) Object.assign(state, p);
 }
 
 function saveState() {
-  localStorage.setItem(STORAGE_KEY_COLLECTED, JSON.stringify(state.collected));
+  NapoleonStorage.writeJson(STORAGE_KEY_COLLECTED, state.collected);
   const { collected, ...rest } = state;
-  localStorage.setItem(STORAGE_KEY_PROGRESS, JSON.stringify(rest));
+  NapoleonStorage.writeJson(STORAGE_KEY_PROGRESS, rest);
 }
 
 /* ── Mascot ── */

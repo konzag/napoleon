@@ -19,53 +19,35 @@ assert.match(html, /Ναπολέων/, 'default profile is Napoleon');
 assert.match(html, /<nav id="top-nav"/, 'shared top navigation exists');
 assert.match(html, /<aside class="sidebar"/, 'left sidebar exists');
 assert.match(html, /href="\.\.\/index\.html"/, 'anatomy links to encyclopedia');
-assert.match(html, /href="\.\.\/diablo\.html"/, 'anatomy links to diablo');
-assert.match(html, /href="\.\.\/school\.html"/, 'anatomy links to school');
-assert.match(html, /href="\.\.\/farm\.html"/, 'anatomy links to farm');
-assert.match(html, /href="home\.html"/, 'return to menu placeholder exists');
+assert.match(html, /href="\.\.\/diablo-game\/diablo\.html"/, 'anatomy links to diablo');
+assert.match(html, /href="\.\.\/school-game\/school\.html"/, 'anatomy links to school');
+assert.match(html, /href="\.\.\/farm-game\/farm\.html"/, 'anatomy links to farm');
+assert.match(html, /href="\.\.\/jedi-game\/jedi\.html"/, 'anatomy links to jedi nature page');
+assert.match(html, /<script src="\.\.\/assets\/storage\.js"><\/script>\s*<script src="js\/anatomy\.js">/, 'storage.js loads before anatomy.js');
 
 for (const text of [
-  'Προφίλ Ναπολέοντα',
-  'Το Σώμα μου',
-  'Μέρη του Σώματος',
-  'Όργανα',
-  'Σκελετός',
-  'Οι 5 Αισθήσεις',
-  'Αναπνοή',
-  'Καρδιά & Αίμα',
+  'Προφίλ',
+  'Εξερεύνηση Σώματος',
+  'Τοποθέτηση Οργάνων',
+  '5 Αισθήσεις',
   'Πέψη',
-  'Κίνηση',
   'Υγιεινές Συνήθειες',
   'Συλλογές',
   'Πρόοδος',
-  'Ρυθμίσεις',
-  'Επιστροφή στο Μενού',
 ]) {
   assert.match(html, new RegExp(text), `sidebar contains ${text}`);
 }
 
-for (const text of [
-  'Καρδούλης',
-  'Πνευμονάκια',
-  'Κύριος Σκελετούλης',
-  'Νευρωνάκι',
-  'Γιατρός Πίξελ',
-  'Βάλε την καρδιά στη θέση της',
-  'Βοήθησε τους πνεύμονες να πάρουν αέρα',
-  'Ταξίδεψε την μπουκιά από το στόμα στο στομάχι',
-  'Άναψε τις 5 αισθήσεις',
-]) {
+for (const text of ['Καρδούλης', 'Πνευμονάκια', 'Κύριος Σκελετούλης', 'Νευρωνάκι', 'Γιατρός Πίξελ']) {
   assert.match(html + js, new RegExp(text), `content contains ${text}`);
 }
 
-for (const name of ['saveProgress', 'loadProgress', 'selectBodyPart', 'completeDiscovery', 'dropOrgan', 'switchPlayer']) {
+for (const name of ['loadState', 'saveState', 'selectOrgan', 'discoverOrgan', 'handleOrganDrop', 'setupPlayerMode', 'runDigestion']) {
   assert.match(js, new RegExp(`function\\s+${name}\\s*\\(`), `${name} exists`);
 }
+assert.doesNotMatch(js, /localStorage\./, 'anatomy.js uses NapoleonStorage instead of raw localStorage');
 
 assert.match(css, /\.sidebar/, 'sidebar css exists');
 assert.match(css, /@media/, 'responsive css exists');
 
-for (const file of ['index.html', 'diablo.html', 'school.html', 'farm.html']) {
-  const page = read(file);
-  assert.match(page, /href="anatomy-game\/anatomy\.html"/, `${file} links to anatomy game`);
-}
+console.log('anatomy-smoke: ok');

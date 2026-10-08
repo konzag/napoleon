@@ -24,6 +24,7 @@
     <a href="school-game/school.html">🎓 Jedi Ακαδημία</a>
     <a href="farm-game/farm.html">🚜 Μαγικό Αγρόκτημα</a>
     <a href="anatomy-game/anatomy.html">🫀 Το Σώμα</a>
+    <a href="jedi-game/jedi.html">🌿 Φύση</a>
   </nav>
 
   <!-- ================================================
@@ -137,7 +138,7 @@
   <footer>
     Φτιαγμένο με 💙 για τον <span>Ναπολέων</span> — Jedi Padawan, Εξερευνητής της Φύσης &amp; Μελλοντικός Προγραμματιστής 🚀
     <br><br>
-    <a href="school.html" style="color:#ffe81f;text-decoration:none;font-family:'Orbitron',monospace;font-size:0.82rem;letter-spacing:1px;border:1.5px solid #ffe81f;padding:6px 18px;border-radius:20px;transition:all 0.2s;"
+    <a href="school-game/school.html" style="color:#ffe81f;text-decoration:none;font-family:'Orbitron',monospace;font-size:0.82rem;letter-spacing:1px;border:1.5px solid #ffe81f;padding:6px 18px;border-radius:20px;transition:all 0.2s;"
        onmouseover="this.style.background='#ffe81f';this.style.color='#000';"
        onmouseout="this.style.background='';this.style.color='#ffe81f';">
       🎓 Jedi Ακαδημία
@@ -145,6 +146,7 @@
   </footer>
 
 
+  <script src="assets/storage.js"></script>
   <script>
     // ====================================================
     //  JAVASCRIPT — Ο κώδικας που κάνει τα πάντα να ζωντανεύουν!
@@ -740,13 +742,16 @@
     const LEGO_STORAGE_KEY = 'napoleon_lego_saves';
     const LEGO_MAX_SAVES   = 345;
 
+    // Χρησιμοποιούμε το NapoleonStorage (assets/storage.js) για να μη «σπάσει»
+    // το παιχνίδι αν ο browser δεν μας αφήνει να αποθηκεύσουμε.
     function getLegoSaves() {
-      try { return JSON.parse(localStorage.getItem(LEGO_STORAGE_KEY)) || []; }
-      catch (e) { return []; }
+      const saves = NapoleonStorage.readJson(LEGO_STORAGE_KEY, []);
+      return Array.isArray(saves) ? saves : [];
     }
 
+    // Επιστρέφει true αν η αποθήκευση πέτυχε.
     function setLegoSaves(saves) {
-      localStorage.setItem(LEGO_STORAGE_KEY, JSON.stringify(saves));
+      return NapoleonStorage.writeJson(LEGO_STORAGE_KEY, saves);
     }
 
     function getLegoGridColors() {
@@ -806,7 +811,10 @@
       const nameInput = document.getElementById('lego-design-name');
       const name = nameInput.value.trim() || 'Σχέδιο ' + (saves.length + 1);
       saves.push({ name, date: new Date().toLocaleString('el-GR'), colors: getLegoGridColors() });
-      setLegoSaves(saves);
+      if (!setLegoSaves(saves)) {
+        alert('Δεν χωράει άλλο σχέδιο στον browser! Διάγραψε κάποιο παλιό και δοκίμασε ξανά. 🧱');
+        return;
+      }
       updateLegoCounter();
       nameInput.value = '';
       document.getElementById('lego-save-input-area').classList.remove('open');

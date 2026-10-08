@@ -457,6 +457,7 @@
     </div>
   </div>
 
+  <script src="../assets/storage.js"></script>
   <script>
     // ════════════════════════════════════════════════════════
     //  ΔΕΔΟΜΕΝΑ — Ζώα, Φυτά, Νότες
@@ -514,12 +515,14 @@
     // ════════════════════════════════════════════════════════
 
     const STORAGE_KEY = 'napoleon_jedi_learned';
-    let learned = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
+    // NapoleonStorage (../assets/storage.js) δεν «σπάει» αν τα δεδομένα είναι χαλασμένα.
+    const savedLearned = NapoleonStorage.readJson(STORAGE_KEY, []);
+    let learned = new Set(Array.isArray(savedLearned) ? savedLearned : []);
     let soundOn  = true;
     let audioCtx = null;
 
     function saveLearned() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify([...learned]));
+      NapoleonStorage.writeJson(STORAGE_KEY, [...learned]);
       updateProgress();
     }
 
