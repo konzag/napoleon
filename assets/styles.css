@@ -19,6 +19,9 @@
       padding-top: 50px;
       overflow-x: hidden;
     }
+    /* Όταν το μενού πάει σε 2 ή 3 γραμμές, αφήνουμε περισσότερο χώρο από πάνω */
+    @media (max-width: 900px) { body { padding-top: 84px; } }
+    @media (max-width: 480px) { body { padding-top: 110px; } }
 
     /* ── Navbar πλοήγησης ── */
     #top-nav {
@@ -26,6 +29,8 @@
       background: rgba(10, 0, 21, 0.95);
       border-bottom: 1px solid #ffe81f44;
       display: flex; align-items: center; justify-content: center;
+      /* Σε μικρή οθόνη (κινητό) οι σύνδεσμοι πάνε σε 2η γραμμή αντί να «κόβονται» */
+      flex-wrap: wrap;
       gap: 8px; padding: 6px 12px;
       box-shadow: 0 2px 16px #ffe81f22;
       backdrop-filter: blur(4px);
@@ -160,11 +165,11 @@
 
     /* Κάρτες ζώων — μπλε φωτόσπαθο */
     .card.animal { border-color: rgba(68,170,255,0.3); }
-    .card.animal:hover { border-color: #4af; box-shadow: 0 0 20px #4af55; }
+    .card.animal:hover { border-color: #4af; box-shadow: 0 0 20px #44aaff55; }
 
     /* Κάρτες φυτών — πράσινο φωτόσπαθο */
     .card.plant { border-color: rgba(68,255,136,0.3); }
-    .card.plant:hover { border-color: #4f8; box-shadow: 0 0 20px #4f855; }
+    .card.plant:hover { border-color: #4f8; box-shadow: 0 0 20px #44ff8855; }
 
     /* Κάρτες δεινόσαυρων — μωβ λάμψη */
     .card.dino { border-color: rgba(192,132,252,0.3); }
@@ -558,7 +563,7 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-    .lego-save-date { font-size: 0.7rem; color: #668; }
+    .lego-save-date { font-size: 0.7rem; color: #8a8aaa; }
     .lego-load-design-btn {
       padding: 5px 12px;
       background: transparent;
@@ -582,10 +587,30 @@
       transition: all 0.15s;
     }
     .lego-delete-btn:hover { background: #f44; color: #fff; }
-    .lego-empty-msg { text-align: center; color: #668; font-size: 0.85rem; padding: 12px; }
+    .lego-empty-msg { text-align: center; color: #8a8aaa; font-size: 0.85rem; padding: 12px; }
 
     .hidden { display: none !important; }
 
     /* ── Υποσέλιδο ── */
-    footer { text-align: center; padding: 20px 10px 30px; font-size: 0.78rem; color: #556; }
+    /* Χρώμα κειμένου αρκετά φωτεινό ώστε να διαβάζεται εύκολα (αντίθεση ≥ 4.5:1) */
+    footer { text-align: center; padding: 20px 10px 30px; font-size: 0.78rem; color: #8a8aaa; }
     footer span { color: #ffe81f; }
+
+    /* ── Προσβασιμότητα ── */
+    /* Καθαρό περίγραμμα όταν κάτι έχει «focus» από το πληκτρολόγιο (Tab) */
+    .lego-name-input:focus-visible,
+    .card:focus-visible,
+    .palette-color:focus-visible {
+      outline: 3px solid #ffe81f;
+      outline-offset: 2px;
+    }
+
+    /* Αν ο υπολογιστής ζητά «λιγότερη κίνηση», σταματάμε τα κινούμενα εφέ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }

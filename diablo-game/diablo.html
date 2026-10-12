@@ -12,7 +12,7 @@
   <meta property="og:title" content="⚔️ Diablo Quest του Ναπολέων 🔥" />
   <meta property="og:description" content="Interactive programming projects and educational games for Napoleon" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://konzag.github.io/napoleon/diablo.html" />
+  <meta property="og:url" content="https://konzag.github.io/napoleon/diablo-game/diablo.html" />
   <meta name="twitter:card" content="summary" />
 
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
@@ -33,6 +33,9 @@
       padding-top: 50px;
       overscroll-behavior: none;
     }
+    /* Όταν το μενού πάει σε 2 ή 3 γραμμές, αφήνουμε περισσότερο χώρο από πάνω */
+    @media (max-width: 940px) { body { padding-top: 84px; } }
+    @media (max-width: 520px) { body { padding-top: 110px; } }
     /* Scroll controlled dynamically via updateBodyScroll() in JS */
     #screen-charselect { overflow-y: auto; -webkit-overflow-scrolling: touch; max-height: 100vh; padding-bottom: 16px; }
 
@@ -41,8 +44,8 @@
       position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
       background: #0d0005;
       border-bottom: 1px solid #440000;
-      display: flex; align-items: center; justify-content: center;
-      gap: 8px; padding: 6px 12px;
+      display: flex; align-items: center; justify-content: center; flex-wrap: wrap; /* κινητό: 2η γραμμή αντί να κόβονται */
+      gap: 8px; padding: 6px 56px 6px 12px; /* δεξιά χώρος για τα κουμπιά 🔊 και 🕹️ */
       box-shadow: 0 2px 12px #8b000044;
     }
     #top-nav a {
@@ -74,7 +77,7 @@
       background: #1a000d; border: 1px solid #440000;
       border-radius: 4px; color: #c8a951;
       font-size: 1.2rem; width: 36px; height: 36px;
-      cursor: pointer; z-index: 300;
+      cursor: pointer; z-index: 10000; /* πάνω από το μενού, αλλιώς κρυβόταν πίσω του */
     }
     #sound-toggle:hover { border-color: #c8a951; }
 
@@ -139,7 +142,7 @@
 
     .back-btn {
       background: none; border: 1px solid #440000;
-      color: #666; font-size: 0.8rem;
+      color: #999; font-size: 0.8rem; /* αντίθεση ≥ 4.5:1 */
       padding: 6px 14px; cursor: pointer; border-radius: 4px;
     }
     .back-btn:hover { color: #c8a951; border-color: #c8a951; }
@@ -221,7 +224,7 @@
     .hud-hp-fill   { height:100%; border-radius:5px; background:linear-gradient(90deg,#8b0000,#ff3300); transition:width 0.25s; }
     .hud-mp-fill   { height:100%; border-radius:5px; background:linear-gradient(90deg,#002266,#4488ff); transition:width 0.25s; }
     .hud-val       { font-size:0.65rem; color:#e8d5a0; white-space:nowrap; }
-    .hud-hints     { font-size:0.58rem; color:#555; white-space:nowrap; }
+    .hud-hints     { font-size:0.58rem; color:#999; white-space:nowrap; }
     #hud-enemies   { color:#ff6600; font-size:0.68rem; white-space:nowrap; margin-left:auto; }
 
     /* Canvas */
@@ -257,7 +260,7 @@
     .go-title {
       font-family: 'Orbitron', monospace;
       font-size: clamp(1.4rem, 5vw, 2.4rem);
-      color: #8b0000; text-shadow: 0 0 20px #ff0000;
+      color: #ff4444; text-shadow: 0 0 20px #ff0000; /* πιο φωτεινό κόκκινο για να διαβάζεται */
     }
 
     /* ═══════════════════════════════════════
@@ -284,6 +287,18 @@
     }
     .v-stats strong { color: #c8a951; }
     .v-msg { font-size: clamp(0.85rem,2.5vw,1.05rem); color: #ff6600; font-style: italic; max-width: 380px; }
+
+    /* ── Προσβασιμότητα ── */
+    /* Ορατό περίγραμμα όταν διαλέγεις ήρωα με το πληκτρολόγιο (Tab) */
+    .char-card:focus-visible { outline: 3px solid #c8a951; outline-offset: 2px; }
+    /* Αν ο υπολογιστής ζητά «λιγότερη κίνηση», σταματάμε τα κινούμενα εφέ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -299,7 +314,7 @@
   </nav>
 
   <!-- Κουμπί ήχου -->
-  <button id="sound-toggle" onclick="toggleSound()" title="Εναλλαγή ήχου">🔊</button>
+  <button id="sound-toggle" onclick="toggleSound()" title="Εναλλαγή ήχου" aria-label="Ήχος" aria-pressed="true">🔊</button>
   <!-- Μήνυμα overlay -->
   <div id="msg-overlay"></div>
 
@@ -310,14 +325,14 @@
     <div class="title-sub">ΤΟ ΜΥΘΙΚΟ RPG ΤΟΥ ΝΑΠΟΛΕΩΝ</div>
     <div style="font-size:2.5rem;margin:4px 0">🐉 &nbsp; 💀 &nbsp; 🏆</div>
     <button class="btn" onclick="initAudio();showScreen('charselect')">▶ Ξεκίνα Περιπέτεια!</button>
-    <a href="../index.html" style="color:#555;font-size:0.8rem;margin-top:8px">← Πίσω στην Εγκυκλοπαίδεια</a>
+    <a href="../index.html" style="color:#999;font-size:0.8rem;margin-top:8px">← Πίσω στην Εγκυκλοπαίδεια</a>
   </div>
 
   <!-- ═══ ΕΠΙΛΟΓΗ ΧΑΡΑΚΤΗΡΑ ═══ -->
   <div id="screen-charselect" class="hidden">
     <div style="height:8px"></div>
     <div class="cs-title">⚔️ ΕΠΙΛΟΓΗ ΧΑΡΑΚΤΗΡΑ ⚔️</div>
-    <div style="font-size:0.75rem;color:#666">Διάλεξε τον ήρωά σου!</div>
+    <div style="font-size:0.75rem;color:#999">Διάλεξε τον ήρωά σου!</div>
     <div class="char-cards" id="char-cards"></div>
     <button class="btn hidden" id="start-btn" onclick="startGame()">▶ Ξεκίνα Αποστολή!</button>
     <button class="back-btn" onclick="showScreen('title')">← Πίσω</button>
@@ -540,6 +555,8 @@
   function toggleSound() {
     soundEnabled = !soundEnabled;
     document.getElementById('sound-toggle').textContent = soundEnabled ? '🔊' : '🔇';
+    // Λέμε και στον screen reader αν ο ήχος είναι ανοιχτός
+    document.getElementById('sound-toggle').setAttribute('aria-pressed', soundEnabled ? 'true' : 'false');
   }
 
   // ══════════════════════════════════════════
@@ -673,7 +690,14 @@
         card.appendChild(desc);
       }
 
+      // Η κάρτα δουλεύει σαν κουμπί και με πληκτρολόγιο (Tab + Enter/Space)
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('aria-pressed', 'false');
       card.addEventListener('click', function() { selectChar(i); });
+      card.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectChar(i); }
+      });
       container.appendChild(card);
     });
   }
@@ -704,6 +728,7 @@
     selectedChar = i;
     document.querySelectorAll('.char-card').forEach(function(c, j) {
       c.classList.toggle('selected', j === i);
+      c.setAttribute('aria-pressed', j === i ? 'true' : 'false');
     });
     document.getElementById('start-btn').classList.remove('hidden');
   }
@@ -783,6 +808,9 @@
     keys[e.code] = true;
     var nav = ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',
                'KeyW','KeyA','KeyS','KeyD','Space','ControlLeft','ControlRight'];
+    // Μπλοκάρουμε τα πλήκτρα ΜΟΝΟ όταν παίζουμε. Στις άλλες οθόνες το Space
+    // πρέπει να πατάει κουμπιά και τα βελάκια να κάνουν scroll (πληκτρολόγιο).
+    if (!gameRunning) return;
     if (nav.indexOf(e.code) >= 0) e.preventDefault();
     if (e.code === 'Space') heroAttack();
     if (e.code === 'ControlLeft' || e.code === 'ControlRight') heroSpell();
@@ -1071,7 +1099,8 @@
     updateHUD();
 
     if (heroData.id === 'paladin') {
-      var healed = Math.min(heroData.maxHp - hero.hp, 20);
+      // Το μέγιστο HP το κρατάει ο ήρωας (hero.maxHp)· το heroData δεν έχει maxHp.
+      var healed = Math.min(hero.maxHp - hero.hp, 20);
       hero.hp += healed;
       addFloat(hero.col*TILE+TILE/2, hero.row*TILE+TILE/2-20, '+' + healed + ' HP', '#88ff88');
       spawnParticles(hero.col*TILE+TILE/2, hero.row*TILE+TILE/2, '#88ff44', 12);
@@ -1216,7 +1245,7 @@
     gameRunning = false;
     playSound('victory');
     document.getElementById('v-kills').textContent = enemiesKilled;
-    document.getElementById('v-hp').textContent    = hero.hp + '/' + heroData.maxHp;
+    document.getElementById('v-hp').textContent    = hero.hp + '/' + hero.maxHp;
     document.getElementById('v-mana').textContent  = hero.mana + '/' + heroData.mana;
     document.getElementById('v-msg').textContent   = heroData.victory;
     setTimeout(function() { showScreen('victory'); }, 500);
@@ -1503,11 +1532,11 @@
     if (!heroData) return;
     document.getElementById('hud-hero').textContent =
       heroData.emoji + ' ' + heroData.greekName;
-    var hpPct = Math.max(0, (hero.hp / heroData.maxHp) * 100);
+    var hpPct = Math.max(0, (hero.hp / hero.maxHp) * 100);
     var mpPct = Math.max(0, (hero.mana / heroData.mana) * 100);
     document.getElementById('hud-hp-bar').style.width = hpPct + '%';
     document.getElementById('hud-mp-bar').style.width = mpPct + '%';
-    document.getElementById('hud-hp-val').textContent = Math.max(0, hero.hp) + '/' + heroData.maxHp;
+    document.getElementById('hud-hp-val').textContent = Math.max(0, hero.hp) + '/' + hero.maxHp;
     document.getElementById('hud-mp-val').textContent = hero.mana + '/' + heroData.mana;
     var rem = 0;
     for (var i = 0; i < enemies.length; i++) { if (enemies[i].alive) rem++; }
@@ -1535,13 +1564,13 @@
   <!-- D-PAD αριστερά -->
   <div style="display:grid; grid-template-columns:64px 64px 64px; grid-template-rows:64px 64px 64px; gap:4px;">
     <div></div>
-    <button id="vUp"    style="all:unset; width:64px; height:64px; background:rgba(139,0,0,0.9); border:2px solid #c8a951; border-radius:10px; color:#c8a951; font-size:26px; display:flex; align-items:center; justify-content:center; cursor:pointer; touch-action:manipulation;">▲</button>
+    <button id="vUp" aria-label="Πάνω" style="all:unset; width:64px; height:64px; background:rgba(139,0,0,0.9); border:2px solid #c8a951; border-radius:10px; color:#c8a951; font-size:26px; display:flex; align-items:center; justify-content:center; cursor:pointer; touch-action:manipulation;">▲</button>
     <div></div>
-    <button id="vLeft"  style="all:unset; width:64px; height:64px; background:rgba(139,0,0,0.9); border:2px solid #c8a951; border-radius:10px; color:#c8a951; font-size:26px; display:flex; align-items:center; justify-content:center; cursor:pointer; touch-action:manipulation;">◀</button>
+    <button id="vLeft" aria-label="Αριστερά" style="all:unset; width:64px; height:64px; background:rgba(139,0,0,0.9); border:2px solid #c8a951; border-radius:10px; color:#c8a951; font-size:26px; display:flex; align-items:center; justify-content:center; cursor:pointer; touch-action:manipulation;">◀</button>
     <div style="width:64px; height:64px; background:rgba(30,0,0,0.5); border-radius:50%;"></div>
-    <button id="vRight" style="all:unset; width:64px; height:64px; background:rgba(139,0,0,0.9); border:2px solid #c8a951; border-radius:10px; color:#c8a951; font-size:26px; display:flex; align-items:center; justify-content:center; cursor:pointer; touch-action:manipulation;">▶</button>
+    <button id="vRight" aria-label="Δεξιά" style="all:unset; width:64px; height:64px; background:rgba(139,0,0,0.9); border:2px solid #c8a951; border-radius:10px; color:#c8a951; font-size:26px; display:flex; align-items:center; justify-content:center; cursor:pointer; touch-action:manipulation;">▶</button>
     <div></div>
-    <button id="vDown"  style="all:unset; width:64px; height:64px; background:rgba(139,0,0,0.9); border:2px solid #c8a951; border-radius:10px; color:#c8a951; font-size:26px; display:flex; align-items:center; justify-content:center; cursor:pointer; touch-action:manipulation;">▼</button>
+    <button id="vDown" aria-label="Κάτω" style="all:unset; width:64px; height:64px; background:rgba(139,0,0,0.9); border:2px solid #c8a951; border-radius:10px; color:#c8a951; font-size:26px; display:flex; align-items:center; justify-content:center; cursor:pointer; touch-action:manipulation;">▼</button>
     <div></div>
   </div>
 
@@ -1556,7 +1585,7 @@
 </div>
 
 <!-- Toggle κουμπί — πάντα ορατό -->
-<button id="vToggle" style="position:fixed; top:58px; right:8px; z-index:9999; background:rgba(0,0,0,0.8); border:1px solid #c8a951; border-radius:8px; color:#c8a951; font-size:18px; padding:6px 10px; cursor:pointer; touch-action:manipulation;">🕹️</button>
+<button id="vToggle" aria-label="Εμφάνιση ή απόκρυψη χειριστηρίου" title="Χειριστήριο" style="position:fixed; top:58px; right:8px; z-index:9999; background:rgba(0,0,0,0.8); border:1px solid #c8a951; border-radius:8px; color:#c8a951; font-size:18px; padding:6px 10px; cursor:pointer; touch-action:manipulation;">🕹️</button>
 
 <script>
 // === ΟΡΑΤΟΤΗΤΑ GAMEPAD ===

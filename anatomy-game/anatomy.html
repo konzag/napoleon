@@ -56,7 +56,7 @@
       <div class="mascot-widget">
         <div class="mascot-avatar">👨‍⚕️</div>
         <div class="mascot-name">Γιατρός Πίξελ</div>
-        <div class="mascot-bubble" id="mascotBubble">Γεια σου! Ας εξερευνήσουμε το σώμα!</div>
+        <div class="mascot-bubble" id="mascotBubble" aria-live="polite">Γεια σου! Ας εξερευνήσουμε το σώμα!</div>
       </div>
     </aside>
 
@@ -115,7 +115,7 @@
         <div class="explorer-layout">
           <!-- SVG Body -->
           <div class="body-stage glass-card">
-            <svg class="body-svg" viewBox="0 0 260 430" role="img" aria-label="Διαδραστικό σώμα">
+            <svg class="body-svg" viewBox="0 0 260 430" role="group" aria-label="Διαδραστικό σώμα">
               <!-- Body outline -->
               <path class="body-outline" d="M130 20c32 0 58 26 58 58 0 21-11 39-27 49v35h34c20 0 36 16 36 36v70h-34v130h-42V283h-50v115H63V268H29v-70c0-20 16-36 36-36h34v-35c-16-10-27-28-27-49 0-32 26-58 58-58Z"/>
               <!-- Brain -->
@@ -131,11 +131,11 @@
               <circle cx="147" cy="66" r="4" fill="#00e5ff" opacity="0.7"/>
               <path d="M111 85c11 9 27 9 38 0" fill="none" stroke="#00e5ff" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
               <!-- Labels -->
-              <text x="130" y="46" text-anchor="middle" class="svg-label">🧠</text>
-              <text x="130" y="175" text-anchor="middle" class="svg-label">🫀</text>
-              <text x="90" y="160" text-anchor="middle" class="svg-label" font-size="10">🫁</text>
-              <text x="170" y="160" text-anchor="middle" class="svg-label" font-size="10">🫁</text>
-              <text x="139" y="235" text-anchor="middle" class="svg-label" font-size="10">🫃</text>
+              <text x="130" y="46" text-anchor="middle" class="svg-label" aria-hidden="true">🧠</text>
+              <text x="130" y="175" text-anchor="middle" class="svg-label" aria-hidden="true">🫀</text>
+              <text x="90" y="160" text-anchor="middle" class="svg-label" aria-hidden="true" font-size="10">🫁</text>
+              <text x="170" y="160" text-anchor="middle" class="svg-label" aria-hidden="true" font-size="10">🫁</text>
+              <text x="139" y="235" text-anchor="middle" class="svg-label" aria-hidden="true" font-size="10">🫃</text>
             </svg>
           </div>
 
@@ -182,7 +182,7 @@
                 <span class="slot-hint">Τοποθέτησε εδώ</span>
               </div>
             </div>
-            <div id="builderFeedback" class="builder-feedback"></div>
+            <div id="builderFeedback" class="builder-feedback" aria-live="polite"></div>
           </div>
         </div>
       </section>

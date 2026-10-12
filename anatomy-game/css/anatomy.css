@@ -10,7 +10,7 @@
   --purple: #b44fff;
   --green: #39ff14;
   --pink: #ff2d78;
-  --muted: #4a6a8a;
+  --muted: #7c9cbc;  /* αρκετά φωτεινό για να διαβάζεται (αντίθεση ≥ 4.5:1) */
   --text: #c8dff0;
   --text-bright: #e8f4ff;
   --border: rgba(0,229,255,0.2);
@@ -930,6 +930,29 @@ body {
 @keyframes banner-out {
   from { transform: translateX(-50%) translateY(0); opacity: 1; }
   to   { transform: translateX(-50%) translateY(-20px); opacity: 0; }
+}
+
+/* ── Προσβασιμότητα ── */
+/* Ορατό περίγραμμα όταν κάτι έχει focus από το πληκτρολόγιο (Tab) */
+.station-card:focus-visible,
+.organ-piece:focus-visible,
+.drop-slot:focus-visible,
+.body-area:focus-visible {
+  outline: 3px solid var(--cyan);
+  outline-offset: 2px;
+}
+/* Όργανο που διάλεξες με κλικ/πληκτρολόγιο και περιμένει να μπει σε θέση */
+.organ-piece.picked { border-color: var(--cyan); box-shadow: var(--glow-cyan-strong); color: var(--cyan); }
+
+/* Αν ο υπολογιστής ζητά «λιγότερη κίνηση», σταματάμε τα κινούμενα εφέ
+   (σωματίδια, καρδιά που χτυπά, πνεύμονες που αναπνέουν κ.λπ.) */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .particles { display: none; }
 }
 
 /* ── Responsive ── */
