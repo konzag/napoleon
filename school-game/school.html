@@ -9,7 +9,7 @@
   <meta property="og:title" content="Jedi Ακαδημία Ναπολέων 🎓⚔️" />
   <meta property="og:description" content="Interactive programming projects and educational games for Napoleon" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://konzag.github.io/napoleon/school.html" />
+  <meta property="og:url" content="https://konzag.github.io/napoleon/school-game/school.html" />
   <meta name="twitter:card" content="summary" />
 
   <style>
@@ -29,13 +29,16 @@
       padding-top: 50px;
       overflow-x: hidden;
     }
+    /* Όταν το μενού πάει σε 2 ή 3 γραμμές, αφήνουμε περισσότερο χώρο από πάνω */
+    @media (max-width: 900px) { body { padding-top: 84px; } }
+    @media (max-width: 480px) { body { padding-top: 110px; } }
 
     /* ── Navbar πλοήγησης ── */
     #top-nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
       background: rgba(10, 0, 21, 0.95);
       border-bottom: 1px solid #ffe81f44;
-      display: flex; align-items: center; justify-content: center;
+      display: flex; align-items: center; justify-content: center; flex-wrap: wrap; /* κινητό: 2η γραμμή αντί να κόβονται */
       gap: 8px; padding: 6px 12px;
       box-shadow: 0 2px 16px #ffe81f22;
       backdrop-filter: blur(4px);
@@ -127,7 +130,7 @@
       letter-spacing: 1px;
     }
     .grade-tab-btn:hover {
-      background: #4af22; color: #4af; box-shadow: 0 0 14px #4af44;
+      background: #44aaff22; color: #4af; box-shadow: 0 0 14px #44aaff44;
     }
     .grade-tab-btn.active {
       background: #4af; color: #000; box-shadow: 0 0 18px #4af;
@@ -174,7 +177,7 @@
     .link-card:hover {
       transform: translateY(-4px);
       border-color: #4af;
-      box-shadow: 0 0 22px #4af44;
+      box-shadow: 0 0 22px #44aaff44;
     }
 
     .link-card.wordwall {

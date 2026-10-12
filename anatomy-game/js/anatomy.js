@@ -199,6 +199,19 @@ function setupPlayerMode() {
     setMascot('Αλλαγή σειράς! Τώρα παίζει: ' + name);
     celebrate('🔄 Σειρά: ' + name + '!');
   });
+
+  // Μετά από ανανέωση σελίδας η αποθηκευμένη λειτουργία (1 ή 2 παίκτες) και η
+  // σειρά πρέπει να φαίνονται και στα κουμπιά. Πριν, η σελίδα έδειχνε
+  // «Μόνος μου / Ναπολέων» ενώ τα σήματα πήγαιναν κρυφά στον Παίκτη 2.
+  if (state.activePlayer !== 0 && state.activePlayer !== 1) state.activePlayer = 0;
+  if (state.twoPlayer) {
+    two.classList.add('active-mode');
+    single.classList.remove('active-mode');
+    switchBtn.style.display = 'inline-block';
+  } else {
+    state.activePlayer = 0;
+  }
+  document.getElementById('currentPlayerName').textContent = state.players[state.activePlayer];
 }
 
 /* ── Mission status ── */
@@ -289,6 +302,13 @@ function renderStations() {
       if (!done) completeStation(station.id, station.name);
     });
     card.setAttribute('title', station.story);
+    // Ο σταθμός είναι κουμπί και για το πληκτρολόγιο (Tab + Enter/Space)
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-label', 'Σταθμός: ' + station.name + (done ? ' (ολοκληρώθηκε)' : ''));
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
+    });
     map.appendChild(card);
   });
   updateStationProgress();
@@ -348,7 +368,21 @@ function renderOrgans() {
         piece.classList.add('dragging');
         e.dataTransfer.effectAllowed = 'move';
       });
-      piece.addEventListener('dragend', () => piece.classList.remove('dragging'));
+      piece.addEventListener('dragend', () => {
+        piece.classList.remove('dragging');
+        // Αν το αφήσαμε έξω από θέση, «ξεχνάμε» το όργανο
+        draggedOrganKey = null;
+      });
+
+      // Χωρίς σύρσιμο: πάτα (ή Enter/Space) το όργανο και μετά πάτα τη θέση του.
+      // Έτσι παίζεται και με πληκτρολόγιο.
+      piece.setAttribute('role', 'button');
+      piece.setAttribute('tabindex', '0');
+      piece.setAttribute('aria-pressed', 'false');
+      piece.addEventListener('click', () => pickOrgan(key, piece));
+      piece.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pickOrgan(key, piece); }
+      });
 
       // Touch drag
       piece.addEventListener('touchstart', e => touchDragStart(e, key, piece), { passive: false });
@@ -361,11 +395,51 @@ function renderOrgans() {
   setupDropSlots();
 }
 
+// Διάλεξε ένα όργανο με κλικ ή πληκτρολόγιο (αντί για σύρσιμο)
+function pickOrgan(key, piece) {
+  draggedOrganKey = key;
+  document.querySelectorAll('.organ-piece').forEach(p => {
+    p.classList.remove('picked');
+    p.setAttribute('aria-pressed', 'false');
+  });
+  piece.classList.add('picked');
+  piece.setAttribute('aria-pressed', 'true');
+  const feedback = document.getElementById('builderFeedback');
+  feedback.className = 'builder-feedback';
+  feedback.textContent = '👉 Τώρα πάτα τη σωστή θέση για: ' + BODY_PARTS[key].name;
+}
+
+// Οι «ακροατές» (listeners) των θέσεων μπαίνουν ΜΙΑ φορά. Πριν, κάθε φορά που
+// ξαναζωγραφίζαμε τα όργανα, προσθέταμε κι άλλους ίδιους listeners.
+let dropSlotsReady = false;
+
 function setupDropSlots() {
   document.querySelectorAll('.drop-slot').forEach(slot => {
     const targetKey = slot.dataset.organ;
     const alreadyFilled = state.organsPlaced.includes(targetKey);
     if (alreadyFilled) applySlotSuccess(slot, targetKey);
+  });
+  if (dropSlotsReady) return;
+  dropSlotsReady = true;
+
+  document.querySelectorAll('.drop-slot').forEach(slot => {
+    const targetKey = slot.dataset.organ;
+
+    // Η θέση είναι κουμπί: αν έχεις διαλέξει όργανο, το βάζει εδώ
+    slot.setAttribute('role', 'button');
+    slot.setAttribute('tabindex', '0');
+    slot.setAttribute('aria-label', 'Θέση: ' + BODY_PARTS[targetKey].name);
+    const placePicked = () => {
+      const key = draggedOrganKey;
+      if (!key) return;
+      handleOrganDrop(targetKey, key);
+      // Αν μπήκε σωστά, τελείωσε· αν όχι, μένει διαλεγμένο για νέα προσπάθεια
+      if (state.organsPlaced.includes(key)) draggedOrganKey = null;
+    };
+    slot.addEventListener('click', placePicked);
+    slot.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); placePicked(); }
+    });
 
     slot.addEventListener('dragover', e => { e.preventDefault(); slot.classList.add('drag-over'); });
     slot.addEventListener('dragleave', () => slot.classList.remove('drag-over'));
@@ -627,6 +701,26 @@ function checkHabit(name, card) {
     <span class="collected-badge">✅ Ολοκληρώθηκε!</span>
   `;
   setMascot('Υγιεινή συνήθεια: ' + name + '! Μπράβο!');
+  checkAllHabits();
+}
+
+// Όταν τσεκάρεις ΟΛΕΣ τις συνήθειες, κερδίζεις το σήμα «Υγιεινός Ήρωας».
+// (Πριν, αυτό το σήμα υπήρχε στις Συλλογές αλλά δεν δινόταν ποτέ.)
+function checkAllHabits() {
+  const allDone = HABITS.every(h => state.habitsChecked.includes(h.name));
+  const alreadyHas = state.collected.includes('all_habits') ||
+    (state.player2Collected || []).includes('all_habits');
+  if (allDone && !alreadyHas) {
+    collectItem('all_habits');
+    celebrate('💚 Όλες οι υγιεινές συνήθειες! Υγιεινός Ήρωας!');
+  }
+}
+
+// Πόσα από τα σήματα της σελίδας «Συλλογές» έχεις μαζέψει.
+// Μετράμε μόνο όσα υπάρχουν στη λίστα ALL_COLLECTABLES, αλλιώς το νούμερο
+// ξεπερνούσε το σύνολο (π.χ. 20/13) επειδή μετρούσαν και σταθμοί/συνήθειες.
+function countCollectedBadges() {
+  return ALL_COLLECTABLES.filter(item => state.collected.includes(item.id)).length;
 }
 
 /* ── Collections ── */
@@ -694,7 +788,7 @@ function renderProgress() {
     },
     {
       label: 'Συλλογές',
-      current: state.collected.length,
+      current: countCollectedBadges(),
       total: ALL_COLLECTABLES.length
     }
   ];
@@ -747,6 +841,8 @@ function init() {
   renderCollections();
   renderProgress();
   updateMissionStatus();
+  // Όποιος είχε ήδη τσεκάρει όλες τις συνήθειες, παίρνει τώρα το σήμα του
+  checkAllHabits();
 
   // Restore senses UI from state
   document.querySelectorAll('.sense-btn').forEach((btn, i) => {

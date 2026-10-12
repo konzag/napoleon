@@ -99,7 +99,7 @@
       <h2>Τερματικό Αγρότη</h2>
       <div id="terminal" class="terminal" aria-live="polite"></div>
       <div class="command-row">
-        <input id="commandInput" autocomplete="off" spellcheck="false" placeholder="γράψε εντολή εδώ">
+        <input id="commandInput" aria-label="Εντολή" autocomplete="off" spellcheck="false" placeholder="γράψε εντολή εδώ">
         <button id="runBtn">Εκτέλεση</button>
         <button id="newGameBtn">Νέο παιχνίδι</button>
       </div>
@@ -558,7 +558,9 @@
       state.hungerPending = false;
       if (QUICK_FOODS.includes(word)) {
         success('Ο Ναπολέων έφαγε κάτι γρήγορο και συνεχίζει τη δουλειά του.');
-      } else if (word === 'μεγάλο γεύμα') {
+      } else if (word === 'μεγάλο γεύμα' || word === 'γεύμα') {
+        // Το «γεύμα» είναι στη λίστα τροφών, οπότε το «φάε γεύμα» μετράει σαν
+        // μεγάλο γεύμα (πριν δεν έκανε τίποτα και το παιχνίδι έμενε σιωπηλό).
         write('Ο Ναπολέων έφαγε καλά και τώρα πρέπει να ξεκουραστεί για 3 λεπτά.', 'system');
         startRestTimer(REST_SECONDS);
       }
