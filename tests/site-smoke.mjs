@@ -28,7 +28,8 @@ for (const page of pages) {
   const dir = path.dirname(path.join(root, page));
   const refs = [...html.matchAll(/\b(?:href|src)="([^"]+)"/g)].map((m) => m[1]);
   for (const ref of refs) {
-    if (/^(https?:|data:|mailto:|#)/.test(ref)) continue;
+    // Το /static/... (π.χ. η γραμματοσειρά) το δίνει το hub «Τα Παιχνίδια μας», όχι αυτό το repo.
+    if (/^(https?:|data:|mailto:|#|\/static\/)/.test(ref)) continue;
     const target = path.resolve(dir, ref.split('#')[0].split('?')[0]);
     assert.ok(fs.existsSync(target), `${page}: local link "${ref}" exists`);
   }
