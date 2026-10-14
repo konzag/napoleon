@@ -1,6 +1,6 @@
 # ⭐ Η Προγραμματιστική Οδύσσεια του Ναπολέων ⭐
 
-**Άνοιγμα online:** [https://konzag.github.io/napoleon/](https://konzag.github.io/napoleon/)
+**Άνοιγμα online:** [https://public.tailc01d70.ts.net/napoleon/](https://public.tailc01d70.ts.net/napoleon/) (από το «Τα Παιχνίδια μας», το hub με όλα τα παιχνίδια του σπιτιού· το GitHub Pages έκλεισε)
 
 > *«Πριν πολύ καιρό σε έναν κήπο μακριά, μακριά...»*
 
