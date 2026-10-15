@@ -44,16 +44,16 @@
   </div>
 
   <!-- Κουμπί ήχου -->
-  <button id="sound-btn" onclick="toggleSound()">🔊 Ήχοι: ΕΝΕΡΓΟΙ</button>
+  <button id="sound-btn">🔊 Ήχοι: ΕΝΕΡΓΟΙ</button>
 
   <!-- ================================================
        ΚΑΡΤΕΛΕΣ — Ζώα / Φυτά / Δεινόσαυροι / Quiz
   ================================================ -->
   <div class="tabs">
-    <button class="tab-btn animals active" onclick="showTab('animals')">🐾 Ζώα</button>
-    <button class="tab-btn plants"         onclick="showTab('plants')">🌱 Φυτά</button>
-    <button class="tab-btn dino"           onclick="showTab('dinos')">🦕 Δεινόσαυροι</button>
-    <button class="tab-btn quiz"           onclick="showTab('quiz')">🧠 Quiz</button>
+    <button class="tab-btn animals active" data-tab="animals">🐾 Ζώα</button>
+    <button class="tab-btn plants"         data-tab="plants">🌱 Φυτά</button>
+    <button class="tab-btn dino"           data-tab="dinos">🦕 Δεινόσαυροι</button>
+    <button class="tab-btn quiz"           data-tab="quiz">🧠 Quiz</button>
   </div>
 
   <!-- Πλέγμα ζώων -->
@@ -81,7 +81,7 @@
       <p class="quiz-result-score-text">Τελικό αποτέλεσμα:</p>
       <div class="quiz-final-score" id="quiz-final-score">0 / 8</div>
       <div class="quiz-result-rank" id="quiz-rank"></div>
-      <button class="quiz-restart-btn" onclick="startQuiz()">🔄 Παίξε ξανά!</button>
+      <button class="quiz-restart-btn" id="quiz-restart-btn">🔄 Παίξε ξανά!</button>
     </div>
   </div>
 
@@ -104,17 +104,17 @@
        LEGO BUILDER (collapsible)
   ================================================ -->
   <div id="lego-section">
-    <button id="lego-toggle-btn" onclick="toggleLegoBuilder()">🧱 Χτίσε με LEGO!</button>
+    <button id="lego-toggle-btn">🧱 Χτίσε με LEGO!</button>
     <div id="lego-builder" class="hidden">
       <div class="lego-label">Τι χτίζεις σήμερα, Padawan Napoleon?</div>
       <div class="lego-palette" id="lego-palette"></div>
       <div class="lego-grid" id="lego-grid"></div>
-      <button class="lego-clear-btn" onclick="clearLegoGrid()">🗑️ Καθαρισμός</button>
+      <button class="lego-clear-btn" id="lego-clear-btn">🗑️ Καθαρισμός</button>
 
       <!-- Αποθήκευση / Φόρτωση -->
       <div class="lego-save-area">
-        <button class="lego-save-btn" onclick="toggleLegoSaveInput()">💾 Αποθήκευση</button>
-        <button class="lego-load-btn" onclick="toggleLegoLoadPanel()">📂 Φόρτωση</button>
+        <button class="lego-save-btn" id="lego-save-btn">💾 Αποθήκευση</button>
+        <button class="lego-load-btn" id="lego-load-btn">📂 Φόρτωση</button>
         <div class="lego-counter" id="lego-counter">0/345 αποθηκευμένα 🧱</div>
       </div>
 
@@ -122,7 +122,7 @@
       <div class="lego-save-input-area" id="lego-save-input-area">
         <input class="lego-name-input" id="lego-design-name" type="text" aria-label="Όνομα σχεδίου"
                placeholder="π.χ. Διαστημόπλοιο του Napoleon" maxlength="50" />
-        <button class="lego-confirm-save-btn" onclick="confirmLegoSave()">💾 Αποθήκευσε!</button>
+        <button class="lego-confirm-save-btn" id="lego-confirm-save-btn">💾 Αποθήκευσε!</button>
       </div>
 
       <!-- Πάνελ φόρτωσης -->
@@ -140,8 +140,7 @@
     Φτιαγμένο με 💙 για τον <span>Ναπολέων</span> — Jedi Padawan, Εξερευνητής της Φύσης &amp; Μελλοντικός Προγραμματιστής 🚀
     <br><br>
     <a href="school-game/school.html" style="color:#ffe81f;text-decoration:none;font-family:'Orbitron',monospace;font-size:0.82rem;letter-spacing:1px;border:1.5px solid #ffe81f;padding:6px 18px;border-radius:20px;transition:all 0.2s;"
-       onmouseover="this.style.background='#ffe81f';this.style.color='#000';"
-       onmouseout="this.style.background='';this.style.color='#ffe81f';">
+       id="academy-link">
       🎓 Jedi Ακαδημία
     </a>
   </footer>
@@ -925,6 +924,32 @@
     buildGrid(animals, 'animal', 'animals-grid');
     buildGrid(plants,  'plant',  'plants-grid');
     buildGrid(dinos,   'dino',   'dinos-grid');
+
+    // ── ΚΟΥΜΠΙΑ ─────────────────────────────────────────
+    // The games hub serves this page with a strict Content-Security-Policy, so the buttons get their
+    // handlers here (addEventListener) instead of inline onclick/onmouseover attributes.
+    // Tabs name their section in data-tab. Same functions as before.
+    document.getElementById('sound-btn').addEventListener('click', () => toggleSound());
+    document.querySelectorAll('.tab-btn[data-tab]').forEach(btn =>
+      btn.addEventListener('click', () => showTab(btn.dataset.tab))
+    );
+    document.getElementById('quiz-restart-btn').addEventListener('click', () => startQuiz());
+    document.getElementById('lego-toggle-btn').addEventListener('click', () => toggleLegoBuilder());
+    document.getElementById('lego-clear-btn').addEventListener('click', () => clearLegoGrid());
+    document.getElementById('lego-save-btn').addEventListener('click', () => toggleLegoSaveInput());
+    document.getElementById('lego-load-btn').addEventListener('click', () => toggleLegoLoadPanel());
+    document.getElementById('lego-confirm-save-btn').addEventListener('click', () => confirmLegoSave());
+
+    // The "Jedi Ακαδημία" link in the footer lights up yellow under the mouse.
+    const academyLink = document.getElementById('academy-link');
+    academyLink.addEventListener('mouseover', () => {
+      academyLink.style.background = '#ffe81f';
+      academyLink.style.color = '#000';
+    });
+    academyLink.addEventListener('mouseout', () => {
+      academyLink.style.background = '';
+      academyLink.style.color = '#ffe81f';
+    });
 
   </script>
 </body>
