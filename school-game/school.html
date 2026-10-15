@@ -288,12 +288,12 @@
        ΚΑΡΤΕΛΕΣ ΤΑΞΕΩΝ
   ================================================ -->
   <div class="grade-tabs">
-    <button class="grade-tab-btn active" onclick="showGrade('a')">Α' Δημοτικού</button>
-    <button class="grade-tab-btn"        onclick="showGrade('b')">Β' Δημοτικού</button>
-    <button class="grade-tab-btn"        onclick="showGrade('c')">Γ' Δημοτικού</button>
-    <button class="grade-tab-btn"        onclick="showGrade('d')">Δ' Δημοτικού</button>
-    <button class="grade-tab-btn"        onclick="showGrade('e')">Ε' Δημοτικού</button>
-    <button class="grade-tab-btn"        onclick="showGrade('st')">ΣΤ' Δημοτικού</button>
+    <button class="grade-tab-btn active" data-grade="a">Α' Δημοτικού</button>
+    <button class="grade-tab-btn"        data-grade="b">Β' Δημοτικού</button>
+    <button class="grade-tab-btn"        data-grade="c">Γ' Δημοτικού</button>
+    <button class="grade-tab-btn"        data-grade="d">Δ' Δημοτικού</button>
+    <button class="grade-tab-btn"        data-grade="e">Ε' Δημοτικού</button>
+    <button class="grade-tab-btn"        data-grade="st">ΣΤ' Δημοτικού</button>
   </div>
 
   <!-- ================================================
@@ -466,6 +466,12 @@
       const order = ['a', 'b', 'c', 'd', 'e', 'st'];
       btns[order.indexOf(grade)].classList.add('active');
     }
+
+    // The games hub serves this page with a strict Content-Security-Policy, so each grade button names its
+    // grade in data-grade and gets its click handler here (no inline onclick attributes). Same function as before.
+    document.querySelectorAll('.grade-tab-btn[data-grade]').forEach(btn => {
+      btn.addEventListener('click', () => showGrade(btn.dataset.grade));
+    });
   </script>
 </body>
 </html>

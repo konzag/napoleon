@@ -315,7 +315,7 @@
   </nav>
 
   <!-- Κουμπί ήχου -->
-  <button id="sound-toggle" onclick="toggleSound()" title="Εναλλαγή ήχου" aria-label="Ήχος" aria-pressed="true">🔊</button>
+  <button id="sound-toggle" title="Εναλλαγή ήχου" aria-label="Ήχος" aria-pressed="true">🔊</button>
   <!-- Μήνυμα overlay -->
   <div id="msg-overlay"></div>
 
@@ -325,7 +325,7 @@
     <div class="title-main">⚔️ Diablo Quest<br>του Ναπολέων 🔥</div>
     <div class="title-sub">ΤΟ ΜΥΘΙΚΟ RPG ΤΟΥ ΝΑΠΟΛΕΩΝ</div>
     <div style="font-size:2.5rem;margin:4px 0">🐉 &nbsp; 💀 &nbsp; 🏆</div>
-    <button class="btn" onclick="initAudio();showScreen('charselect')">▶ Ξεκίνα Περιπέτεια!</button>
+    <button class="btn" id="title-start-btn">▶ Ξεκίνα Περιπέτεια!</button>
     <a href="../index.html" style="color:#999;font-size:0.8rem;margin-top:8px">← Πίσω στην Εγκυκλοπαίδεια</a>
   </div>
 
@@ -335,8 +335,8 @@
     <div class="cs-title">⚔️ ΕΠΙΛΟΓΗ ΧΑΡΑΚΤΗΡΑ ⚔️</div>
     <div style="font-size:0.75rem;color:#999">Διάλεξε τον ήρωά σου!</div>
     <div class="char-cards" id="char-cards"></div>
-    <button class="btn hidden" id="start-btn" onclick="startGame()">▶ Ξεκίνα Αποστολή!</button>
-    <button class="back-btn" onclick="showScreen('title')">← Πίσω</button>
+    <button class="btn hidden" id="start-btn">▶ Ξεκίνα Αποστολή!</button>
+    <button class="back-btn" data-screen="title">← Πίσω</button>
     <div style="height:8px"></div>
   </div>
 
@@ -358,7 +358,7 @@
       <span id="hud-enemies">🏆 6 εχθροί</span>
     </div>
     <canvas id="gameCanvas" width="600" height="390"></canvas>
-    <button class="back-btn" onclick="confirmQuit()" style="margin-top:4px">← Έξοδος</button>
+    <button class="back-btn" id="quit-btn" style="margin-top:4px">← Έξοδος</button>
   </div>
 
   <!-- ═══ GAME OVER ═══ -->
@@ -366,8 +366,8 @@
     <div style="font-size:4rem">💀</div>
     <div class="go-title">Έπεσες στη Μάχη!</div>
     <div style="color:#777;font-size:0.9rem">Οι δαίμονες κέρδισαν αυτή τη φορά...</div>
-    <button class="btn" onclick="showScreen('charselect')">🔄 Παίξε Ξανά!</button>
-    <button class="back-btn" onclick="showScreen('title')">← Αρχική</button>
+    <button class="btn" data-screen="charselect">🔄 Παίξε Ξανά!</button>
+    <button class="back-btn" data-screen="title">← Αρχική</button>
   </div>
 
   <!-- ═══ ΝΙΚΗ ═══ -->
@@ -380,8 +380,8 @@
       <div>💙 Mana που απέμεινε: <strong id="v-mana">—</strong></div>
     </div>
     <div class="v-msg" id="v-msg"></div>
-    <button class="btn" onclick="showScreen('charselect')">🔄 Παίξε Ξανά!</button>
-    <button class="back-btn" onclick="showScreen('title')">← Αρχική</button>
+    <button class="btn" data-screen="charselect">🔄 Παίξε Ξανά!</button>
+    <button class="back-btn" data-screen="title">← Αρχική</button>
   </div>
 
   <script>
@@ -1553,6 +1553,22 @@
   // ΕΚΚΙΝΗΣΗ — Χτίζει τις κάρτες χαρακτήρων
   // ══════════════════════════════════════════
   buildCharCards();
+
+  // ══════════════════════════════════════════
+  // BUTTONS — the games hub serves this page with a strict Content-Security-Policy, so the buttons
+  // get their click handlers here (addEventListener) instead of inline onclick attributes.
+  // "Back"/"play again" buttons name their screen in data-screen. Same functions as before.
+  // ══════════════════════════════════════════
+  document.getElementById('sound-toggle').addEventListener('click', function () { toggleSound(); });
+  document.getElementById('title-start-btn').addEventListener('click', function () {
+    initAudio();
+    showScreen('charselect');
+  });
+  document.getElementById('start-btn').addEventListener('click', function () { startGame(); });
+  document.getElementById('quit-btn').addEventListener('click', function () { confirmQuit(); });
+  document.querySelectorAll('button[data-screen]').forEach(function (btn) {
+    btn.addEventListener('click', function () { showScreen(btn.dataset.screen); });
+  });
   </script>
 
 <!-- ═══════════════════════════════════════
