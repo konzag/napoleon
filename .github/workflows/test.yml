@@ -46,8 +46,11 @@ jobs:
 
   gitleaks:
     name: gitleaks
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest   # public repo: GitHub-hosted only, never the homelab runner
     timeout-minutes: 10
+    permissions:   # read-only token; whole history scanned (fetch-depth 0)
+      contents: read
+      pull-requests: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
