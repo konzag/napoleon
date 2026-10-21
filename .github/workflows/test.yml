@@ -26,23 +26,50 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 2   # the coverage ratchet compares with the parent commit on a push
 
       - name: Setup Node
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: "22"
 
-      - name: Smoke tests
-        run: |
-          set -e
-          for t in tests/*.mjs; do
-            echo "::group::$t"
-            node "$t"
-            echo "::endgroup::"
-          done
+      # One runner for every tests/*.mjs: `ℹ tests N` summary, and a file that throws fails the job too.
+      - name: Node tests
+        run: node --test --test-reporter=spec tests/*.mjs
+
+      - name: Coverage floor not lowered
+        run: bash tools/coverage-floor-check.sh
 
       - name: Python syntax check
         run: python3 -m py_compile common/terminal.py jedi-game/jedi.py diablo-game/diablo.py
+
+      - name: Python tests (stdlib unittest)
+        run: python3 -m unittest discover -s tests -v
+
+  # Playwright in Chromium (tests/ui, TEST-ONLY dev dependencies): smoke under the hub CSP + axe.
+  ui:
+    runs-on: ubuntu-latest   # public repo: GitHub-hosted only
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "22"
+
+      - name: Install Playwright
+        working-directory: tests/ui
+        run: npm ci && npx playwright install --with-deps chromium
+
+      - name: Test count >= floor
+        run: bash tools/test-count-check.sh
+
+      - name: Playwright tests
+        working-directory: tests/ui
+        run: npx playwright test
 
   gitleaks:
     name: gitleaks
