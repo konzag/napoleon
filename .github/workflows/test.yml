@@ -36,7 +36,7 @@ jobs:
 
       # One runner for every tests/*.mjs: `ℹ tests N` summary, and a file that throws fails the job too.
       - name: Node tests
-        run: node --test tests/*.mjs
+        run: node --test --test-reporter=spec tests/*.mjs
 
       - name: Coverage floor not lowered
         run: bash tools/coverage-floor-check.sh
