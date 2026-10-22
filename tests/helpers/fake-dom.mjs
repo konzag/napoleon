@@ -108,7 +108,21 @@ function matches(el, selector) {
   });
 }
 
-export function loadPage(root, page) {
+// A localStorage in memory. Pass the same one to two loadPage() calls to test "save, reload, still there".
+export function memoryStorage() {
+  const map = new Map();
+  return {
+    getItem: (k) => (map.has(k) ? map.get(k) : null),
+    setItem: (k, v) => map.set(k, String(v)),
+    removeItem: (k) => map.delete(k),
+    clear: () => map.clear(),
+    key: (i) => [...map.keys()][i] ?? null,
+    get length() { return map.size; },
+  };
+}
+
+// opts.localStorage: share one storage across page loads (default: a fresh memoryStorage()).
+export function loadPage(root, page, opts = {}) {
   const file = path.join(root, page);
   const html = fs.readFileSync(file, 'utf8');
   const withoutScripts = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '').replace(/<!--[\s\S]*?-->/g, '');
@@ -149,18 +163,6 @@ export function loadPage(root, page) {
     return id;
   };
 
-  const storage = () => {
-    const map = new Map();
-    return {
-      getItem: (k) => (map.has(k) ? map.get(k) : null),
-      setItem: (k, v) => map.set(k, String(v)),
-      removeItem: (k) => map.delete(k),
-      clear: () => map.clear(),
-      key: (i) => [...map.keys()][i] ?? null,
-      get length() { return map.size; },
-    };
-  };
-
   const docListeners = {};
   const body = byId.get('__body') || all.find((e) => e.tagName === 'BODY') || make('body', {});
   const document = {
@@ -194,7 +196,7 @@ export function loadPage(root, page) {
     setTimeout: setTimer(false), setInterval: setTimer(true),
     clearTimeout: (id) => timers.delete(id), clearInterval: (id) => timers.delete(id),
     requestAnimationFrame: () => 0, cancelAnimationFrame() {},
-    localStorage: storage(), sessionStorage: storage(),
+    localStorage: opts.localStorage || memoryStorage(), sessionStorage: memoryStorage(),
     navigator: { userAgent: 'node', maxTouchPoints: 0, vibrate() {}, language: 'el' },
     location: { href: 'http://localhost/', pathname: '/', search: '', hash: '', reload() {} },
     matchMedia: () => ({ matches: false, addEventListener() {}, addListener() {} }),
