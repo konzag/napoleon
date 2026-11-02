@@ -14,6 +14,7 @@ https://github.com/konzag/games-template/blob/main/GAME-STANDARD.md (copy: konza
 - `assets/hub-shell.js` is the hub shell (🏠 back to `/`, 🔊 sound on/off, its own key `game.<repo>.sound`).
   Load it FIRST on every HTML page (`tests/hub-shell.test.mjs` checks it).
 - No external resources (no Google Fonts, no CDN). The font comes from the hub: `/static/fonts/comfortaa.css`.
+  Exception: `school-game/school.html` uses its own copy in `school-game/fonts/` (Comfortaa woff2 + OFL.txt, L1-37).
 - The hub serves every page with a strict CSP: no inline event handlers (`onclick="…"` etc.), wire them with
   `addEventListener` (`tests/no-inline-handlers.test.mjs` checks it), so the hub needs no `'unsafe-hashes'`.
   No `eval`, no network calls.
