@@ -1,7 +1,7 @@
-// school-page.test.mjs: the Jedi Academy (school-game/school.html) for the school year 2026-27 (L1-37).
+// school-page.test.mjs: the Jedi Academy (school-game/school.html) (L1-37, L4-29).
 // Run: node --test tests/school-page.test.mjs   (CI runs every tests/*.mjs)
-//   1. Napoleon is in Β' Δημοτικού (owner answer L5-05): that tab is open first and starred,
-//      and its links go to the Β' material (stintaxi.com and wordwall.net).
+//   1. The page does not say which class the child is in (L4-29): the first tab (Α') is open first, no tab has a
+//      star, the greeting names no class or school year. The Β' links go to the Β' material (stintaxi, wordwall).
 //   2. The fonts sit in the repo (school-game/fonts/*.woff2 + OFL.txt): no stylesheet or font from elsewhere.
 // That every link answers is checked by tools/check-links.mjs in the CI job «links» (needs the internet).
 import { test } from 'node:test';
@@ -13,6 +13,9 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const html = readFileSync(path.join(root, 'school-game/school.html'), 'utf8');
 
+// the tab open first: the first one, the same for every child (L4-29)
+const FIRST = 'a';
+// the link check below looks at the Β' panel
 const CLASS = { grade: 'b', label: "Β'" };
 const LINKS = [
   'https://www.stintaxi.com/beta-tau940xieta.html',
@@ -22,26 +25,24 @@ const LINKS = [
 const tabs = [...html.matchAll(/<button\b[^>]*class="grade-tab-btn[^"]*"[^>]*>[\s\S]*?<\/button>/g)].map((m) => m[0]);
 const isActive = (tag) => /class="[^"]*\bactive\b/.test(tag);
 
-test("2026-27: only the Β' tab is active and starred", () => {
+test("L4-29: the first tab (Α') is active, no tab has a star", () => {
   assert.equal(tabs.length, 6, "six grade tabs (Α' to ΣΤ')");
   const active = tabs.filter(isActive);
   assert.equal(active.length, 1, 'exactly one active tab');
-  assert.match(active[0], new RegExp(`data-grade="${CLASS.grade}"`));
-  assert.match(active[0], />\s*Β' Δημοτικού ⭐\s*</);
-  for (const t of tabs.filter((x) => !isActive(x))) assert.doesNotMatch(t, /⭐/, `only this year's class is starred: ${t}`);
+  assert.match(active[0], new RegExp(`data-grade="${FIRST}"`));
+  for (const t of tabs) assert.doesNotMatch(t, /⭐/, `no tab marks the child's class: ${t}`);
 });
 
-test("2026-27: the Β' grade is the one shown first", () => {
+test("L4-29: the first grade (Α') is the one shown first", () => {
   const panels = [...html.matchAll(/<div class="grade-content([^"]*)" id="grade-([a-z]+)"/g)];
   assert.equal(panels.length, 6);
-  assert.deepEqual(panels.filter((m) => /\bactive\b/.test(m[1])).map((m) => m[2]), [CLASS.grade]);
+  assert.deepEqual(panels.filter((m) => /\bactive\b/.test(m[1])).map((m) => m[2]), [FIRST]);
 });
 
-test("2026-27: the greeting names Β' Δημοτικού and the school year", () => {
+test('L4-29: the greeting names no class and no school year', () => {
   const subtitle = html.match(/<p class="subtitle">([\s\S]*?)<\/p>/)[1];
-  assert.match(subtitle, /Β' Δημοτικού/);
-  assert.match(subtitle, /2026-27/);
-  assert.doesNotMatch(subtitle, /Α'/);
+  assert.match(subtitle, /Διάλεξε τάξη/);
+  assert.doesNotMatch(subtitle, /Δημοτικ|⭐|20\d\d/);
 });
 
 test("the Β' grade links to the Β' material on stintaxi and wordwall", () => {

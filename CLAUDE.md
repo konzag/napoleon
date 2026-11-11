@@ -1,7 +1,7 @@
 # Napoleon — Claude Context
 
 ## Project
-Interactive programming projects and educational games for Napoleon (6 years old).
+Interactive programming projects and educational games for Napoleon.
 HTML + CSS + JS (browser) + Python (terminal). Served by the family games hub «Τα Παιχνίδια μας» (konzag/games-hub)
 at `/napoleon/`; GitHub Pages is closed (2026-10-14).
 
@@ -40,6 +40,6 @@ https://github.com/konzag/games-template/blob/main/GAME-STANDARD.md (copy: konza
 - Flow: feature branch → PR to `staging` → release PR `staging → main` (owner GO); the hub then bumps its submodule
 - All content in Greek
 - Code must have extensive comments so Napoleon can read it someday
-- Keep age-appropriate: 6 years old, Star Wars fan, loves animals and dinosaurs
+- Keep it child-friendly (young children); Star Wars fan, loves animals and dinosaurs. Never write a child's age, current class, date of birth, school or teacher in this public repo (owner decision L4-29)
 - Never add server-side code or dependencies requiring installation
 - Never put user-typed text into `innerHTML` — use `textContent`
