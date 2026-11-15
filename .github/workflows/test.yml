@@ -1,7 +1,7 @@
 name: Tests
 
 # Tests on every PR and on every push to staging and main, plus a secret scan (GAME-STANDARD, fleet conventions):
-# actions pinned by SHA, read-only token, superseded runs cancelled, gitleaks pinned and checksum-verified.
+# actions pinned by SHA, read-only token, runs are never cancelled or grouped (CI-NO-CONCURRENCY, owner 2026-11-15), gitleaks pinned and checksum-verified.
 on:
   push:
     branches: [staging, main]
