@@ -13,7 +13,7 @@ test('all 6 pages open under the hub CSP with 0 console errors', async ({ page }
     await page.waitForLoadState('load');
     // The hub shell (GAME-STANDARD §9): 🏠 back to the hub and 🔊 sound switch.
     const home = page.locator('#hub-shell a');
-    const sound = page.locator('#hub-shell button');
+    const sound = page.locator('#hub-shell button[aria-pressed]'); // the sound switch (the language button has no aria-pressed)
     await expect(home, p).toBeVisible();
     await expect(home, p).toHaveAttribute('href', '/');
     await expect(home, p).toHaveText('🏠');

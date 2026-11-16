@@ -40,3 +40,22 @@ test("school: the first grade (Α') is open first, no star, fonts are local, 0 r
   }
   expect(problems).toEqual([]);
 });
+
+// Owner 16/11 (DECISIONS §4): each grade has one card now; it sits in the middle of the page, with no empty
+// column next to it, at phone, tablet and desktop width.
+for (const width of [360, 820, 1280]) {
+  test(`school: the one card of the open grade is centred, no empty slot (${width} px)`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/napoleon/school-game/school.html');
+    const grid = page.locator('#grade-a .links-grid');
+    const card = grid.locator('.link-card');
+    await expect(card).toHaveCount(1);
+    await expect(card.locator('a.link-btn')).toHaveAttribute('href', /^https:\/\/www\.stintaxi\.com\//);
+    const g = (await grid.boundingBox())!;
+    const c = (await card.boundingBox())!;
+    const left = c.x - g.x;
+    const right = g.x + g.width - (c.x + c.width);
+    expect(Math.abs(left - right)).toBeLessThanOrEqual(2);
+    expect(c.width).toBeGreaterThanOrEqual(Math.min(260, g.width - 2));
+  });
+}
