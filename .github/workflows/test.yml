@@ -67,7 +67,7 @@ jobs:
         working-directory: tests/ui
         run: npx playwright test
 
-  # Every link on school-game/school.html answers (L1-37): stintaxi + wordwall per grade, and the local pages.
+  # Every link on school-game/school.html answers (L1-37): stintaxi per grade, and the local pages.
   # Needs the internet, so it is its own job: a red «links» = a site moved or is down, not a code bug.
   links:
     runs-on: ubuntu-latest   # public repo: GitHub-hosted only, never the homelab runner
