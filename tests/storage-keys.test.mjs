@@ -33,6 +33,8 @@ test('storage keys are frozen', () => {
 
   // 4. hub-shell keeps the sound switch under game.<data-game>.sound, and every page says data-game="napoleon".
   assert.match(read('assets/hub-shell.js'), /'game\.'\s*\+\s*game\s*\+\s*'\.sound'/);
+  // ... and the shell language under games.lang, one key shared by every game of the hub (EL + EN, Block 7).
+  assert.match(read('assets/hub-shell.js'), /LANG_KEY\s*=\s*'games\.lang'/);
   const pages = files.filter((f) => f.endsWith('.html'));
   assert.ok(pages.length >= 6, 'all pages found');
   for (const page of pages) {
