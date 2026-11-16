@@ -26,7 +26,7 @@ async function fetchStatus(url) {
       await res.body?.cancel();
       if ((res.status >= 500 || res.status === 429) && attempt < 2) { await sleep(3000); continue; }
       const info = `${res.status}${res.redirected ? ` -> ${res.url}` : ''}`;
-      // Soft 404: wordwall answers an unknown tag page with a redirect to its generic /community page (200).
+      // Soft 404: some sites answer an unknown tag page with a redirect to its generic /community page (200).
       // A redirect that drops the last path segment of the link lands somewhere else, so it does not count.
       const last = decodeURIComponent(new URL(url).pathname.split('/').filter(Boolean).pop() || '').toLowerCase();
       if (res.redirected && last && !decodeURIComponent(new URL(res.url).pathname).toLowerCase().includes(last)) {

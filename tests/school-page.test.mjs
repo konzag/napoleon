@@ -1,7 +1,8 @@
 // school-page.test.mjs: the Jedi Academy (school-game/school.html) (L1-37, L4-29).
 // Run: node --test tests/school-page.test.mjs   (CI runs every tests/*.mjs)
 //   1. The page does not say which class the child is in (L4-29): the first tab (Α') is open first, no tab has a
-//      star, the greeting names no class or school year. The Β' links go to the Β' material (stintaxi, wordwall).
+//      star, the greeting names no class or school year. The Β' link goes to the Β' material (stintaxi;
+//      the second site was removed, owner 16/11).
 //   2. The fonts sit in the repo (school-game/fonts/*.woff2 + OFL.txt): no stylesheet or font from elsewhere.
 // That every link answers is checked by tools/check-links.mjs in the CI job «links» (needs the internet).
 import { test } from 'node:test';
@@ -19,7 +20,6 @@ const FIRST = 'a';
 const CLASS = { grade: 'b', label: "Β'" };
 const LINKS = [
   'https://www.stintaxi.com/beta-tau940xieta.html',
-  'https://wordwall.net/el-gr/community/%CE%B2-%CE%B4%CE%B7%CE%BC%CE%BF%CF%84%CE%B9%CE%BA%CE%BF%CF%85',
 ];
 
 const tabs = [...html.matchAll(/<button\b[^>]*class="grade-tab-btn[^"]*"[^>]*>[\s\S]*?<\/button>/g)].map((m) => m[0]);
@@ -45,11 +45,11 @@ test('L4-29: the greeting names no class and no school year', () => {
   assert.doesNotMatch(subtitle, /Δημοτικ|⭐|20\d\d/);
 });
 
-test("the Β' grade links to the Β' material on stintaxi and wordwall", () => {
+test("the Β' grade links only to the Β' material on stintaxi, in one section", () => {
   const panel = html.match(new RegExp(`id="grade-${CLASS.grade}"[\\s\\S]*?(?=<!-- =====)`))[0];
   assert.deepEqual([...panel.matchAll(/href="([^"]+)"/g)].map((m) => m[1]), LINKS);
   assert.match(panel, /Β' Τάξη/);
-  assert.match(panel, /Παιχνίδια Β' Δημοτικού/);
+  assert.equal((panel.match(/class="section-title"/g) || []).length, 1, 'one section, no empty slot');
 });
 
 test("no external stylesheet or font: only the repo's own fonts/comfortaa.css", () => {
@@ -73,4 +73,16 @@ test('the font files sit next to the page, with their OFL licence', () => {
   const ofl = readFileSync(path.join(dir, 'OFL.txt'), 'utf8');
   assert.match(ofl, /SIL OPEN FONT LICENSE Version 1\.1/i);
   assert.match(ofl, /Comfortaa/);
+});
+
+test('every grade panel has one filled section: no empty slot, no button without a link (owner 16/11)', () => {
+  const panels = [...html.matchAll(/id="grade-([a-z]+)"([\s\S]*?)(?=<!-- =====)/g)];
+  assert.equal(panels.length, 6);
+  for (const [, id, body] of panels) {
+    assert.equal((body.match(/class="section-title"/g) || []).length, 1, `${id}: one section`);
+    assert.equal((body.match(/class="link-card"/g) || []).length, 1, `${id}: one card`);
+    const buttons = [...body.matchAll(/<a class="link-btn"[^>]*>/g)].map((m) => m[0]);
+    assert.equal(buttons.length, 1, `${id}: one play button`);
+    assert.match(buttons[0], /href="https:\/\/www\.stintaxi\.com\/[^"]+"/, `${id}: the button opens stintaxi`);
+  }
 });
