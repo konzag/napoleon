@@ -146,7 +146,7 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ── Ενότητα (Στην Τάξη / Wordwall) ── */
+    /* ── Ενότητα (Στην Τάξη) ── */
     .section-title {
       font-family: 'Orbitron', 'Comfortaa', monospace;
       font-size: clamp(0.9rem, 2.5vw, 1.2rem);
@@ -159,7 +159,9 @@
 
     .links-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      /* μία κάρτα ανά τάξη: στο κέντρο, χωρίς άδειες στήλες δίπλα της (auto-fit, όχι auto-fill) */
+      grid-template-columns: repeat(auto-fit, minmax(260px, 360px));
+      justify-content: center;
       gap: 16px;
     }
 
@@ -179,14 +181,6 @@
       transform: translateY(-4px);
       border-color: #4af;
       box-shadow: 0 0 22px #44aaff44;
-    }
-
-    .link-card.wordwall {
-      border-color: rgba(159,212,68,0.25);
-    }
-    .link-card.wordwall:hover {
-      border-color: #9fd444;
-      box-shadow: 0 0 22px #9fd44444;
     }
 
     .link-emoji { font-size: 2.4rem; line-height: 1; }
@@ -220,8 +214,6 @@
       cursor: pointer;
     }
     .link-btn:hover { background: #4af; color: #000; box-shadow: 0 0 12px #4af; }
-    .link-card.wordwall .link-btn { border-color: #9fd444; color: #9fd444; }
-    .link-card.wordwall .link-btn:hover { background: #9fd444; color: #000; box-shadow: 0 0 12px #9fd444; }
 
     /* ── Υποσέλιδο ── */
     footer {
@@ -309,16 +301,6 @@
         <a class="link-btn" href="https://www.stintaxi.com/alpha-tau940xieta.html" target="_blank" rel="noopener">▶ Παίξε τώρα!</a>
       </div>
     </div>
-
-    <div class="section-title">🎮 Wordwall</div>
-    <div class="links-grid">
-      <div class="link-card wordwall">
-        <div class="link-emoji">🎮</div>
-        <div class="link-title">Παιχνίδια Α' Δημοτικού</div>
-        <div class="link-desc">Εκατοντάδες διαδραστικά παιχνίδια!</div>
-        <a class="link-btn" href="https://wordwall.net/el-gr/community/%CE%B1-%CE%B4%CE%B7%CE%BC%CE%BF%CF%84%CE%B9%CE%BA%CE%BF%CF%85" target="_blank" rel="noopener">▶ Παίξε τώρα!</a>
-      </div>
-    </div>
   </div>
 
   <!-- ================================================
@@ -332,16 +314,6 @@
         <div class="link-title">Β' Τάξη: Όλα τα μαθήματα</div>
         <div class="link-desc">Γλώσσα, Μαθηματικά, Μελέτη και άλλα!</div>
         <a class="link-btn" href="https://www.stintaxi.com/beta-tau940xieta.html" target="_blank" rel="noopener">▶ Παίξε τώρα!</a>
-      </div>
-    </div>
-
-    <div class="section-title">🎮 Wordwall</div>
-    <div class="links-grid">
-      <div class="link-card wordwall">
-        <div class="link-emoji">🎮</div>
-        <div class="link-title">Παιχνίδια Β' Δημοτικού</div>
-        <div class="link-desc">Εκατοντάδες διαδραστικά παιχνίδια!</div>
-        <a class="link-btn" href="https://wordwall.net/el-gr/community/%CE%B2-%CE%B4%CE%B7%CE%BC%CE%BF%CF%84%CE%B9%CE%BA%CE%BF%CF%85" target="_blank" rel="noopener">▶ Παίξε τώρα!</a>
       </div>
     </div>
   </div>
@@ -359,16 +331,6 @@
         <a class="link-btn" href="https://www.stintaxi.com/gamma-tau940xieta.html" target="_blank" rel="noopener">▶ Παίξε τώρα!</a>
       </div>
     </div>
-
-    <div class="section-title">🎮 Wordwall</div>
-    <div class="links-grid">
-      <div class="link-card wordwall">
-        <div class="link-emoji">🎮</div>
-        <div class="link-title">Παιχνίδια Γ' Δημοτικού</div>
-        <div class="link-desc">Εκατοντάδες διαδραστικά παιχνίδια!</div>
-        <a class="link-btn" href="https://wordwall.net/el-gr/community/%CE%B3-%CF%84%CE%AC%CE%BE%CE%B7" target="_blank" rel="noopener">▶ Παίξε τώρα!</a>
-      </div>
-    </div>
   </div>
 
   <!-- ================================================
@@ -382,16 +344,6 @@
         <div class="link-title">Δ' Τάξη: Όλα τα μαθήματα</div>
         <div class="link-desc">Γλώσσα, Μαθηματικά, Ιστορία και άλλα!</div>
         <a class="link-btn" href="https://www.stintaxi.com/delta-tau940xieta.html" target="_blank" rel="noopener">▶ Παίξε τώρα!</a>
-      </div>
-    </div>
-
-    <div class="section-title">🎮 Wordwall</div>
-    <div class="links-grid">
-      <div class="link-card wordwall">
-        <div class="link-emoji">🎮</div>
-        <div class="link-title">Παιχνίδια Δ' Δημοτικού</div>
-        <div class="link-desc">Εκατοντάδες διαδραστικά παιχνίδια!</div>
-        <a class="link-btn" href="https://wordwall.net/el-gr/community/%CE%B4-%CE%B4%CE%B7%CE%BC%CE%BF%CF%84%CE%B9%CE%BA%CE%BF%CF%85" target="_blank" rel="noopener">▶ Παίξε τώρα!</a>
       </div>
     </div>
   </div>
@@ -409,16 +361,6 @@
         <a class="link-btn" href="https://www.stintaxi.com/epsilon-tau940xieta.html" target="_blank" rel="noopener">▶ Παίξε τώρα!</a>
       </div>
     </div>
-
-    <div class="section-title">🎮 Wordwall</div>
-    <div class="links-grid">
-      <div class="link-card wordwall">
-        <div class="link-emoji">🎮</div>
-        <div class="link-title">Παιχνίδια Ε' Δημοτικού</div>
-        <div class="link-desc">Εκατοντάδες διαδραστικά παιχνίδια!</div>
-        <a class="link-btn" href="https://wordwall.net/el-gr/community/%CE%B5-%CF%84%CE%AC%CE%BE%CE%B7" target="_blank" rel="noopener">▶ Παίξε τώρα!</a>
-      </div>
-    </div>
   </div>
 
   <!-- ================================================
@@ -432,16 +374,6 @@
         <div class="link-title">ΣΤ' Τάξη: Όλα τα μαθήματα</div>
         <div class="link-desc">Γλώσσα, Μαθηματικά, Ιστορία και άλλα!</div>
         <a class="link-btn" href="https://www.stintaxi.com/sigmatau-tau940xieta.html" target="_blank" rel="noopener">▶ Παίξε τώρα!</a>
-      </div>
-    </div>
-
-    <div class="section-title">🎮 Wordwall</div>
-    <div class="links-grid">
-      <div class="link-card wordwall">
-        <div class="link-emoji">🎮</div>
-        <div class="link-title">Παιχνίδια ΣΤ' Δημοτικού</div>
-        <div class="link-desc">Εκατοντάδες διαδραστικά παιχνίδια!</div>
-        <a class="link-btn" href="https://wordwall.net/el-gr/community/%CF%83%CF%84-%CE%B4%CE%B7%CE%BC%CE%BF%CF%84%CE%B9%CE%BA%CE%BF%CF%85" target="_blank" rel="noopener">▶ Παίξε τώρα!</a>
       </div>
     </div>
   </div>

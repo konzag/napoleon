@@ -11,7 +11,8 @@ https://public.tailc01d70.ts.net/napoleon/ (games-hub over Tailscale Funnel; the
 ## Standard
 This repo follows **GAME-STANDARD v1 §9** (the old games get the shell only; they are not rewritten):
 https://github.com/konzag/games-template/blob/main/GAME-STANDARD.md (copy: konzag/games-hub `docs/GAME-STANDARD.md`).
-- `assets/hub-shell.js` is the hub shell (🏠 back to `/`, 🔊 sound on/off, its own key `game.<repo>.sound`).
+- `assets/hub-shell.js` is the hub shell (🏠 back to `/`, 🔊 sound on/off, its own key `game.<repo>.sound`,
+  EN/ΕΛ shell language in the shared key `games.lang`; only the shell labels change language).
   Load it FIRST on every HTML page (`tests/hub-shell.test.mjs` checks it).
 - No external resources (no Google Fonts, no CDN). The font comes from the hub: `/static/fonts/comfortaa.css`.
   Exception: `school-game/school.html` uses its own copy in `school-game/fonts/` (Comfortaa woff2 + OFL.txt, L1-37).
